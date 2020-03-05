@@ -1,17 +1,24 @@
 package com.company;
 
 
-public class DatabaseComenziSiConstante
-{
-	boolean DEBUG;
-	
+public class DatabaseComenziSiConstante {
+	// # defines practically
+	final boolean DEBUG = false;
+	final boolean BLACK = false;
+	final boolean WHITE = true;
+
+	boolean forceMode = false;
+    boolean engineColor = BLACK;
+    boolean turn = WHITE; // al cui e randul
+    boolean opponentColor = WHITE;
+
 	private DatabaseComenziSiConstante() {} //singleton
 	
-	static class SingletonHolder{
+	static class SingletonHolder {
 		public static final DatabaseComenziSiConstante INSTANTA_SINGLETON = new DatabaseComenziSiConstante();
 	}
-	public static DatabaseComenziSiConstante getInstace()
-	{
+
+	public static DatabaseComenziSiConstante getInstance() {
 		return SingletonHolder.INSTANTA_SINGLETON;
 	}
 }

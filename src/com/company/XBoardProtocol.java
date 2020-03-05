@@ -1,16 +1,14 @@
 package com.company;
 
-public class XBoardProtocol
-{
+public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
-	void printOptiuniInitiale()
-	{
+	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"mnee pula\" sigterm=0 sigint=0");
 	}
-	int parseInput(String buffer)
-	{
-		if(DatabaseComenziSiConstante.getInstace().DEBUG)
-		{
+	int parseInput(String buffer) {
+		DatabaseComenziSiConstante longAsShitVariable = DatabaseComenziSiConstante.getInstance();
+
+		if(longAsShitVariable.DEBUG) {
 			System.out.println("# " + buffer);
 		}
   
@@ -21,9 +19,42 @@ public class XBoardProtocol
 			return 0;
 		}
 
-		if (buffer.contains("new")) { return 0; }
+		if (buffer.contains("white")) {
+			longAsShitVariable.turn = longAsShitVariable.WHITE;
+            longAsShitVariable.engineColor = longAsShitVariable.BLACK;
+            longAsShitVariable.opponentColor = longAsShitVariable.WHITE;
+			return 0;
+		}
+
+		if (buffer.contains("black")) {
+			longAsShitVariable.turn = longAsShitVariable.BLACK;
+            longAsShitVariable.engineColor = longAsShitVariable.WHITE;
+            longAsShitVariable.opponentColor = longAsShitVariable.BLACK;
+			return 0;
+		}
+
+		if (buffer.contains("new")) {
+			longAsShitVariable.engineColor = longAsShitVariable.BLACK;
+			// TODO resetTable();
+			return 0;
+		}
+
+		if (buffer.contains("accepted")) { return 0;}
 
 		if (buffer.contains("random")) { return 0; }
+
+		if (buffer.contains("go")) {
+			longAsShitVariable.engineColor = longAsShitVariable.turn;
+			longAsShitVariable.opponentColor = !longAsShitVariable.engineColor;
+			return 0;
+		}
+
+		// trebuie vazut unde il mai folosim, da atm e doar
+		// un fel de flag
+		if (buffer.equals("force")) {
+			longAsShitVariable.forceMode = true;
+			return 0;
+		}
 
 		if (buffer.contains("level")) { return 0; }
 
@@ -47,6 +78,7 @@ public class XBoardProtocol
 		if ("quit".equals(buffer)) {
 			System.exit(1);
 		}
+
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return -1;
 	}
