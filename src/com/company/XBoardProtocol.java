@@ -1,6 +1,5 @@
 package com.company;
 
-
 public class XBoardProtocol
 {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
@@ -10,14 +9,17 @@ public class XBoardProtocol
 	}
 	int parseInput(String buffer)
 	{
-		if(Constante.getInstace().DEBUG)
+		if(DatabaseComenziSiConstante.getInstace().DEBUG)
 		{
 			System.out.println("# " + buffer);
 		}
   
 		if (buffer.contains("xboard")) { return 0; }
 
-		if (buffer.contains("protover 2")) { return 0; }
+		if (buffer.contains("protover 2")) {
+			new XBoardProtocol().printOptiuniInitiale();
+			return 0;
+		}
 
 		if (buffer.contains("new")) { return 0; }
 

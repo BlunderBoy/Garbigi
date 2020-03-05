@@ -17,12 +17,11 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args)  {
-        
+     
+    	Scanner in = new Scanner(System.in);
         XBoardProtocol XBoardProtocol = new XBoardProtocol();
-        XBoardProtocol.printOptiuniInitiale();
 
         while (true) {
-            Scanner in = new Scanner(System.in);
             String buffer = in.nextLine();
             if(XBoardProtocol.parseInput(buffer) != 0)
             {
