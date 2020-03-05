@@ -2,13 +2,15 @@ package com.company;
 
 public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
+	int NEXT_INSTRUCTION = 0;
+	
 	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"mnee pula\" sigterm=0 sigint=0");
 	}
 	int parseInput(String buffer) {
-		DatabaseComenziSiConstante longAsShitVariable = DatabaseComenziSiConstante.getInstance();
+		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
 
-		if(longAsShitVariable.DEBUG) {
+		if(database.DEBUG) {
 			System.out.println("# " + buffer);
 		}
   
@@ -16,51 +18,51 @@ public class XBoardProtocol {
 
 		if (buffer.contains("protover")) {
 			new XBoardProtocol().printOptiuniInitiale();
-			return 0;
+			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("white")) {
-			longAsShitVariable.turn = longAsShitVariable.WHITE;
-            longAsShitVariable.engineColor = longAsShitVariable.BLACK;
-            longAsShitVariable.opponentColor = longAsShitVariable.WHITE;
-			return 0;
+			database.turn = database.WHITE;
+            database.engineColor = database.BLACK;
+            database.opponentColor = database.WHITE;
+			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("black")) {
-			longAsShitVariable.turn = longAsShitVariable.BLACK;
-            longAsShitVariable.engineColor = longAsShitVariable.WHITE;
-            longAsShitVariable.opponentColor = longAsShitVariable.BLACK;
-			return 0;
+			database.turn = database.BLACK;
+            database.engineColor = database.WHITE;
+            database.opponentColor = database.BLACK;
+			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("new")) {
-			longAsShitVariable.engineColor = longAsShitVariable.BLACK;
+			database.engineColor = database.BLACK;
 			// TODO resetTable();
-			return 0;
+			return NEXT_INSTRUCTION;
 		}
 
-		if (buffer.contains("accepted")) { return 0;}
+		if (buffer.contains("accepted")) { return NEXT_INSTRUCTION;}
 
-		if (buffer.contains("random")) { return 0; }
+		if (buffer.contains("random")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("go")) {
-			longAsShitVariable.engineColor = longAsShitVariable.turn;
-			longAsShitVariable.opponentColor = !longAsShitVariable.engineColor;
-			return 0;
+			database.engineColor = database.turn;
+			database.opponentColor = !database.engineColor;
+			return NEXT_INSTRUCTION;
 		}
 
 		// trebuie vazut unde il mai folosim, da atm e doar
 		// un fel de flag
 		if (buffer.equals("force")) {
-			longAsShitVariable.forceMode = true;
-			return 0;
+			database.forceMode = true;
+			return NEXT_INSTRUCTION;
 		}
 
-		if (buffer.contains("level")) { return 0; }
+		if (buffer.contains("level")) { return NEXT_INSTRUCTION; }
 
-		if (buffer.contains("post")) { return 0; }
+		if (buffer.contains("post")) { return NEXT_INSTRUCTION; }
 
-		if (buffer.contains("hard")) { return 0; }
+		if (buffer.contains("hard")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("usermove")) {
 			if (k == 0) {
@@ -73,7 +75,7 @@ public class XBoardProtocol {
 				System.out.println("resign");
 			}
 			k++;
-			return 0;
+			return NEXT_INSTRUCTION;
 		}
   
 		if ("quit".equals(buffer)) {

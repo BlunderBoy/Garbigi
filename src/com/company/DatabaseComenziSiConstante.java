@@ -7,6 +7,7 @@ public class DatabaseComenziSiConstante {
 	final boolean BLACK = false;
 	final boolean WHITE = true;
 
+	//TODO : ce plm e force mode fa?
 	boolean forceMode = false;
     boolean engineColor = BLACK;
     boolean turn = WHITE; // al cui e randul
