@@ -16,7 +16,7 @@ public class XBoardProtocol
   
 		if (buffer.contains("xboard")) { return 0; }
 
-		if (buffer.contains("protover 2")) {
+		if (buffer.contains("protover")) {
 			new XBoardProtocol().printOptiuniInitiale();
 			return 0;
 		}
@@ -41,12 +41,14 @@ public class XBoardProtocol
 			} else {
 				System.out.println("resign");
 			}
+			k++;
 			return 0;
 		}
   
 		if ("quit".equals(buffer)) {
 			System.exit(1);
 		}
+		System.out.println("#!!!!!!!!!!!!!!!!!!!!!" + buffer);
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return -1;
 	}
