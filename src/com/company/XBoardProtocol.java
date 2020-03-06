@@ -2,7 +2,8 @@ package com.company;
 
 public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
-	int NEXT_INSTRUCTION = 0;
+	private static final int NEXT_INSTRUCTION = 0;
+	private static final int ERROR = -1;
 	
 	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"mnee pula\" sigterm=0 sigint=0");
@@ -81,9 +82,8 @@ public class XBoardProtocol {
 		if ("quit".equals(buffer)) {
 			System.exit(1);
 		}
-		System.out.println("#!!!!!!!!!!!!!!!!!!!!!" + buffer);
 
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
-		return -1;
+		return ERROR;
 	}
 }

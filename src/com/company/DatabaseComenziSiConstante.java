@@ -3,9 +3,10 @@ package com.company;
 
 public class DatabaseComenziSiConstante {
 	// # defines practically
-	final boolean DEBUG = false;
+	final boolean DEBUG = true;
 	final boolean BLACK = false;
 	final boolean WHITE = true;
+	final int numarDeMiscariFacute = 0;
 
 	//TODO : ce plm e force mode fa?
 	boolean forceMode = false;

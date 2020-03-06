@@ -9,13 +9,13 @@ import java.util.Scanner;
 // TODO: white - I guess?
 // TODO: black - I guess?
 // TODO: quit - atm da
-// TODO: resign
-// TODO: move
 
 public class Main {
+	enum CONST{
+		A, B,C
+}
 
     public static void main(String[] args)  {
-     
     	Scanner in = new Scanner(System.in);
         XBoardProtocol xBoardProtocol = new XBoardProtocol();
 
