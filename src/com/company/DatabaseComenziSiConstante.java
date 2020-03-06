@@ -9,6 +9,7 @@ public class DatabaseComenziSiConstante {
 	final int numarDeMiscariFacute = 0;
 
 	//TODO : ce plm e force mode fa?
+	// e in pzdm force mode al xboardului. citeste documentatia poate??
 	boolean forceMode = false;
     boolean engineColor = BLACK;
     boolean turn = WHITE; // al cui e randul
