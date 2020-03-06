@@ -3,7 +3,7 @@ package com.company;
 
 public class DatabaseComenziSiConstante {
 	// # defines practically
-	final boolean DEBUG = false;
+	final boolean DEBUG = true;
 	final boolean BLACK = false;
 	final boolean WHITE = true;
 
