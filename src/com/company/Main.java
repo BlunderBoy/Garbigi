@@ -1,5 +1,6 @@
 package com.company;
 
+import com.company.Board.BoardHelpere;
 import java.util.Scanner;
 
 // TODO: xboard

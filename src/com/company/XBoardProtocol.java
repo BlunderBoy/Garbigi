@@ -35,6 +35,14 @@ public class XBoardProtocol {
             database.opponentColor = database.BLACK;
 			return NEXT_INSTRUCTION;
 		}
+		
+		if (buffer.contains("debug"))
+		{
+			//DEBUG pentru consola
+			System.out.println(buffer);
+			//pune aici functia pe care vrei sa o testezi
+            return NEXT_INSTRUCTION;
+		}
 
 		if (buffer.contains("new")) {
 			database.engineColor = database.BLACK;

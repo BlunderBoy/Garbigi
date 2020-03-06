@@ -10,8 +10,17 @@ public class BoardState
 	 Rank { RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE };
 	*/
 	
+	/* tin un array de 120 care acopera tabla in toate
+	directiile ca sa verific daca iese ceva de pe tabla.
+	am 2 randuri in plus sus si jos din cauza calului.
+	cu indexi de la 21 la 98
+	 */
 	int[] pieseFormat120 = new int[120];
+	/* tin un array de 64 care tine minte doar tabla din mijloc
+	cu indexi de la 0 la 63.
+	 */
 	int[] pieseFormat64 = new int[64];
+	
 	long[] pioni = new long[3];
 	int[] rege = new int[3];
 	int enPassant = 0;
@@ -50,7 +59,6 @@ public class BoardState
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
 	MoveHistory istoric[] = new MoveHistory[10];
-	
 	
 	
 }
