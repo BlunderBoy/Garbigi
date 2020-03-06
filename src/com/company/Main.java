@@ -13,6 +13,9 @@ import java.util.Scanner;
 // TODO: move
 
 public class Main {
+	enum CONST{
+		A, B,C
+}
 
     public static void main(String[] args)  {
         // test pt printer
