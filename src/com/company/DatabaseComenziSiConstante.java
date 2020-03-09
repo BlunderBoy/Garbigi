@@ -1,6 +1,8 @@
 package com.company;
 
 
+import com.company.Board.BoardHelpere;
+
 public class DatabaseComenziSiConstante {
 	// # defines practically
 	final boolean DEBUG = true;
@@ -25,4 +27,13 @@ public class DatabaseComenziSiConstante {
 	public static DatabaseComenziSiConstante getInstance() {
 		return SingletonHolder.INSTANTA_SINGLETON;
 	}
+
+	public void initGame() {
+		BoardHelpere.createBitboardFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		engineColor = BLACK;
+		opponentColor = WHITE;
+		turn = WHITE;
+		forceMode = false;
+	}
+
 }

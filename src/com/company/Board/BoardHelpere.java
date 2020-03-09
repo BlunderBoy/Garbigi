@@ -11,8 +11,7 @@ public class BoardHelpere {
 	}
 	//initializeaza cele 2 array-uri ca sa pot sa fac usor
 	//conversia intre cele 2 reprezentari.
-	public static int conversie120la64(int array120[], int index)
-	{
+	public static int conversie120la64(int array120[], int index) {
 		return array120[index];
 	}
 	
@@ -37,6 +36,8 @@ public class BoardHelpere {
 	}
 
 	public static void createBitboardFromFEN (String fen) {
+		// TODO reset bitboards
+
 		char currentChar = 0;
 		int index = 63;
 		for (int i = 0; i < fen.length(); i++) {
@@ -117,7 +118,6 @@ public class BoardHelpere {
 					index--;
 					break;
 				case '/':
-					//index--;
 					break;
 				default:
 					index -= (currentChar - '0');
