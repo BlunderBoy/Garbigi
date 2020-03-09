@@ -55,6 +55,7 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("new")) {
+			k = 0;
 			DatabaseComenziSiConstante.getInstance().initGame();
 			return NEXT_INSTRUCTION;
 		}
@@ -82,10 +83,13 @@ public class XBoardProtocol {
 
 		if (buffer.contains("hard")) { return NEXT_INSTRUCTION; }
 
+		if (buffer.contains("result")) { return NEXT_INSTRUCTION; }
+
 		if (buffer.contains("usermove")) {
 			String[] tokens = buffer.split(" ");
-			System.out.println("plm: " + Arrays.toString(tokens));
+			//System.out.println("plm: " + Arrays.toString(tokens));
 			// tokens[1]
+			parseOpponentMove(tokens[1]);
 
 			if (k == 0) {
 				System.out.println("move c7c6");
@@ -115,7 +119,11 @@ public class XBoardProtocol {
 			int sourceIndex = 0;
 			int destIndex = 0;
 
-			
+			sourceIndex = 8 * (move.charAt(1) - '0' - 1) + (move.charAt(0) - 'a');
+			destIndex = 8 * (move.charAt(3) - '0' - 1) + (move.charAt(2) - 'a');
+
+			System.out.println("source index: " + sourceIndex + ", dest index: " + destIndex);
+
 		}
 	}
 }

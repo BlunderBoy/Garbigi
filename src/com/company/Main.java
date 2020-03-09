@@ -11,6 +11,10 @@ import java.util.Scanner;
 // TODO: resign
 // TODO: move
 
+
+
+// TODO this hashing function https://youtu.be/WqVwQBXLwE0
+
 public class Main {
     public static void main(String[] args)  {
 
@@ -19,8 +23,7 @@ public class Main {
 
         while (true) {
             String buffer = in.nextLine();
-            if(xBoardProtocol.parseInput(buffer) != 0)
-            {
+            if(xBoardProtocol.parseInput(buffer) != 0) {
             	break;
             }
         }
