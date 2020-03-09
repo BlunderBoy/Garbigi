@@ -3,13 +3,15 @@ package com.company;
 
 import com.company.Board.*;
 
+import java.util.Scanner;
+
 public class DatabaseComenziSiConstante {
 	// # defines practically
 	final boolean DEBUG = true;
 	final boolean BLACK = false;
 	final boolean WHITE = true;
 	final int numarDeMiscariFacute = 0;
-
+	
 	//TODO : ce plm e force mode fa?
 	// e in pzdm force mode al xboardului. citeste documentatia poate??
 	// sa nu fim pasivi agresivi se poate? zic doar. punct.

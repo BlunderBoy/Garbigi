@@ -26,7 +26,7 @@ public class Printer {
     }
 
     public static void print() {
-    	com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
+    	BoardState board = BoardState.getInstance();
     	boolean print;
 
         for (int i = 63; i >= 0; i--) {
@@ -100,14 +100,6 @@ public class Printer {
                 System.out.println();
             }
         }
-
-    	/*com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
-
-    	for (int i = 0; i < 64; i++) {
-    	    if (board.WhiteBishops.isOccupied(i)) {
-    	        System.out.print("B");
-            }
-        }*/
     }
 
     static void print(Bitboard b) {

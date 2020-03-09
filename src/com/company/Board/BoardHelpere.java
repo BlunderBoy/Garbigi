@@ -37,7 +37,6 @@ public class BoardHelpere {
 
 	public static void createBitboardFromFEN (String fen) {
 		BoardState.getInstance().resetBoard();
-
 		char currentChar = 0;
 		int index = 63;
 		BoardState board = BoardState.getInstance();
@@ -117,6 +116,11 @@ public class BoardHelpere {
 		
 		board.AllPieces.reprezentare = board.AllWhitePieces.reprezentare |
 							           board.AllBlackPieces.reprezentare;
+		
+		for(Bitboard b : board.allBitboards)
+		{
+			b.numarPiese = Long.bitCount(b.reprezentare);
+		}
 		
 	}
 
