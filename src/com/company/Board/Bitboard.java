@@ -46,4 +46,9 @@ public class Bitboard {
 	public void clearBit(int pos) {
 		reprezentare = reprezentare & clearMask[pos];
 	}
+
+	public void resetBitboard() {
+		reprezentare = 0;
+		numarPiese = 0;
+	}
 }

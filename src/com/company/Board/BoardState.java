@@ -43,6 +43,11 @@ public class BoardState {
 	public Bitboard AllWhitePieces = new Bitboard();
 	public Bitboard AllBlackPieces = new Bitboard();
 	public Bitboard AllPieces = new Bitboard();
+
+	public Bitboard[] allBitboards = {WhitePawns, WhiteRooks, WhiteKnights,
+									  WhiteBishops, WhiteQueens, WhiteKing,
+									  BlackPawns, BlackRooks, BlackKnights,
+									  BlackBishops, BlackQueens, BlackKing};
 	
 	public int materialAlb = 0;
 	public int materalNegru = 0;
@@ -63,6 +68,12 @@ public class BoardState {
 			instance = new BoardState();
 		}
 		return instance;
+	}
+
+	public void resetBoard() {
+		for (Bitboard b : allBitboards) {
+			b.resetBitboard();
+		}
 	}
 
 
