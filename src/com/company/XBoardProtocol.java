@@ -42,6 +42,8 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
+			com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
+
             return NEXT_INSTRUCTION;
 		}
 

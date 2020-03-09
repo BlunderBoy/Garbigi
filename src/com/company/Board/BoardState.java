@@ -2,8 +2,8 @@ package com.company.Board;
 
 import java.util.ArrayList;
 
-public class BoardState
-{
+public class BoardState {
+	private static BoardState instance;
 	/*
 	 piese { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK };
 	 File { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_NONE };
@@ -15,37 +15,37 @@ public class BoardState
 	am 2 randuri in plus sus si jos din cauza calului.
 	cu indexi de la 21 la 98
 	 */
-	int[] pieseFormat120 = new int[120];
+	public int[] pieseFormat120 = new int[120];
 	/* tin un array de 64 care tine minte doar tabla din mijloc
 	cu indexi de la 0 la 63.
 	 */
-	int[] pieseFormat64 = new int[64];
+	public int[] pieseFormat64 = new int[64];
 	
-	int enPassant = 0;
+	public int enPassant = 0;
 	
 	/* Pozitia pieselor albe */
-	Bitboard WhitePawns;
-	Bitboard WhiteRooks;
-	Bitboard WhiteKnights;
-	Bitboard WhiteBishops;
-	Bitboard WhiteQueens;
-	Bitboard WhiteKing;
+	public Bitboard WhitePawns = new Bitboard();
+	public Bitboard WhiteRooks = new Bitboard();
+	public Bitboard WhiteKnights = new Bitboard();
+	public Bitboard WhiteBishops = new Bitboard();
+	public Bitboard WhiteQueens = new Bitboard();
+	public Bitboard WhiteKing = new Bitboard();
 
 	/* Pozitia pieselor negre */
-	Bitboard BlackPawns;
-	Bitboard BlackRooks;
-	Bitboard BlackKnights;
-	Bitboard BlackBishops;
-	Bitboard BlackQueens;
-	Bitboard BlackKing;
+	public Bitboard BlackPawns = new Bitboard();
+	public Bitboard BlackRooks = new Bitboard();
+	public Bitboard BlackKnights = new Bitboard();
+	public Bitboard BlackBishops = new Bitboard();
+	public Bitboard BlackQueens = new Bitboard();
+	public Bitboard BlackKing = new Bitboard();
 
 	/* Helpere */
-	Bitboard AllWhitePieces;
-	Bitboard AllBlackPieces;
-	Bitboard AllPieces;
+	public Bitboard AllWhitePieces = new Bitboard();
+	public Bitboard AllBlackPieces = new Bitboard();
+	public Bitboard AllPieces = new Bitboard();
 	
-	int materialAlb;
-	int materalNegru;
+	public int materialAlb = 0;
+	public int materalNegru = 0;
 	
 	/*
 	 0 0 0 0
@@ -53,8 +53,17 @@ public class BoardState
 	se vede ca un numar de 4 biti
 	daca bitul e setat inseamna ca se poate
 	*/
-	char castlePermision[] = {0,0,0,0};
+	public char castlePermision[] = {0,0,0,0};
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
-	MoveHistory istoric[] = new MoveHistory[10];
+	public MoveHistory istoric[] = new MoveHistory[10];
+
+	public static BoardState getInstance() {
+		if (instance == null) {
+			instance = new BoardState();
+		}
+		return instance;
+	}
+
+
 }
