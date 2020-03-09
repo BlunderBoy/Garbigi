@@ -92,7 +92,8 @@ public class Printer {
             }
         }*/
     }
-    void print(Bitboard b) {
+
+    static void print(Bitboard b) {
     	long shifter = 1;
     	shifter <<= 63;
 

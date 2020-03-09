@@ -15,6 +15,7 @@ public class Bitboard {
 	 * @return True if occupied, false if not.
 	 */
 	public boolean isOccupied(int pos) {
-		return (reprezentare & (1 << pos)) != 0;
+		long shifter = 1;
+		return (reprezentare & (shifter << pos)) != 0;
 	}
 }

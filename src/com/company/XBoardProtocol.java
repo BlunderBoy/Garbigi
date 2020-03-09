@@ -49,7 +49,7 @@ public class XBoardProtocol {
 			BoardState board = BoardState.getInstance();
 			BoardHelpere.createBitboardFromFEN("r7/8/8/8/8/8/8/8");
 
-			
+			Printer.print(board.BlackRooks);
 
 			Printer.print();
 
