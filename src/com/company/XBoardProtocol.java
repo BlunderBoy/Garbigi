@@ -46,11 +46,6 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-			BoardState board = BoardState.getInstance();
-			BoardHelpere.createBitboardFromFEN("2R1R3/7p/q1n2Pb1/8/1p5K/3P3P/3N4/kN2rr2");
-
-			Printer.print(board.BlackRooks);
-
 			Printer.print();
 
 
@@ -58,7 +53,7 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("new")) {
-			database.engineColor = database.BLACK;
+			DatabaseComenziSiConstante.getInstance().initGame();
 			// TODO resetTable();
 			return NEXT_INSTRUCTION;
 		}
