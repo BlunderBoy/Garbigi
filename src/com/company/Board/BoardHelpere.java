@@ -36,7 +36,6 @@ public class BoardHelpere {
 	}
 
 	public static void createBitboardFromFEN (String fen) {
-		// TODO reset bitboards
 		BoardState.getInstance().resetBoard();
 
 		char currentChar = 0;

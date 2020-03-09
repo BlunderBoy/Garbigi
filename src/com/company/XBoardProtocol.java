@@ -10,7 +10,7 @@ public class XBoardProtocol {
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
 	private static final String numeEngine = "Neintitulat";
-	
+
 	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0");
 	}
@@ -20,7 +20,7 @@ public class XBoardProtocol {
 		if(database.DEBUG) {
 			System.out.println("# " + buffer);
 		}
-  
+
 		if (buffer.contains("xboard")) { return 0; }
 
 		if (buffer.contains("protover")) {
@@ -42,7 +42,7 @@ public class XBoardProtocol {
             database.opponentColor = database.BLACK;
 			return NEXT_INSTRUCTION;
 		}
-		
+
 		if (buffer.contains("debug"))
 		{
 			//DEBUG pentru consola
@@ -99,7 +99,7 @@ public class XBoardProtocol {
 			k++;
 			return NEXT_INSTRUCTION;
 		}
-  
+
 		if ("quit".equals(buffer)) {
 			System.exit(1);
 		}
@@ -109,13 +109,13 @@ public class XBoardProtocol {
 	}
 
 	public static void parseOpponentMove(String move) {
-		// maybe check if move is legal??
+		// TODO maybe check if move is legal??
 		// TODO castling
 		if (move.length() == 4) { // miscare normala
 			int sourceIndex = 0;
 			int destIndex = 0;
 
-
+			
 		}
 	}
 }
