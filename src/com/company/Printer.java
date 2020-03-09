@@ -26,58 +26,75 @@ public class Printer {
     }
 
     public static void print() {
-
     	com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
+    	boolean print;
+
         for (int i = 63; i >= 0; i--) {
-            if (board.WhiteBishops.isOccupied(i)) {
-                System.out.print("B");
-                continue;
+            print = false;
+
+            if (board.WhiteBishops.isBitSet(i)) {
+                System.out.print("B ");
+                print = true;
             }
-            if (board.WhiteKnights.isOccupied(i)) {
-                System.out.print("N");
-                continue;
+
+            if (board.WhiteKnights.isBitSet(i)) {
+                System.out.print("N ");
+                print = true;
             }
-            if (board.WhitePawns.isOccupied(i)) {
-                System.out.print("P");
-                continue;
+
+            if (board.WhitePawns.isBitSet(i)) {
+                System.out.print("P ");
+                print = true;
             }
-            if (board.WhiteKing.isOccupied(i)) {
-                System.out.print("K");
-                continue;
+
+            if (board.WhiteKing.isBitSet(i)) {
+                System.out.print("K ");
+                print = true;
             }
-            if (board.WhiteQueens.isOccupied(i)) {
-                System.out.print("Q");
-                continue;
+
+            if (board.WhiteQueens.isBitSet(i)) {
+                System.out.print("Q ");
+                print = true;
             }
-            if (board.WhiteRooks.isOccupied(i)) {
-                System.out.print("R");
-                continue;
+
+            if (board.WhiteRooks.isBitSet(i)) {
+                System.out.print("R ");
+                print = true;
             }
-            if (board.BlackBishops.isOccupied(i)) {
-                System.out.print("b");
-                continue;
+
+            if (board.BlackBishops.isBitSet(i)) {
+                System.out.print("b ");
+                print = true;
             }
-            if (board.BlackKnights.isOccupied(i)) {
-                System.out.print("n");
-                continue;
+
+            if (board.BlackKnights.isBitSet(i)) {
+                System.out.print("n ");
+                print = true;
             }
-            if (board.BlackPawns.isOccupied(i)) {
-                System.out.print("p");
-                continue;
+
+            if (board.BlackPawns.isBitSet(i)) {
+                System.out.print("p ");
+                print = true;
             }
-            if (board.BlackKing.isOccupied(i)) {
-                System.out.print("k");
-                continue;
+
+            if (board.BlackKing.isBitSet(i)) {
+                System.out.print("k ");
+                print = true;
             }
-            if (board.BlackQueens.isOccupied(i)) {
-                System.out.print("q");
-                continue;
+
+            if (board.BlackQueens.isBitSet(i)) {
+                System.out.print("q ");
+                print = true;
             }
-            if (board.BlackRooks.isOccupied(i)) {
-                System.out.print("r");
-                continue;
+
+            if (board.BlackRooks.isBitSet(i)) {
+                System.out.print("r ");
+                print = true;
             }
-            System.out.print(".");
+
+            if (print == false) {
+                System.out.print(". ");
+            }
 
             if (i % 8 == 0) {
                 System.out.println();

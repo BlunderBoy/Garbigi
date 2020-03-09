@@ -4,7 +4,7 @@ public class Bitboard {
 	public long reprezentare;
 	public int numarPiese;
 
-	public Bitboard () {
+	public Bitboard() {
 		reprezentare = 0;
 		numarPiese = 0;
 	}
@@ -14,8 +14,18 @@ public class Bitboard {
 	 * @param pos Position to check.
 	 * @return True if occupied, false if not.
 	 */
-	public boolean isOccupied(int pos) {
+	public boolean isBitSet(int pos) {
 		long shifter = 1;
 		return (reprezentare & (shifter << pos)) != 0;
+	}
+
+	public void setBit(int pos) {
+		long shifter = 1;
+		reprezentare = reprezentare & (shifter << pos);
+	}
+
+	public void clearBit(int pos) {
+		long shifter = 1;
+		reprezentare = reprezentare & (~(shifter << pos));
 	}
 }

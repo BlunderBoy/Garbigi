@@ -38,7 +38,7 @@ public class BoardHelpere {
 
 	public static void createBitboardFromFEN (String fen) {
 		char currentChar = 0;
-		int index = 0;
+		int index = 63;
 		for (int i = 0; i < fen.length(); i++) {
 			currentChar = fen.charAt(i);
 
@@ -47,80 +47,80 @@ public class BoardHelpere {
 					setBitAtPos(BoardState.getInstance().WhiteKnights, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'R':
 					setBitAtPos(BoardState.getInstance().WhiteRooks, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'B':
 					setBitAtPos(BoardState.getInstance().WhiteBishops, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'P':
 					setBitAtPos(BoardState.getInstance().WhitePawns, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'Q':
 					setBitAtPos(BoardState.getInstance().WhiteQueens, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'K':
 					setBitAtPos(BoardState.getInstance().WhiteKing, index);
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 
 				case 'n':
 					setBitAtPos(BoardState.getInstance().BlackKnights, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'r':
 					setBitAtPos(BoardState.getInstance().BlackRooks, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'b':
 					setBitAtPos(BoardState.getInstance().BlackBishops, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'p':
 					setBitAtPos(BoardState.getInstance().BlackPawns, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'q':
 					setBitAtPos(BoardState.getInstance().BlackQueens, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case 'k':
 					setBitAtPos(BoardState.getInstance().BlackKing, index);
 					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
-					index++;
+					index--;
 					break;
 				case '/':
-					//index++;
+					//index--;
 					break;
 				default:
-					index += (currentChar - '0');
+					index -= (currentChar - '0');
 					break;
 			}
 		}
