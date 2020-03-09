@@ -6,7 +6,7 @@ public class Bitboard {
 	private static long setMask[];
 	private static long clearMask[];
 	
-	static void initMasti()
+	public static void initMasti()
 	{
 		setMask = new long[64];
 		clearMask = new long[64];

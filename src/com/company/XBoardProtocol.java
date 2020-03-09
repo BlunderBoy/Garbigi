@@ -3,6 +3,7 @@ package com.company;
 import com.company.Board.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
@@ -24,6 +25,7 @@ public class XBoardProtocol {
 
 		if (buffer.contains("protover")) {
 			new XBoardProtocol().printOptiuniInitiale();
+			Bitboard.initMasti();
 			return NEXT_INSTRUCTION;
 		}
 
@@ -54,7 +56,6 @@ public class XBoardProtocol {
 
 		if (buffer.contains("new")) {
 			DatabaseComenziSiConstante.getInstance().initGame();
-			// TODO resetTable();
 			return NEXT_INSTRUCTION;
 		}
 
@@ -82,6 +83,10 @@ public class XBoardProtocol {
 		if (buffer.contains("hard")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("usermove")) {
+			String[] tokens = buffer.split(" ");
+			System.out.println("plm: " + Arrays.toString(tokens));
+			// tokens[1]
+
 			if (k == 0) {
 				System.out.println("move c7c6");
 			} else if (k == 1) {
@@ -101,5 +106,16 @@ public class XBoardProtocol {
 
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return ERROR;
+	}
+
+	public static void parseOpponentMove(String move) {
+		// maybe check if move is legal??
+		// TODO castling
+		if (move.length() == 4) { // miscare normala
+			int sourceIndex = 0;
+			int destIndex = 0;
+
+
+		}
 	}
 }

@@ -13,6 +13,7 @@ public class DatabaseComenziSiConstante {
 	//TODO : ce plm e force mode fa?
 	// e in pzdm force mode al xboardului. citeste documentatia poate??
 	// sa nu fim pasivi agresivi se poate? zic doar. punct.
+	// sugi pula
 	boolean forceMode = false;
     boolean engineColor = BLACK;
     boolean turn = WHITE; // al cui e randul
@@ -35,5 +36,4 @@ public class DatabaseComenziSiConstante {
 		turn = WHITE;
 		forceMode = false;
 	}
-
 }

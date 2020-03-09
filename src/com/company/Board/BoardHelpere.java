@@ -37,8 +37,7 @@ public class BoardHelpere {
 
 	public static void createBitboardFromFEN (String fen) {
 		// TODO reset bitboards
-		
-		Bitboard.initMasti();
+		BoardState.getInstance().resetBoard();
 
 		char currentChar = 0;
 		int index = 63;
