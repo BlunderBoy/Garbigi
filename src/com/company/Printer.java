@@ -44,62 +44,61 @@ public class Printer {
 	    System.out.println();*/
 
     	com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
-        for (int i = 7; i >= 0; i--) {
-            for (int j = 0; j < 8; j++) {
-                int index = i * 8 + j;
-                if (board.WhiteBishops.isOccupied(index)) {
-                    System.out.print("B");
-                    continue;
-                }
-                if (board.WhiteKnights.isOccupied(index)) {
-                    System.out.print("N");
-                    continue;
-                }
-                if (board.WhitePawns.isOccupied(index)) {
-                    System.out.print("P");
-                    continue;
-                }
-                if (board.WhiteKing.isOccupied(index)) {
-                    System.out.print("K");
-                    continue;
-                }
-                if (board.WhiteQueens.isOccupied(index)) {
-                    System.out.print("Q");
-                    continue;
-                }
-                if (board.WhiteRooks.isOccupied(index)) {
-                    System.out.print("R");
-                    continue;
-                }
-                if (board.BlackBishops.isOccupied(index)) {
-                    System.out.print("b");
-                    continue;
-                }
-                if (board.BlackKnights.isOccupied(index)) {
-                    System.out.print("n");
-                    continue;
-                }
-                if (board.BlackPawns.isOccupied(index)) {
-                    System.out.print("p");
-                    continue;
-                }
-                if (board.BlackKing.isOccupied(index)) {
-                    System.out.print("k");
-                    continue;
-                }
-                if (board.BlackQueens.isOccupied(index)) {
-                    System.out.print("q");
-                    continue;
-                }
-                if (board.BlackRooks.isOccupied(index)) {
-                    System.out.print("r");
-                    continue;
-                }
-                System.out.print(".");
+        for (int i = 63; i >= 0; i--) {
+            if (board.WhiteBishops.isOccupied(i)) {
+                System.out.print("B");
+                continue;
             }
-            System.out.println();
-        }
+            if (board.WhiteKnights.isOccupied(i)) {
+                System.out.print("N");
+                continue;
+            }
+            if (board.WhitePawns.isOccupied(i)) {
+                System.out.print("P");
+                continue;
+            }
+            if (board.WhiteKing.isOccupied(i)) {
+                System.out.print("K");
+                continue;
+            }
+            if (board.WhiteQueens.isOccupied(i)) {
+                System.out.print("Q");
+                continue;
+            }
+            if (board.WhiteRooks.isOccupied(i)) {
+                System.out.print("R");
+                continue;
+            }
+            if (board.BlackBishops.isOccupied(i)) {
+                System.out.print("b");
+                continue;
+            }
+            if (board.BlackKnights.isOccupied(i)) {
+                System.out.print("n");
+                continue;
+            }
+            if (board.BlackPawns.isOccupied(i)) {
+                System.out.print("p");
+                continue;
+            }
+            if (board.BlackKing.isOccupied(i)) {
+                System.out.print("k");
+                continue;
+            }
+            if (board.BlackQueens.isOccupied(i)) {
+                System.out.print("q");
+                continue;
+            }
+            if (board.BlackRooks.isOccupied(i)) {
+                System.out.print("r");
+                continue;
+            }
+            System.out.print(".");
 
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+        }
 
     	/*com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
 

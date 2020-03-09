@@ -47,7 +47,7 @@ public class XBoardProtocol {
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
 			BoardState board = BoardState.getInstance();
-			BoardHelpere.createBitboardFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+			BoardHelpere.createBitboardFromFEN("r7/8/8/8/8/8/8/8");
 
 			Printer.print();
 
