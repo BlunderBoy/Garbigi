@@ -36,48 +36,53 @@ public class BoardHelpere {
 
 	public static void createBitboardFromFEN (String fen) {
 		char currentChar = 0;
+		int index = 0;
 		for (int i = 0; i < fen.length(); i++) {
 			currentChar = fen.charAt(i);
 
 			switch (currentChar) {
 				case 'N':
-					setBitAtPos(BoardState.getInstance().WhiteKnights, i);
+					setBitAtPos(BoardState.getInstance().WhiteKnights, index);
 					break;
 				case 'R':
-					setBitAtPos(BoardState.getInstance().WhiteRooks, i);
+					setBitAtPos(BoardState.getInstance().WhiteRooks, index);
 					break;
 				case 'B':
-					setBitAtPos(BoardState.getInstance().WhiteBishops, i);
+					setBitAtPos(BoardState.getInstance().WhiteBishops, index);
 					break;
 				case 'P':
-					setBitAtPos(BoardState.getInstance().WhitePawns, i);
+					setBitAtPos(BoardState.getInstance().WhitePawns, index);
 					break;
 				case 'Q':
-					setBitAtPos(BoardState.getInstance().WhiteQueens, i);
+					setBitAtPos(BoardState.getInstance().WhiteQueens, index);
 					break;
 				case 'K':
-					setBitAtPos(BoardState.getInstance().WhiteKing, i);
+					setBitAtPos(BoardState.getInstance().WhiteKing, index);
 					break;
 
 				case 'n':
-					setBitAtPos(BoardState.getInstance().BlackKnights, i);
+					setBitAtPos(BoardState.getInstance().BlackKnights, index);
 					break;
 				case 'r':
-					setBitAtPos(BoardState.getInstance().BlackRooks, i);
+					setBitAtPos(BoardState.getInstance().BlackRooks, index);
 					break;
 				case 'b':
-					setBitAtPos(BoardState.getInstance().BlackBishops, i);
+					setBitAtPos(BoardState.getInstance().BlackBishops, index);
 					break;
 				case 'p':
-					setBitAtPos(BoardState.getInstance().BlackPawns, i);
+					setBitAtPos(BoardState.getInstance().BlackPawns, index);
 					break;
 				case 'q':
-					setBitAtPos(BoardState.getInstance().BlackQueens, i);
+					setBitAtPos(BoardState.getInstance().BlackQueens, index);
 					break;
 				case 'k':
-					setBitAtPos(BoardState.getInstance().BlackKing, i);
+					setBitAtPos(BoardState.getInstance().BlackKing, index);
+					break;
+				case '/':
+					index++;
 					break;
 				default:
+					index += (currentChar - '0');
 					break;
 			}
 		}
