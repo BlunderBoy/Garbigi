@@ -1,6 +1,4 @@
 package com.company;
-
-import com.company.Board.BoardHelpere;
 import java.util.Scanner;
 
 // TODO: xboard
@@ -14,15 +12,7 @@ import java.util.Scanner;
 // TODO: move
 
 public class Main {
-	enum CONST{
-		A, B,C
-}
-
     public static void main(String[] args)  {
-        // test pt printer
-        if (DatabaseComenziSiConstante.getInstance().DEBUG) {
-            Printer.print("rnbqk2r/ppp1pp1p/6b1/2n3p1/1P6/8/PP4pP/RN5R");
-        }
 
     	Scanner in = new Scanner(System.in);
         XBoardProtocol xBoardProtocol = new XBoardProtocol();

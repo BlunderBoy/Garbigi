@@ -21,33 +21,28 @@ public class BoardState
 	 */
 	int[] pieseFormat64 = new int[64];
 	
-	long[] pioni = new long[3];
-	int[] rege = new int[3];
 	int enPassant = 0;
 	
-	/*
-	sunt 13 posibilitati, 12 sunt piese, una e gol
-	numaru de piese pentru alb, negru si ambii
-	*/
-	int numarDePiese[] = new int[13];
-	
-	/*
-	pisele mari sunt tot ce nu e pion
-	numaru de piese mari pentru alb, negru si ambii
-	*/
-	int pieseMari[] = new int[3]; //[0] pentru alb, [1] pentru negru, [2] pentru ambii
-	
-	/*
-	rege, regina, tura
-	numaru de piese majore pentru alb, negru si ambii
-	*/
-	int pieseMajore[] = new int[3]; //[0] pentru alb, [1] pentru negru, [2] pentru ambii
-	
-	/*
-	tura, nebun, cal
-	numaru de piese mici pentru alb, negru si ambii
-	*/
-	int pieseMici[] = new int[3]; //[0] pentru alb, [1] pentru negru, [2] pentru ambii
+	/* Pozitia pieselor albe */
+	Bitboard WhitePawns;
+	Bitboard WhiteRooks;
+	Bitboard WhiteKnights;
+	Bitboard WhiteBishops;
+	Bitboard WhiteQueens;
+	Bitboard WhiteKing;
+
+	/* Pozitia pieselor negre */
+	Bitboard BlackPawns;
+	Bitboard BlackRooks;
+	Bitboard BlackKnights;
+	Bitboard BlackBishops;
+	Bitboard BlackQueens;
+	Bitboard BlackKing;
+
+	/* Helpere */
+	Bitboard AllWhitePieces;
+	Bitboard AllBlackPieces;
+	Bitboard AllPieces;
 	
 	/*
 	 0 0 0 0

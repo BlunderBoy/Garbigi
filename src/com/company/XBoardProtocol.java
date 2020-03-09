@@ -41,6 +41,9 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
+			long x = 1;
+			x <<=7;
+			Printer.print(x);
             return NEXT_INSTRUCTION;
 		}
 
