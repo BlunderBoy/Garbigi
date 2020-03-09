@@ -44,6 +44,9 @@ public class BoardState
 	Bitboard AllBlackPieces;
 	Bitboard AllPieces;
 	
+	int materialAlb;
+	int materalNegru;
+	
 	/*
 	 0 0 0 0
 	albRege, albRegina, negruRege, negruRegina
@@ -54,6 +57,4 @@ public class BoardState
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
 	MoveHistory istoric[] = new MoveHistory[10];
-	
-	
 }

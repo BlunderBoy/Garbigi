@@ -4,9 +4,10 @@ public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
+	private static final String numeEngine = "Neintitulat";
 	
 	void printOptiuniInitiale() {
-		System.out.println("feature ping=0 usermove=1 time=0 myname=\"mnee pula\" sigterm=0 sigint=0");
+		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0");
 	}
 	int parseInput(String buffer) {
 		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
@@ -41,9 +42,6 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-			long x = 1;
-			x <<=7;
-			Printer.print(x);
             return NEXT_INSTRUCTION;
 		}
 
