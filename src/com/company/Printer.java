@@ -1,6 +1,6 @@
 package com.company;
 
-import com.company.Board.Bitboard;
+import com.company.Board.*;
 
 public class Printer {
     public static void print(String fenNotation) {

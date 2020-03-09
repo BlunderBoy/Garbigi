@@ -1,7 +1,7 @@
 package com.company;
 
 
-import com.company.Board.BoardHelpere;
+import com.company.Board.*;
 
 public class DatabaseComenziSiConstante {
 	// # defines practically

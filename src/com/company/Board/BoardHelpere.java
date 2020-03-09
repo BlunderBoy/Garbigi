@@ -36,7 +36,9 @@ public class BoardHelpere {
 	}
 
 	public static void createBitboardFromFEN (String fen) {
-		BoardState.getInstance().resetBoard();
+		// TODO reset bitboards
+		
+		Bitboard.initMasti();
 
 		char currentChar = 0;
 		int index = 63;
@@ -45,76 +47,76 @@ public class BoardHelpere {
 
 			switch (currentChar) {
 				case 'N':
-					setBitAtPos(BoardState.getInstance().WhiteKnights, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhiteKnights.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'R':
-					setBitAtPos(BoardState.getInstance().WhiteRooks, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhiteRooks.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'B':
-					setBitAtPos(BoardState.getInstance().WhiteBishops, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhiteBishops.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'P':
-					setBitAtPos(BoardState.getInstance().WhitePawns, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhitePawns.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'Q':
-					setBitAtPos(BoardState.getInstance().WhiteQueens, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhiteQueens.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'K':
-					setBitAtPos(BoardState.getInstance().WhiteKing, index);
-					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().WhiteKing.setBit(index);
+					BoardState.getInstance().AllWhitePieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 
 				case 'n':
-					setBitAtPos(BoardState.getInstance().BlackKnights, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackKnights.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'r':
-					setBitAtPos(BoardState.getInstance().BlackRooks, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackRooks.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'b':
-					setBitAtPos(BoardState.getInstance().BlackBishops, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackBishops.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'p':
-					setBitAtPos(BoardState.getInstance().BlackPawns, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackPawns.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'q':
-					setBitAtPos(BoardState.getInstance().BlackQueens, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackQueens.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case 'k':
-					setBitAtPos(BoardState.getInstance().BlackKing, index);
-					setBitAtPos(BoardState.getInstance().AllBlackPieces, index);
-					setBitAtPos(BoardState.getInstance().AllPieces, index);
+					BoardState.getInstance().BlackKing.setBit(index);
+					BoardState.getInstance().AllBlackPieces.setBit(index);
+					BoardState.getInstance().AllPieces.setBit(index);
 					index--;
 					break;
 				case '/':
@@ -124,11 +126,6 @@ public class BoardHelpere {
 					break;
 			}
 		}
-	}
-
-	public static void setBitAtPos (Bitboard board, int pos) {
-		board.reprezentare |= ((long)1 << pos);
-		board.numarPiese++;
 	}
 
 }

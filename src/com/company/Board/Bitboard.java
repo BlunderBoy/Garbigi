@@ -3,10 +3,30 @@ package com.company.Board;
 public class Bitboard {
 	public long reprezentare;
 	public int numarPiese;
+	private static long setMask[];
+	private static long clearMask[];
+	
+	static void initMasti()
+	{
+		setMask = new long[64];
+		clearMask = new long[64];
+		long shifter = 1;
+		setMask[0] = 0;
+		clearMask[0] = ~setMask[0];
+		for (int i = 1; i < 64; i++)
+		{
+			setMask[i] = shifter;
+			clearMask[i] = ~setMask[i];
+			shifter <<= 1;
+		}
+	}
+	
 
 	public Bitboard() {
 		reprezentare = 0;
 		numarPiese = 0;
+		
+		//pregatesc mastile pentru set si clear
 	}
 
 	/**
@@ -20,13 +40,11 @@ public class Bitboard {
 	}
 
 	public void setBit(int pos) {
-		long shifter = 1;
-		reprezentare = reprezentare & (shifter << pos);
+		reprezentare = reprezentare | setMask[pos];
 	}
 
 	public void clearBit(int pos) {
-		long shifter = 1;
-		reprezentare = reprezentare & (~(shifter << pos));
+		reprezentare = reprezentare & clearMask[pos];
 	}
 
 	public void resetBitboard() {
