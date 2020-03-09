@@ -43,43 +43,55 @@ public class BoardHelpere {
 			switch (currentChar) {
 				case 'N':
 					setBitAtPos(BoardState.getInstance().WhiteKnights, index);
+					index++;
 					break;
 				case 'R':
 					setBitAtPos(BoardState.getInstance().WhiteRooks, index);
+					index++;
 					break;
 				case 'B':
 					setBitAtPos(BoardState.getInstance().WhiteBishops, index);
+					index++;
 					break;
 				case 'P':
 					setBitAtPos(BoardState.getInstance().WhitePawns, index);
+					index++;
 					break;
 				case 'Q':
 					setBitAtPos(BoardState.getInstance().WhiteQueens, index);
+					index++;
 					break;
 				case 'K':
 					setBitAtPos(BoardState.getInstance().WhiteKing, index);
+					index++;
 					break;
 
 				case 'n':
 					setBitAtPos(BoardState.getInstance().BlackKnights, index);
+					index++;
 					break;
 				case 'r':
 					setBitAtPos(BoardState.getInstance().BlackRooks, index);
+					index++;
 					break;
 				case 'b':
 					setBitAtPos(BoardState.getInstance().BlackBishops, index);
+					index++;
 					break;
 				case 'p':
 					setBitAtPos(BoardState.getInstance().BlackPawns, index);
+					index++;
 					break;
 				case 'q':
 					setBitAtPos(BoardState.getInstance().BlackQueens, index);
+					index++;
 					break;
 				case 'k':
 					setBitAtPos(BoardState.getInstance().BlackKing, index);
+					index++;
 					break;
 				case '/':
-					index++;
+					//index++;
 					break;
 				default:
 					index += (currentChar - '0');
