@@ -1,18 +1,13 @@
 package com.company;
 import java.util.Scanner;
 
-// TODO: xboard
-// TODO: new
 // TODO: force - for the moment da
 // TODO: go - I guess?
-// TODO: white - I guess?
-// TODO: black - I guess?
-// TODO: quit - atm da
-// TODO: resign
-// TODO: move
 
-
-
+// TODO: white - I guess? sigur trebuie tratat
+// TODO: black - I guess? sigur trebuie tratat
+// TODO: sa facem sa meraga din ambele parti miscari hardcodate si sa dea resign dupa ce le face!!!!!
+// TODO: ce trebuie sa facem exact la etapa 1.
 // TODO this hashing function https://youtu.be/WqVwQBXLwE0
 
 public class Main {
