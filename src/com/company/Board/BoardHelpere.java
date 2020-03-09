@@ -37,84 +37,60 @@ public class BoardHelpere {
 
 	public static void createBitboardFromFEN (String fen) {
 		BoardState.getInstance().resetBoard();
-
 		char currentChar = 0;
 		int index = 63;
+		BoardState board = BoardState.getInstance();
 		for (int i = 0; i < fen.length(); i++) {
 			currentChar = fen.charAt(i);
 
 			switch (currentChar) {
 				case 'N':
-					BoardState.getInstance().WhiteKnights.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhiteKnights.setBit(index);
 					index--;
 					break;
 				case 'R':
-					BoardState.getInstance().WhiteRooks.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhiteRooks.setBit(index);
 					index--;
 					break;
 				case 'B':
-					BoardState.getInstance().WhiteBishops.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhiteBishops.setBit(index);
 					index--;
 					break;
 				case 'P':
-					BoardState.getInstance().WhitePawns.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhitePawns.setBit(index);
 					index--;
 					break;
 				case 'Q':
-					BoardState.getInstance().WhiteQueens.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhiteQueens.setBit(index);
 					index--;
 					break;
 				case 'K':
-					BoardState.getInstance().WhiteKing.setBit(index);
-					BoardState.getInstance().AllWhitePieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.WhiteKing.setBit(index);
 					index--;
 					break;
 
 				case 'n':
-					BoardState.getInstance().BlackKnights.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackKnights.setBit(index);
 					index--;
 					break;
 				case 'r':
-					BoardState.getInstance().BlackRooks.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackRooks.setBit(index);
 					index--;
 					break;
 				case 'b':
-					BoardState.getInstance().BlackBishops.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackBishops.setBit(index);
 					index--;
 					break;
 				case 'p':
-					BoardState.getInstance().BlackPawns.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackPawns.setBit(index);
 					index--;
 					break;
 				case 'q':
-					BoardState.getInstance().BlackQueens.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackQueens.setBit(index);
 					index--;
 					break;
 				case 'k':
-					BoardState.getInstance().BlackKing.setBit(index);
-					BoardState.getInstance().AllBlackPieces.setBit(index);
-					BoardState.getInstance().AllPieces.setBit(index);
+					board.BlackKing.setBit(index);
 					index--;
 					break;
 				case '/':
@@ -124,6 +100,28 @@ public class BoardHelpere {
 					break;
 			}
 		}
+		board.AllWhitePieces.reprezentare = board.WhiteKing.reprezentare |
+				               board.WhiteBishops.reprezentare |
+							   board.WhiteKnights.reprezentare |
+				               board.WhiteQueens.reprezentare |
+						       board.WhiteRooks.reprezentare |
+							   board.WhitePawns.reprezentare;
+		
+		board.AllBlackPieces.reprezentare = board.BlackKing.reprezentare |
+				               board.BlackBishops.reprezentare |
+							   board.BlackKnights.reprezentare |
+				               board.BlackQueens.reprezentare |
+						       board.BlackRooks.reprezentare |
+							   board.BlackPawns.reprezentare;
+		
+		board.AllPieces.reprezentare = board.AllWhitePieces.reprezentare |
+							           board.AllBlackPieces.reprezentare;
+		
+		for(Bitboard b : board.allBitboards)
+		{
+			b.numarPiese = Long.bitCount(b.reprezentare);
+		}
+		
 	}
 
 }

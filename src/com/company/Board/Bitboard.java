@@ -3,17 +3,15 @@ package com.company.Board;
 public class Bitboard {
 	public long reprezentare;
 	public int numarPiese;
-	private static long setMask[];
-	private static long clearMask[];
+	public static long setMask[];
+	public static long clearMask[];
 	
 	public static void initMasti()
 	{
 		setMask = new long[64];
 		clearMask = new long[64];
 		long shifter = 1;
-		setMask[0] = 0;
-		clearMask[0] = ~setMask[0];
-		for (int i = 1; i < 64; i++)
+		for (int i = 0; i < 64; i++)
 		{
 			setMask[i] = shifter;
 			clearMask[i] = ~setMask[i];
@@ -35,8 +33,7 @@ public class Bitboard {
 	 * @return True if occupied, false if not.
 	 */
 	public boolean isBitSet(int pos) {
-		long shifter = 1;
-		return (reprezentare & (shifter << pos)) != 0;
+		return (reprezentare & (setMask[pos])) != 0;
 	}
 
 	public void setBit(int pos) {

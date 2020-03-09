@@ -12,7 +12,7 @@ public class XBoardProtocol {
 	private static final String numeEngine = "Neintitulat";
 
 	void printOptiuniInitiale() {
-		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0");
+		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0 reuse=0");
 	}
 	int parseInput(String buffer) {
 		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
@@ -43,15 +43,11 @@ public class XBoardProtocol {
 			return NEXT_INSTRUCTION;
 		}
 
-		if (buffer.contains("debug"))
-		{
+		if (buffer.contains("debug")) {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-			Printer.print();
-
-
-            return NEXT_INSTRUCTION;
+			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("new")) {
@@ -72,7 +68,7 @@ public class XBoardProtocol {
 
 		// trebuie vazut unde il mai folosim, da atm e doar
 		// un fel de flag
-		if (buffer.equals("force")) {
+		if (buffer.contains("force")) {
 			database.forceMode = true;
 			return NEXT_INSTRUCTION;
 		}
@@ -83,14 +79,11 @@ public class XBoardProtocol {
 
 		if (buffer.contains("hard")) { return NEXT_INSTRUCTION; }
 
+		if (buffer.contains("easy")) { return NEXT_INSTRUCTION; }
+
 		if (buffer.contains("result")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("usermove")) {
-			String[] tokens = buffer.split(" ");
-			//System.out.println("plm: " + Arrays.toString(tokens));
-			// tokens[1]
-			parseOpponentMove(tokens[1]);
-
 			if (k == 0) {
 				System.out.println("move c7c6");
 			} else if (k == 1) {
@@ -109,7 +102,7 @@ public class XBoardProtocol {
 		}
 
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
-		return ERROR;
+		return NEXT_INSTRUCTION; //aia e
 	}
 
 	public static void parseOpponentMove(String move) {
