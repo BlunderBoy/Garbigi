@@ -26,22 +26,6 @@ public class Printer {
     }
 
     public static void print() {
-    	/*long shifter = 1;
-    	shifter <<= 63;
-    	
-	    for (int i = 0; i < 64; i++) {
-		    if ((b.reprezentare & shifter) != 0) {
-			    System.out.print("# ");
-		    } else {
-			    System.out.print(". ");
-		    }
-
-		    if ((i+1) % 8 == 0 && i != 0) {
-			    System.out.println();
-		    }
-		    shifter >>>= 1;
-	    }
-	    System.out.println();*/
 
     	com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
         for (int i = 63; i >= 0; i--) {
@@ -107,5 +91,24 @@ public class Printer {
     	        System.out.print("B");
             }
         }*/
+    }
+    void print(Bitboard b)
+    {
+    	long shifter = 1;
+    	shifter <<= 63;
+
+	    for (int i = 0; i < 64; i++) {
+		    if ((b.reprezentare & shifter) != 0) {
+			    System.out.print("# ");
+		    } else {
+			    System.out.print(". ");
+		    }
+
+		    if ((i+1) % 8 == 0 && i != 0) {
+			    System.out.println();
+		    }
+		    shifter >>>= 1;
+	    }
+	    System.out.println();
     }
 }
