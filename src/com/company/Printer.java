@@ -25,8 +25,8 @@ public class Printer {
         }
     }
 
-    public static void print(Bitboard b) {
-    	long shifter = 1;
+    public static void print() {
+    	/*long shifter = 1;
     	shifter <<= 63;
     	
 	    for (int i = 0; i < 64; i++) {
@@ -41,7 +41,64 @@ public class Printer {
 		    }
 		    shifter >>>= 1;
 	    }
-	    System.out.println();
+	    System.out.println();*/
+
+    	com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
+        for (int i = 7; i >= 0; i--) {
+            for (int j = 0; j < 8; j++) {
+                int index = i * 8 + j;
+                if (board.WhiteBishops.isOccupied(index)) {
+                    System.out.print("B");
+                    continue;
+                }
+                if (board.WhiteKnights.isOccupied(index)) {
+                    System.out.print("N");
+                    continue;
+                }
+                if (board.WhitePawns.isOccupied(index)) {
+                    System.out.print("P");
+                    continue;
+                }
+                if (board.WhiteKing.isOccupied(index)) {
+                    System.out.print("K");
+                    continue;
+                }
+                if (board.WhiteQueens.isOccupied(index)) {
+                    System.out.print("Q");
+                    continue;
+                }
+                if (board.WhiteRooks.isOccupied(index)) {
+                    System.out.print("R");
+                    continue;
+                }
+                if (board.BlackBishops.isOccupied(index)) {
+                    System.out.print("b");
+                    continue;
+                }
+                if (board.BlackKnights.isOccupied(index)) {
+                    System.out.print("n");
+                    continue;
+                }
+                if (board.BlackPawns.isOccupied(index)) {
+                    System.out.print("p");
+                    continue;
+                }
+                if (board.BlackKing.isOccupied(index)) {
+                    System.out.print("k");
+                    continue;
+                }
+                if (board.BlackQueens.isOccupied(index)) {
+                    System.out.print("q");
+                    continue;
+                }
+                if (board.BlackRooks.isOccupied(index)) {
+                    System.out.print("r");
+                    continue;
+                }
+                System.out.print(".");
+            }
+            System.out.println();
+        }
 
 
     	/*com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();

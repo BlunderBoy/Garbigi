@@ -1,5 +1,9 @@
 package com.company;
 
+import com.company.Board.*;
+
+import java.util.ArrayList;
+
 public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
 	private static final int NEXT_INSTRUCTION = 0;
@@ -42,7 +46,11 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-			com.company.Board.BoardState board = com.company.Board.BoardState.getInstance();
+			BoardState board = BoardState.getInstance();
+			BoardHelpere.createBitboardFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+
+			Printer.print();
+
 
             return NEXT_INSTRUCTION;
 		}
