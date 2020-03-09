@@ -28,4 +28,9 @@ public class Bitboard {
 		long shifter = 1;
 		reprezentare = reprezentare & (~(shifter << pos));
 	}
+
+	public void resetBitboard() {
+		reprezentare = 0;
+		numarPiese = 0;
+	}
 }

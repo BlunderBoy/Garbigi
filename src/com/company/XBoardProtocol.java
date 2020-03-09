@@ -48,11 +48,12 @@ public class XBoardProtocol {
 			//pune aici functia pe care vrei sa o testezi
 			BoardState board = BoardState.getInstance();
 			BoardHelpere.createBitboardFromFEN("2R1R3/7p/q1n2Pb1/8/1p5K/3P3P/3N4/kN2rr2");
-
-			Printer.print(board.BlackRooks);
-
 			Printer.print();
 
+			System.out.println();
+
+			BoardState.getInstance().resetBoard();
+			Printer.print();
 
             return NEXT_INSTRUCTION;
 		}
