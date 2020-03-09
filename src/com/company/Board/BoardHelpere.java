@@ -50,12 +50,6 @@ public class BoardHelpere {
 					index++;
 					break;
 				case 'R':
-					System.out.println("before setting index " + index);
-					//Printer.print(BoardState.getInstance().WhiteRooks);
-					setBitAtPos(BoardState.getInstance().WhiteRooks, index);
-					System.out.println("after setting index " + index);
-					//Printer.print(BoardState.getInstance().WhiteRooks);
-
 					setBitAtPos(BoardState.getInstance().AllWhitePieces, index);
 					setBitAtPos(BoardState.getInstance().AllPieces, index);
 					index++;
