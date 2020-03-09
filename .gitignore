@@ -1,0 +1,5 @@
+#exclude tot inafara de cod si readme
+/*
+!/src
+!/README.txt
+/src/.idea/
