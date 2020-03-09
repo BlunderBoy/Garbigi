@@ -2,6 +2,6 @@ package com.company.Board;
 
 public class Bitboard
 {
-	long reprezentare;
-	int numarPiese;
+	public long reprezentare;
+	public int numarPiese;
 }

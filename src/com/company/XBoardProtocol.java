@@ -1,5 +1,8 @@
 package com.company;
 
+import com.company.Board.Bitboard;
+import com.company.Board.BoardHelpere;
+
 public class XBoardProtocol {
 	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
 	private static final int NEXT_INSTRUCTION = 0;
