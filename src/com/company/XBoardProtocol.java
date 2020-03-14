@@ -2,6 +2,11 @@ package com.company;
 
 import com.company.Board.*;
 
+/**
+ * Clasa asta tine chestii legate de comunicarea cu xboardu. Practic e un adapter pt engine.
+ * Metode care ar trebui sa fie aici: command parser, move parser, move printer etc.
+ */
+
 public class XBoardProtocol {
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
@@ -46,7 +51,7 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			Database.getInstance().initGame();
+			BoardCommands.initGame();
 			/////////
 			
 			//DEBUG pentru consola
@@ -58,7 +63,7 @@ public class XBoardProtocol {
 
 		if (buffer.contains("new")) {
 			database.numarDeMiscariFacute = 0;
-			Database.getInstance().initGame();
+			BoardCommands.initGame();
 			return NEXT_INSTRUCTION;
 		}
 
@@ -87,7 +92,7 @@ public class XBoardProtocol {
 		
 		if (buffer.contains("usermove") || buffer.contains("go")) {
 			if(database.forceMode) {
-				BoardHelpere.parseOpponentMove(buffer);
+				BoardCommands.parseOpponentMove(buffer);
 			} else {
 				if (database.engineColor == database.WHITE) {
 					if (database.numarDeMiscariFacute == 0) {

@@ -2,61 +2,20 @@ package com.company.Board;
 
 import com.company.Database;
 
-public class BoardHelpere {
-	//rank = linie, file = coloana
-	//intoarce index pentru tabla de 120
-	public static int conversieRFla120(int rank, int file)
-	{
-		return 21 + file + rank * 10;
-	}
-	//initializeaza cele 2 array-uri ca sa pot sa fac usor
-	//conversia intre cele 2 reprezentari.
-	public static int conversie120la64(int array120[], int index) {
-		return array120[index];
-	}
-	
+/**
+ * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
+ * crearea unui board dintr-un fen, actualizarea board-ului cand primesti/faci o mutare (soon)
+ */
 
-	static int array64[];
-	static int array120[];
-
-	public static void initializareArray() {
-		array64 = new int[64];
-		array120 = new int[120];
-		for (int i = 0; i < 120; i++) {
-			array120[i] = 65;
-		}
-		for (int i = 0; i < 64; i++) {
-			array64[i] = 120;
-		}
-		
-		//merge de la 0 la 63 si imi seteaza indecsi
-		int index = 0;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
-				int numarSecventa = conversieRFla120(i,j);
-				array64[index] = numarSecventa;
-				array120[numarSecventa] = index;
-				index++;
-			}
-		}
-	}
-
-	public static void initializareValoarePiese()
-	{
-		BoardState board = BoardState.getInstance();
-		board.WhitePawns.valoare = 100;
-		board.WhiteKnights.valoare = 325;
-		board.WhiteBishops.valoare = 325;
-		board.WhiteRooks.valoare = 550;
-		board.WhiteQueens.valoare = 1000;
-		board.WhiteKing.valoare = 50000;
-
-		board.BlackPawns.valoare = 100;
-		board.BlackKnights.valoare = 325;
-		board.BlackBishops.valoare = 325;
-		board.BlackRooks.valoare = 550;
-		board.BlackQueens.valoare = 1000;
-		board.BlackKing.valoare = 50000;
+public class BoardCommands {
+	public static void initGame() {
+		Database.initializareArray();
+		BoardState.initializareValoarePiese();
+		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		Database.getInstance().engineColor = Database.getInstance().BLACK;
+		Database.getInstance().opponentColor = Database.getInstance().WHITE;
+		Database.getInstance().turn = Database.getInstance().WHITE;
+		Database.getInstance().forceMode = false;
 	}
 
 	public static void createBoardstateFromFEN(String fen) {
@@ -187,18 +146,16 @@ public class BoardHelpere {
 		}
 	}
 	
-	private static void cineMuta(Database constante, String[] tokens)
-	{
-		if(tokens[1].contains("w"))
-		{
+	private static void cineMuta(Database constante, String[] tokens) {
+		if(tokens[1].contains("w")) {
 			constante.turn = constante.WHITE;
-		}
-		else
-		{
+		} else {
 			constante.turn = constante.BLACK;
 		}
 	}
 
+	// TODO mare todo ce e aici smr
+	// TODO maybe ar trebui mutat in XBoardProtocol??
 	public static int parseOpponentMove(String command) {
 		String[] tokens = command.split(" ");
 		String move = tokens[1];
@@ -219,10 +176,6 @@ public class BoardHelpere {
 		if (Database.getInstance().turn == Database.getInstance().BLACK) {
 			indexToCheck = 1;
 		}
-
-
-
-		int occupied = 0;
 
 		if (Database.getInstance().DEBUG) {
 				System.out.println("move: " + command + "source index: " + sourceIndex + ", dest index: " + destIndex);
@@ -302,6 +255,9 @@ public class BoardHelpere {
 		return true;
 	}
 
+	/**
+	 * Face conversia de la "usermove plm" la indexuri (pt board-ul reprezentat pe 64)
+	 */
 	private static class MoveToIndexes {
 		private String move;
 		private int sourceIndex;
