@@ -39,7 +39,7 @@ public class Database {
 	}
 	//initializeaza cele 2 array-uri ca sa pot sa fac usor
 	//conversia intre cele 2 reprezentari.
-	public static int conversie120la64(int array120[], int index) {
+	public static int conversie120la64(int index) {
 		return array120[index];
 	}
 
