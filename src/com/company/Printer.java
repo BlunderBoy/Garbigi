@@ -92,7 +92,7 @@ public class Printer {
                 print = true;
             }
 
-            if (print == false) {
+            if (!print) {
                 System.out.print(". ");
             }
 

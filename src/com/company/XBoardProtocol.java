@@ -2,9 +2,6 @@ package com.company;
 
 import com.company.Board.*;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-
 public class XBoardProtocol {
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
@@ -15,9 +12,9 @@ public class XBoardProtocol {
 		System.out.println("feature done=1");
 	}
 	int parseInput(String buffer) {
-		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
+		Database database = Database.getInstance();
 
-		if(database.DEBUG) {
+		if (database.DEBUG) {
 			System.out.println("# " + buffer);
 		}
 
@@ -49,24 +46,19 @@ public class XBoardProtocol {
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
+			BoardHelpere.parseOpponentMove("usermove a6g5");
 			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("new")) {
 			database.numarDeMiscariFacute = 0;
-			DatabaseComenziSiConstante.getInstance().initGame();
+			Database.getInstance().initGame();
 			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("accepted")) { return NEXT_INSTRUCTION;}
 
 		if (buffer.contains("random")) { return NEXT_INSTRUCTION; }
-
-		/*if (buffer.contains("go")) {
-			database.engineColor = database.turn;
-			database.opponentColor = !database.engineColor;
-			return NEXT_INSTRUCTION;
-		}*/
 
 		// trebuie vazut unde il mai folosim, da atm e doar
 		// un fel de flag
@@ -88,14 +80,10 @@ public class XBoardProtocol {
 		if (buffer.contains("computer")) { return NEXT_INSTRUCTION; }
 		
 		if (buffer.contains("usermove") || buffer.contains("go")) {
-			if(database.forceMode)
-			{
+			if(database.forceMode) {
 				BoardHelpere.parseOpponentMove(buffer);
-			}
-			else
-			{
-				if (database.engineColor == database.WHITE)
-				{
+			} else {
+				if (database.engineColor == database.WHITE) {
 					if (database.numarDeMiscariFacute == 0) {
 						System.out.println("move h2h4");
 					} else if (database.numarDeMiscariFacute == 1) {
@@ -105,8 +93,7 @@ public class XBoardProtocol {
 					} else {
 						System.out.println("resign");
 					}
-				} else
-				{
+				} else {
 					if (database.numarDeMiscariFacute == 0) {
 						System.out.println("move c7c6");
 					} else if (database.numarDeMiscariFacute == 1) {

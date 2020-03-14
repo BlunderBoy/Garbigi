@@ -1,6 +1,6 @@
 package com.company.Board;
 
-import com.company.DatabaseComenziSiConstante;
+import com.company.Database;
 
 public class BoardHelpere {
 	//rank = linie, file = coloana
@@ -15,10 +15,10 @@ public class BoardHelpere {
 		return array120[index];
 	}
 	
-	
+
 	static int array64[];
 	static int array120[];
-	
+
 	public static void initializareArray() {
 		array64 = new int[64];
 		array120 = new int[120];
@@ -40,7 +40,7 @@ public class BoardHelpere {
 			}
 		}
 	}
-	
+
 	public static void initializareValoarePiese()
 	{
 		BoardState board = BoardState.getInstance();
@@ -50,7 +50,7 @@ public class BoardHelpere {
 		board.WhiteRooks.valoare = 550;
 		board.WhiteQueens.valoare = 1000;
 		board.WhiteKing.valoare = 50000;
-		
+
 		board.BlackPawns.valoare = 100;
 		board.BlackKnights.valoare = 325;
 		board.BlackBishops.valoare = 325;
@@ -64,8 +64,8 @@ public class BoardHelpere {
 		char currentChar = 0;
 		int index = 63;
 		BoardState board = BoardState.getInstance();
-		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
-		
+		Database database = Database.getInstance();
+
 		String[] tokens = fen.split(" ");
 		//tokens 0 = fenul
 		//token 1 = cine muta w/b
@@ -73,7 +73,7 @@ public class BoardHelpere {
 		//token 3 = en passant square
 		//token 4 = numar de miscari de la ultima capturare (irelevant mostly)
 		//token 5 = numar de miscari in total
-		
+
 		cineMuta(database, tokens);
 		populareBiboards(index, board, tokens[0]);
 		castlingPermissions(tokens);
@@ -81,7 +81,7 @@ public class BoardHelpere {
 		database.halfMoves = Integer.parseInt(tokens[4]);
 		database.fullMoves = Integer.parseInt(tokens[5]);
 	}
-	
+
 	private static void castlingPermissions(String[] tokens)
 	{
 		if(tokens[2].contains("K"))
@@ -101,7 +101,7 @@ public class BoardHelpere {
 			BoardState.getInstance().castlePermision[3] = 1;
 		}
 	}
-	
+
 	private static void populareBiboards(int index, BoardState board, String token)
 	{
 		char currentChar;
@@ -182,13 +182,12 @@ public class BoardHelpere {
 		board.AllPieces.reprezentare = board.AllWhitePieces.reprezentare |
 							           board.AllBlackPieces.reprezentare;
 		
-		for(Bitboard b : board.allBitboards)
-		{
+		for(Bitboard b : board.allBitboards) {
 			b.numarPiese = Long.bitCount(b.reprezentare);
 		}
 	}
 	
-	private static void cineMuta(DatabaseComenziSiConstante constante, String[] tokens)
+	private static void cineMuta(Database constante, String[] tokens)
 	{
 		if(tokens[1].contains("w"))
 		{
@@ -199,18 +198,141 @@ public class BoardHelpere {
 			constante.turn = constante.BLACK;
 		}
 	}
-	
-	public static void parseOpponentMove(String move) {
+
+	public static int parseOpponentMove(String command) {
+		String[] tokens = command.split(" ");
+		String move = tokens[1];
 		// TODO maybe check if move is legal??
 		// TODO castling
-		if (move.length() == 4) { // miscare normala
-			int sourceIndex = 0;
-			int destIndex = 0;
+		int sourceIndex = 0;
+		int destIndex = 0;
 
-			sourceIndex = 8 * (move.charAt(1) - '0' - 1) + (move.charAt(0) - 'a');
-			destIndex = 8 * (move.charAt(3) - '0' - 1) + (move.charAt(2) - 'a');
+		MoveToIndexes moveToIndexes = new MoveToIndexes(move, sourceIndex, destIndex).invoke();
+		sourceIndex = moveToIndexes.getSourceIndex();
+		destIndex = moveToIndexes.getDestIndex();
 
-			System.out.println("source index: " + sourceIndex + ", dest index: " + destIndex);
+		// verifica daca piesa de la source este a celui care trb sa mute
+		// verifica daca exista spatiu unde sa o mute sau daca captureaza piesa
+		// actualizeaza bitboards
+
+		int indexToCheck = 0;
+		if (Database.getInstance().turn == Database.getInstance().BLACK) {
+			indexToCheck = 1;
+		}
+
+		if (Database.getInstance().turn == Database.getInstance().WHITE) {
+			if (BoardState.getInstance().WhitePawns.isBitSet(sourceIndex)) {
+				if (isPawnMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhitePawns);
+				} else {
+					return -1;
+				}
+			}
+			if (BoardState.getInstance().WhiteRooks.isBitSet(sourceIndex)) {
+				if (isRookMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteRooks);
+				} else {
+					return -1;
+				}
+			}
+			if (BoardState.getInstance().WhiteBishops.isBitSet(sourceIndex)) {
+				if (isBishopMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteBishops);
+				} else {
+					return -1;
+				}
+			}
+			if (BoardState.getInstance().WhiteKnights.isBitSet(sourceIndex)) {
+				if (isKnightMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteKnights);
+				} else {
+					return -1;
+				}
+			}
+			if (BoardState.getInstance().WhiteQueens.isBitSet(sourceIndex)) {
+				if (isQueenMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteQueens);
+				} else {
+					return -1;
+				}
+			}
+			if (BoardState.getInstance().WhiteKing.isBitSet(sourceIndex)) {
+				if (isKingMoveLegal(sourceIndex, destIndex)) {
+					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteKing);
+				} else {
+					return -1;
+				}
+			}
+		} else {
+
+		}
+
+		int occupied = 0;
+
+		if (Database.getInstance().DEBUG) {
+				System.out.println("move: " + command + "source index: " + sourceIndex + ", dest index: " + destIndex);
+		}
+
+		return 0;
+	}
+
+	private static void updateBitboard(int sourceIndex, int destIndex, Bitboard bitboard) {
+		// TODO capturari
+		bitboard.clearBit(sourceIndex);
+		bitboard.setBit(destIndex);
+	}
+
+	// TODO
+	private static boolean isPawnMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static boolean isRookMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static boolean isKnightMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static boolean isBishopMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static boolean isQueenMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static boolean isKingMoveLegal (int source, int dest) {
+		return true;
+	}
+
+	private static class MoveToIndexes {
+		private String move;
+		private int sourceIndex;
+		private int destIndex;
+
+		public MoveToIndexes(String move, int sourceIndex, int destIndex) {
+			this.move = move;
+			this.sourceIndex = sourceIndex;
+			this.destIndex = destIndex;
+		}
+
+		public int getSourceIndex() {
+			return sourceIndex;
+		}
+
+		public int getDestIndex() {
+			return destIndex;
+		}
+
+		public MoveToIndexes invoke() {
+			if (move.length() == 4) { // miscare normala
+				// magic, don't touch.
+				sourceIndex = (8 * (move.charAt(1) - '0') - 1) - (move.charAt(0) - 'a');
+				destIndex = (8 * (move.charAt(3) - '0') - 1) - (move.charAt(2) - 'a');
+			}
+			return this;
 		}
 	}
 }
