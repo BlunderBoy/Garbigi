@@ -220,52 +220,7 @@ public class BoardHelpere {
 			indexToCheck = 1;
 		}
 
-		if (Database.getInstance().turn == Database.getInstance().WHITE) {
-			if (BoardState.getInstance().WhitePawns.isBitSet(sourceIndex)) {
-				if (isPawnMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhitePawns);
-				} else {
-					return -1;
-				}
-			}
-			if (BoardState.getInstance().WhiteRooks.isBitSet(sourceIndex)) {
-				if (isRookMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteRooks);
-				} else {
-					return -1;
-				}
-			}
-			if (BoardState.getInstance().WhiteBishops.isBitSet(sourceIndex)) {
-				if (isBishopMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteBishops);
-				} else {
-					return -1;
-				}
-			}
-			if (BoardState.getInstance().WhiteKnights.isBitSet(sourceIndex)) {
-				if (isKnightMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteKnights);
-				} else {
-					return -1;
-				}
-			}
-			if (BoardState.getInstance().WhiteQueens.isBitSet(sourceIndex)) {
-				if (isQueenMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteQueens);
-				} else {
-					return -1;
-				}
-			}
-			if (BoardState.getInstance().WhiteKing.isBitSet(sourceIndex)) {
-				if (isKingMoveLegal(sourceIndex, destIndex)) {
-					updateBitboard(sourceIndex, destIndex, BoardState.getInstance().WhiteKing);
-				} else {
-					return -1;
-				}
-			}
-		} else {
 
-		}
 
 		int occupied = 0;
 
@@ -280,6 +235,46 @@ public class BoardHelpere {
 		// TODO capturari
 		bitboard.clearBit(sourceIndex);
 		bitboard.setBit(destIndex);
+	}
+
+	private static char getPieceType (int index) {
+		if (BoardState.getInstance().Pawns[0].isBitSet(index)) {
+			return 'P';
+		}
+		if (BoardState.getInstance().Pawns[1].isBitSet(index)) {
+			return 'p';
+		}
+		if (BoardState.getInstance().Rooks[0].isBitSet(index)) {
+			return 'R';
+		}
+		if (BoardState.getInstance().Rooks[1].isBitSet(index)) {
+			return 'r';
+		}
+		if (BoardState.getInstance().Bishops[0].isBitSet(index)) {
+			return 'B';
+		}
+		if (BoardState.getInstance().Bishops[1].isBitSet(index)) {
+			return 'b';
+		}
+		if (BoardState.getInstance().Knights[0].isBitSet(index)) {
+			return 'N';
+		}
+		if (BoardState.getInstance().Knights[1].isBitSet(index)) {
+			return 'n';
+		}
+		if (BoardState.getInstance().Queens[0].isBitSet(index)) {
+			return 'Q';
+		}
+		if (BoardState.getInstance().Queens[1].isBitSet(index)) {
+			return 'q';
+		}
+		if (BoardState.getInstance().Kings[0].isBitSet(index)) {
+			return 'K';
+		}
+		if (BoardState.getInstance().Kings[1].isBitSet(index)) {
+			return 'k';
+		}
+		return 0;
 	}
 
 	// TODO
