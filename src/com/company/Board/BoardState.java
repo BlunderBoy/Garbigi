@@ -1,6 +1,9 @@
 package com.company.Board;
 
-import java.util.ArrayList;
+/**
+ * Clasa asta tine toate variabilele legate de starea unui board (bitboards, castling etc) si comenzi de baza
+ * pentru prelucrarea lor (ex: initializare, resetare)
+ */
 
 public class BoardState {
 	private static BoardState instance;
@@ -73,8 +76,25 @@ public class BoardState {
 	public static BoardState getInstance() {
 		if (instance == null) {
 			instance = new BoardState();
+			initializareValoarePiese();
 		}
 		return instance;
+	}
+
+	public static void initializareValoarePiese() {
+		instance.WhitePawns.valoare = 100;
+		instance.WhiteKnights.valoare = 325;
+		instance.WhiteBishops.valoare = 325;
+		instance.WhiteRooks.valoare = 550;
+		instance.WhiteQueens.valoare = 1000;
+		instance.WhiteKing.valoare = 50000;
+
+		instance.BlackPawns.valoare = 100;
+		instance.BlackKnights.valoare = 325;
+		instance.BlackBishops.valoare = 325;
+		instance.BlackRooks.valoare = 550;
+		instance.BlackQueens.valoare = 1000;
+		instance.BlackKing.valoare = 50000;
 	}
 
 	public void resetBoard() {

@@ -1,5 +1,9 @@
 package com.company.Board;
 
+/**
+ * Clasa asta tine efectiv obiectul de bitboard si functii care le prelucreaza
+ */
+
 public class Bitboard {
 	public long reprezentare;
 	public int numarPiese;

@@ -2,6 +2,10 @@ package com.company;
 
 import com.company.Board.*;
 
+/**
+ * Diferite metode pt a printa starea boatrd-ului (mostly debugging shit)
+ */
+
 public class Printer {
     public static void print(String fenNotation) {
         // pracurg stringu

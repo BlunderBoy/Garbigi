@@ -1,7 +1,6 @@
 package com.company.Board;
 
-public class MoveHistory
-{
+public class MoveHistory {
 	char castlePermision[] = {1,1,1,1};
 	int enPassant = 0;
 	long posKey = 0;
