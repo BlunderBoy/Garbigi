@@ -48,7 +48,9 @@ public class XBoardProtocol {
 			database.numarDeMiscariFacute = 0;
 			Database.getInstance().initGame();
 			/////////
-			
+			System.out.println(BoardHelpere.isSquareAttacked(4,4,true));
+			System.out.println(BoardHelpere.isSquareAttacked(5,4,true));
+			System.out.println(BoardHelpere.isSquareAttacked(5,4,false));
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi

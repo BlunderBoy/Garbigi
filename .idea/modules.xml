@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/idfk/idfk.iml" filepath="$PROJECT_DIR$/idfk/idfk.iml" />
+      <module fileurl="file://$PROJECT_DIR$/proiectpa.iml" filepath="$PROJECT_DIR$/proiectpa.iml" />
+    </modules>
+  </component>
+</project>
