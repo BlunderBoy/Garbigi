@@ -41,6 +41,28 @@ public class BoardCommands {
 		database.fullMoves = Integer.parseInt(tokens[5]);
 	}
 
+	//WHITE = true, BLACK = false
+	public static boolean isSquareAttacked(int file, int rank, boolean side)
+	{
+		BoardState board = BoardState.getInstance();
+		Database database = Database.getInstance();
+		int pozitie = Database.conversieRFla120(rank, file);
+		pozitie = Database.conversie120la64(pozitie);
+		System.out.println("verific pentru pozitia " + pozitie);
+		int directie;
+
+		if (side == database.WHITE) {
+			if (board.WhitePawns.isBitSet(pozitie-11) || board.WhitePawns.isBitSet(pozitie-9)) {
+				return true;
+			}
+		} else {
+			if (board.BlackPawns.isBitSet(pozitie+11) || board.BlackPawns.isBitSet(pozitie+9)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	private static void castlingPermissions(String[] tokens)
 	{
 		if(tokens[2].contains("K"))
