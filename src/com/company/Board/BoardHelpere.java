@@ -121,7 +121,19 @@ public class BoardHelpere {
 		{
 			b.numarPiese = Long.bitCount(b.reprezentare);
 		}
-		
 	}
+	
+	public static void parseOpponentMove(String move) {
+		// TODO maybe check if move is legal??
+		// TODO castling
+		if (move.length() == 4) { // miscare normala
+			int sourceIndex = 0;
+			int destIndex = 0;
 
+			sourceIndex = 8 * (move.charAt(1) - '0' - 1) + (move.charAt(0) - 'a');
+			destIndex = 8 * (move.charAt(3) - '0' - 1) + (move.charAt(2) - 'a');
+
+			System.out.println("source index: " + sourceIndex + ", dest index: " + destIndex);
+		}
+	}
 }

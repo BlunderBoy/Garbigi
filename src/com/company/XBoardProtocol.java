@@ -88,31 +88,38 @@ public class XBoardProtocol {
 		if (buffer.contains("computer")) { return NEXT_INSTRUCTION; }
 		
 		if (buffer.contains("usermove") || buffer.contains("go")) {
-			if (database.engineColor == database.WHITE)
+			if(database.forceMode)
 			{
-				if (database.numarDeMiscariFacute == 0) {
-					System.out.println("move h2h4");
-				} else if (database.numarDeMiscariFacute == 1) {
-					System.out.println("move h4h5");
-				} else if (database.numarDeMiscariFacute == 2) {
-					System.out.println("move h5h6");
-				} else {
-					System.out.println("resign");
-				}
-			} else
-			{
-				if (database.numarDeMiscariFacute == 0) {
-					System.out.println("move c7c6");
-				} else if (database.numarDeMiscariFacute == 1) {
-					System.out.println("move b8a6");
-				} else if (database.numarDeMiscariFacute == 2) {
-					System.out.println("move d8c7");
-				} else {
-					System.out.println("resign");
-				}
+				BoardHelpere.parseOpponentMove(buffer);
 			}
-			database.numarDeMiscariFacute++;
+			else
+			{
+				if (database.engineColor == database.WHITE)
+				{
+					if (database.numarDeMiscariFacute == 0) {
+						System.out.println("move h2h4");
+					} else if (database.numarDeMiscariFacute == 1) {
+						System.out.println("move h4h5");
+					} else if (database.numarDeMiscariFacute == 2) {
+						System.out.println("move h5h6");
+					} else {
+						System.out.println("resign");
+					}
+				} else
+				{
+					if (database.numarDeMiscariFacute == 0) {
+						System.out.println("move c7c6");
+					} else if (database.numarDeMiscariFacute == 1) {
+						System.out.println("move b8a6");
+					} else if (database.numarDeMiscariFacute == 2) {
+						System.out.println("move d8c7");
+					} else {
+						System.out.println("resign");
+					}
+				}
+				database.numarDeMiscariFacute++;
 			return NEXT_INSTRUCTION;
+			}
 		}
 
 		if ("quit".equals(buffer)) {
@@ -121,20 +128,5 @@ public class XBoardProtocol {
 
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return NEXT_INSTRUCTION; //aia e
-	}
-
-	public static void parseOpponentMove(String move) {
-		// TODO maybe check if move is legal??
-		// TODO castling
-		if (move.length() == 4) { // miscare normala
-			int sourceIndex = 0;
-			int destIndex = 0;
-
-			sourceIndex = 8 * (move.charAt(1) - '0' - 1) + (move.charAt(0) - 'a');
-			destIndex = 8 * (move.charAt(3) - '0' - 1) + (move.charAt(2) - 'a');
-
-			System.out.println("source index: " + sourceIndex + ", dest index: " + destIndex);
-
-		}
 	}
 }
