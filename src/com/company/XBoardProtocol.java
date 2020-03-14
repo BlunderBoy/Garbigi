@@ -6,13 +6,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class XBoardProtocol {
-	int k = 0; //MARKED FOR DELETION, HARDCODE PENTRU usermove
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
 	private static final String numeEngine = "Neintitulat";
 
 	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0 reuse=0");
+		System.out.println("feature done=1");
 	}
 	int parseInput(String buffer) {
 		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
@@ -30,16 +30,18 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("white")) {
+			System.out.println("# JOC PE NEGRU");
 			database.turn = database.WHITE;
-            database.engineColor = database.BLACK;
-            database.opponentColor = database.WHITE;
+            database.engineColor = database.WHITE;
+            database.opponentColor = database.BLACK;
 			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("black")) {
+			System.out.println("# JOC PE ALB");
 			database.turn = database.BLACK;
-            database.engineColor = database.WHITE;
-            database.opponentColor = database.BLACK;
+            database.engineColor = database.BLACK;
+            database.opponentColor = database.WHITE;
 			return NEXT_INSTRUCTION;
 		}
 
@@ -51,7 +53,7 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("new")) {
-			k = 0;
+			database.numarDeMiscariFacute = 0;
 			DatabaseComenziSiConstante.getInstance().initGame();
 			return NEXT_INSTRUCTION;
 		}
@@ -60,11 +62,11 @@ public class XBoardProtocol {
 
 		if (buffer.contains("random")) { return NEXT_INSTRUCTION; }
 
-		if (buffer.contains("go")) {
+		/*if (buffer.contains("go")) {
 			database.engineColor = database.turn;
 			database.opponentColor = !database.engineColor;
 			return NEXT_INSTRUCTION;
-		}
+		}*/
 
 		// trebuie vazut unde il mai folosim, da atm e doar
 		// un fel de flag
@@ -82,18 +84,34 @@ public class XBoardProtocol {
 		if (buffer.contains("easy")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("result")) { return NEXT_INSTRUCTION; }
-
-		if (buffer.contains("usermove")) {
-			if (k == 0) {
-				System.out.println("move c7c6");
-			} else if (k == 1) {
-				System.out.println("move b8a6");
-			} else if (k == 2) {
-				System.out.println("move d8c7");
-			} else {
-				System.out.println("resign");
+		
+		if (buffer.contains("computer")) { return NEXT_INSTRUCTION; }
+		
+		if (buffer.contains("usermove") || buffer.contains("go")) {
+			if (database.engineColor == database.WHITE)
+			{
+				if (database.numarDeMiscariFacute == 0) {
+					System.out.println("move h2h4");
+				} else if (database.numarDeMiscariFacute == 1) {
+					System.out.println("move h4h5");
+				} else if (database.numarDeMiscariFacute == 2) {
+					System.out.println("move h5h6");
+				} else {
+					System.out.println("resign");
+				}
+			} else
+			{
+				if (database.numarDeMiscariFacute == 0) {
+					System.out.println("move c7c6");
+				} else if (database.numarDeMiscariFacute == 1) {
+					System.out.println("move b8a6");
+				} else if (database.numarDeMiscariFacute == 2) {
+					System.out.println("move d8c7");
+				} else {
+					System.out.println("resign");
+				}
 			}
-			k++;
+			database.numarDeMiscariFacute++;
 			return NEXT_INSTRUCTION;
 		}
 
