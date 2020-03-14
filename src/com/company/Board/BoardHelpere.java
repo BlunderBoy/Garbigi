@@ -1,6 +1,6 @@
 package com.company.Board;
 
-import com.company.Printer;
+import com.company.DatabaseComenziSiConstante;
 
 public class BoardHelpere {
 	//rank = linie, file = coloana
@@ -15,7 +15,13 @@ public class BoardHelpere {
 		return array120[index];
 	}
 	
-	public static void initializareArray(int array64[], int array120[]) {
+	
+	static int array64[];
+	static int array120[];
+	
+	public static void initializareArray() {
+		array64 = new int[64];
+		array120 = new int[120];
 		for (int i = 0; i < 120; i++) {
 			array120[i] = 65;
 		}
@@ -34,14 +40,73 @@ public class BoardHelpere {
 			}
 		}
 	}
+	
+	public static void initializareValoarePiese()
+	{
+		BoardState board = BoardState.getInstance();
+		board.WhitePawns.valoare = 100;
+		board.WhiteKnights.valoare = 325;
+		board.WhiteBishops.valoare = 325;
+		board.WhiteRooks.valoare = 550;
+		board.WhiteQueens.valoare = 1000;
+		board.WhiteKing.valoare = 50000;
+		
+		board.BlackPawns.valoare = 100;
+		board.BlackKnights.valoare = 325;
+		board.BlackBishops.valoare = 325;
+		board.BlackRooks.valoare = 550;
+		board.BlackQueens.valoare = 1000;
+		board.BlackKing.valoare = 50000;
+	}
 
-	public static void createBitboardFromFEN (String fen) {
+	public static void createBoardstateFromFEN(String fen) {
 		BoardState.getInstance().resetBoard();
 		char currentChar = 0;
 		int index = 63;
 		BoardState board = BoardState.getInstance();
-		for (int i = 0; i < fen.length(); i++) {
-			currentChar = fen.charAt(i);
+		DatabaseComenziSiConstante database = DatabaseComenziSiConstante.getInstance();
+		
+		String[] tokens = fen.split(" ");
+		//tokens 0 = fenul
+		//token 1 = cine muta w/b
+		//token 2 = castiling permisions
+		//token 3 = en passant square
+		//token 4 = numar de miscari de la ultima capturare (irelevant mostly)
+		//token 5 = numar de miscari in total
+		
+		cineMuta(database, tokens);
+		populareBiboards(index, board, tokens[0]);
+		castlingPermissions(tokens);
+		//TODO en passant ???
+		database.halfMoves = Integer.parseInt(tokens[4]);
+		database.fullMoves = Integer.parseInt(tokens[5]);
+	}
+	
+	private static void castlingPermissions(String[] tokens)
+	{
+		if(tokens[2].contains("K"))
+		{
+			BoardState.getInstance().castlePermision[0] = 1;
+		}
+		if(tokens[2].contains("Q"))
+		{
+			BoardState.getInstance().castlePermision[1] = 1;
+		}
+		if(tokens[2].contains("k"))
+		{
+			BoardState.getInstance().castlePermision[2] = 1;
+		}
+		if(tokens[2].contains("q"))
+		{
+			BoardState.getInstance().castlePermision[3] = 1;
+		}
+	}
+	
+	private static void populareBiboards(int index, BoardState board, String token)
+	{
+		char currentChar;
+		for (int i = 0; i < token.length(); i++) {
+			currentChar = token.charAt(i);
 
 			switch (currentChar) {
 				case 'N':
@@ -120,6 +185,18 @@ public class BoardHelpere {
 		for(Bitboard b : board.allBitboards)
 		{
 			b.numarPiese = Long.bitCount(b.reprezentare);
+		}
+	}
+	
+	private static void cineMuta(DatabaseComenziSiConstante constante, String[] tokens)
+	{
+		if(tokens[1].contains("w"))
+		{
+			constante.turn = constante.WHITE;
+		}
+		else
+		{
+			constante.turn = constante.BLACK;
 		}
 	}
 	

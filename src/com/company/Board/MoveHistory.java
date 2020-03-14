@@ -4,6 +4,7 @@ public class MoveHistory
 {
 	char castlePermision[] = {1,1,1,1};
 	int enPassant = 0;
+	long posKey = 0;
 	
 	/*
 	o sa fie un integer care reprezinta in bitboards cum arata inainte
@@ -12,6 +13,4 @@ public class MoveHistory
 	ci penultima mutare facuta
 	*/
 	long OldBoard[];
-	
-	
 }

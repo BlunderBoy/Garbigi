@@ -3,6 +3,7 @@ package com.company.Board;
 public class Bitboard {
 	public long reprezentare;
 	public int numarPiese;
+	public int valoare;
 	public static long setMask[];
 	public static long clearMask[];
 	
@@ -23,8 +24,7 @@ public class Bitboard {
 	public Bitboard() {
 		reprezentare = 0;
 		numarPiese = 0;
-		
-		//pregatesc mastile pentru set si clear
+		valoare = 0;
 	}
 
 	/**

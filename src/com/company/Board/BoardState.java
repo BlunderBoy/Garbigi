@@ -44,10 +44,10 @@ public class BoardState {
 	public Bitboard AllBlackPieces = new Bitboard();
 	public Bitboard AllPieces = new Bitboard();
 
-	public Bitboard[] allBitboards = {WhitePawns, WhiteRooks, WhiteKnights,
-									  WhiteBishops, WhiteQueens, WhiteKing,
-									  BlackPawns, BlackRooks, BlackKnights,
-									  BlackBishops, BlackQueens, BlackKing};
+	public Bitboard[] allBitboards = {WhitePawns, WhiteKnights, WhiteBishops,
+			                          WhiteRooks, WhiteQueens, WhiteKing,
+									  BlackPawns,BlackKnights, BlackBishops,
+									  BlackRooks, BlackQueens, BlackKing};
 	
 	public int materialAlb = 0;
 	public int materalNegru = 0;

@@ -3,23 +3,24 @@ package com.company;
 
 import com.company.Board.*;
 
-import java.util.Scanner;
-
 public class DatabaseComenziSiConstante {
 	// # defines practically
-	final boolean DEBUG = false;
-	final boolean BLACK = false;
-	final boolean WHITE = true;
+	public final boolean DEBUG = false;
+	public final boolean BLACK = false;
+	public final boolean WHITE = true;
 	public int numarDeMiscariFacute = 0;
+	public int halfMoves = 0;
+	public int fullMoves = 0;
 	
 	//TODO : ce plm e force mode fa?
 	// e in pzdm force mode al xboardului. citeste documentatia poate??
 	// sa nu fim pasivi agresivi se poate? zic doar. punct.
 	// sugi pula
-	boolean forceMode = false;
-    boolean engineColor = BLACK;
-    boolean turn = WHITE; // al cui e randul
-    boolean opponentColor = WHITE;
+	// mnu tu sugi
+	public boolean forceMode = false;
+    public boolean engineColor = BLACK;
+    public boolean turn = WHITE; // al cui e randul
+    public boolean opponentColor = WHITE;
 
 	private DatabaseComenziSiConstante() {} //singleton
 	
@@ -32,7 +33,9 @@ public class DatabaseComenziSiConstante {
 	}
 
 	public void initGame() {
-		BoardHelpere.createBitboardFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR");
+		BoardHelpere.initializareArray();
+		BoardHelpere.initializareValoarePiese();
+		BoardHelpere.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		engineColor = BLACK;
 		opponentColor = WHITE;
 		turn = WHITE;
