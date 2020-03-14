@@ -4,7 +4,6 @@ import java.util.Scanner;
 // TODO: force - for the moment da
 // TODO: go - I guess?
 
-// TODO: this hashing function https://youtu.be/WqVwQBXLwE0
 // TODO: setup cu fen, in features!!!!!!!!
 
 public class Main {

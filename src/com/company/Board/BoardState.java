@@ -65,7 +65,7 @@ public class BoardState {
 	se vede ca un numar de 4 biti
 	daca bitul e setat inseamna ca se poate
 	*/
-	public char castlePermision[] = {0,0,0,0};
+	public int castlePermision[] = {0,0,0,0};
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
 	public MoveHistory istoric[] = new MoveHistory[10];

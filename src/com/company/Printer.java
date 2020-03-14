@@ -24,11 +24,14 @@ public class Printer {
             System.out.print(currentChar + " ");
         }
     }
-
-    public static void print() {
+	
+	/**
+	 * print boardstate, all info
+	 */
+	public static void print() {
     	BoardState board = BoardState.getInstance();
     	boolean print;
-
+		System.out.println("boardstate usor de citit: ");
         for (int i = 63; i >= 0; i--) {
             print = false;
 
@@ -100,6 +103,30 @@ public class Printer {
                 System.out.println();
             }
         }
+		System.out.println("Negru: ");
+        print(BoardState.getInstance().AllBlackPieces);
+		System.out.println("Alb: ");
+        print(BoardState.getInstance().AllWhitePieces);
+		System.out.println("Castleing:");
+		for (int i = 0; i < BoardState.getInstance().castlePermision.length; i++)
+		{
+			if(i == 0)
+			{
+				System.out.print("albRege " + BoardState.getInstance().castlePermision[i] + " ");
+			}
+			if(i == 1)
+			{
+				System.out.print("albRegina " + BoardState.getInstance().castlePermision[i] + " ");
+			}
+			if(i == 2)
+			{
+				System.out.print("negruRege " + BoardState.getInstance().castlePermision[i] + " ");
+			}
+			if(i == 3)
+			{
+				System.out.print("negruRegina " + BoardState.getInstance().castlePermision[i] + " ");
+			}
+		}
     }
 
     static void print(Bitboard b) {

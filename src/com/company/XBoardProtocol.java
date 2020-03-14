@@ -43,10 +43,16 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("debug")) {
+			/////////
+			Bitboard.initMasti();
+			database.numarDeMiscariFacute = 0;
+			Database.getInstance().initGame();
+			/////////
+			
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-			BoardHelpere.parseOpponentMove("usermove a6g5");
+			Printer.print();
 			return NEXT_INSTRUCTION;
 		}
 
