@@ -10,8 +10,8 @@ import com.company.Database;
 public class BoardCommands {
 	public static void initGame() {
 		Database.initializareArray();
-		BoardState.initializareValoarePiese();
 		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		BoardState.initializareValoarePiese();
 		Database.getInstance().engineColor = Database.getInstance().BLACK;
 		Database.getInstance().opponentColor = Database.getInstance().WHITE;
 		Database.getInstance().turn = Database.getInstance().WHITE;

@@ -1,6 +1,4 @@
 package com.company;
-
-
 import com.company.Board.*;
 
 /**
@@ -24,10 +22,6 @@ public class Database {
 	public int halfMoves = 0;
 	public int fullMoves = 0;
 
-	//TODO : ce plm e force mode fa?
-	// e in pzdm force mode al xboardului. citeste documentatia poate??
-	// sa nu fim pasivi agresivi se poate? zic doar. punct.
-	// sugi pula
 	public boolean forceMode = false;
     public boolean engineColor = BLACK;
     public boolean turn = WHITE; // al cui e randul
@@ -38,18 +32,10 @@ public class Database {
 		return SingletonHolder.INSTANTA_SINGLETON;
 	}
 
-	public void initGame() {
-		BoardHelpere.initializareArray();
-		BoardHelpere.initializareValoarePiese();
-		BoardHelpere.createBoardstateFromFEN("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR w KQkq - 0 1");
-		engineColor = BLACK;
-		opponentColor = WHITE;
-		turn = WHITE;
-		forceMode = false;
 	//rank = linie, file = coloana
 	//intoarce index pentru tabla de 120
 	public static int conversieRFla120(int rank, int file) {
-		return 21 + file + rank * 10;
+		return (21 + file + rank * 10);
 	}
 	//initializeaza cele 2 array-uri ca sa pot sa fac usor
 	//conversia intre cele 2 reprezentari.
