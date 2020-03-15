@@ -76,12 +76,12 @@ public class BoardState {
 	public static BoardState getInstance() {
 		if (instance == null) {
 			instance = new BoardState();
-			initializareValoarePiese();
+			getInstance().initializareValoarePiese();
 		}
 		return instance;
 	}
 
-	public static void initializareValoarePiese() {
+	public void initializareValoarePiese() {
 		instance.WhitePawns.valoare = 100;
 		instance.WhiteKnights.valoare = 325;
 		instance.WhiteBishops.valoare = 325;
