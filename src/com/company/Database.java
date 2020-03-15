@@ -6,6 +6,7 @@ import com.company.Board.*;
  * Pe langa asta, are si functii ajutatoare, de ex chestii legate de indecsii 64-120
  */
 
+//TODO sa schimb array64 si array120
 public class Database {
 	private Database() {} //singleton
 
@@ -57,13 +58,31 @@ public class Database {
 		}
 
 		//merge de la 0 la 63 si imi seteaza indecsi
-		int index = 0;
-		for (int i = 0; i < 8; i++) {
-			for (int j = 0; j < 8; j++) {
+		int index = 64;
+		for (int i = 8; i >= 0; i--) {
+			for (int j = 8; j >= 0; j--) {
 				int numarSecventa = conversieRFla120(i,j);
 				array64[index] = numarSecventa;
 				array120[numarSecventa] = index;
-				index++;
+				index--;
+			}
+		}
+		System.out.println("array64:");
+		for (int i = 0; i < 64; i++)
+		{
+			System.out.print(array64[i]);
+			if((i+1) % 8 == 0)
+			{
+				System.out.println();
+			}
+		}
+		System.out.println("array120:");
+		for (int i = 0; i < 120; i++)
+		{
+			System.out.print(array64[i]);
+			if((i+1) % 10 == 0)
+			{
+				System.out.println();
 			}
 		}
 	}
