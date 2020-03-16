@@ -53,9 +53,10 @@ public class XBoardProtocol {
 			database.numarDeMiscariFacute = 0;
 			BoardCommands.initGame();
 			/////////
-			System.out.println(BoardCommands.isSquareAttacked(4,4,true));
-			System.out.println(BoardCommands.isSquareAttacked(5,4,true));
-			System.out.println(BoardCommands.isSquareAttacked(5,4,false));
+			System.out.println(BoardCommands.isSquareAttacked(4,4,false));
+			System.out.println(BoardCommands.isSquareAttacked(5,5,true));
+			System.out.println(BoardCommands.isSquareAttacked(5,5,false));
+			System.out.println(BoardCommands.isSquareAttacked(5,3,true));
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi

@@ -58,32 +58,32 @@ public class Database {
 		}
 
 		//merge de la 0 la 63 si imi seteaza indecsi
-		int index = 64;
-		for (int i = 8; i >= 0; i--) {
-			for (int j = 8; j >= 0; j--) {
+		int index = 63;
+		for (int i = 7; i >= 0; i--) {
+			for (int j = 7; j >= 0; j--) {
 				int numarSecventa = conversieRFla120(i,j);
 				array64[index] = numarSecventa;
 				array120[numarSecventa] = index;
 				index--;
 			}
 		}
-		System.out.println("array64:");
-		for (int i = 0; i < 64; i++)
-		{
-			System.out.print(array64[i]);
-			if((i+1) % 8 == 0)
-			{
-				System.out.println();
-			}
-		}
-		System.out.println("array120:");
-		for (int i = 0; i < 120; i++)
-		{
-			System.out.print(array64[i]);
-			if((i+1) % 10 == 0)
-			{
-				System.out.println();
-			}
-		}
+//		System.out.println("array64:");
+//		for (int i = 0; i < 64; i++)
+//		{
+//			System.out.print(array64[i] + " ");
+//			if((i+1) % 8 == 0)
+//			{
+//				System.out.println();
+//			}
+//		}
+//		System.out.println("array120:");
+//		for (int i = 0; i < 120; i++)
+//		{
+//			System.out.print(array120[i] + " ");
+//			if((i+1) % 10 == 0)
+//			{
+//				System.out.println();
+//			}
+//		}
 	}
 }

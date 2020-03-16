@@ -10,7 +10,7 @@ import com.company.Database;
 public class BoardCommands {
 	public static void initGame() {
 		Database.initializareArray();
-		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		BoardCommands.createBoardstateFromFEN("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1 ");
 		Database.getInstance().engineColor = Database.getInstance().BLACK;
 		Database.getInstance().opponentColor = Database.getInstance().WHITE;
 		Database.getInstance().turn = Database.getInstance().WHITE;
@@ -41,21 +41,39 @@ public class BoardCommands {
 	}
 
 	//WHITE = true, BLACK = false
-	public static boolean isSquareAttacked(int file, int rank, boolean side)
+	public static boolean isSquareAttacked(int rank, int file, boolean side)
 	{
+		System.out.print("e pozitia " + rank + " " + file + " atacata de ");
+		if(side)
+		{
+			System.out.print("alb? ");
+		}
+		else
+		{
+			System.out.print("negru? ");
+		}
+		rank--;
+		file--;
 		BoardState board = BoardState.getInstance();
 		Database database = Database.getInstance();
 		int pozitie = Database.conversieRFla120(rank, file);
-		pozitie = Database.conversie120la64(pozitie);
-		System.out.println("verific pentru pozitia " + pozitie);
+		System.out.print("adica numarul " + Database.conversie120la64(pozitie) + " ");
 		int directie;
-
+		
+		int count = 0;
+		
+		int pionAtacDreaptaNegru = Database.conversie120la64(pozitie - 11);
+		int pionAtacStangaNegru = Database.conversie120la64(pozitie - 9);;
+		int pionAtacDreaptaAlb = Database.conversie120la64(pozitie + 11);;
+		int pionAtacStangaAlb = Database.conversie120la64(pozitie + 9);;
 		if (side == database.WHITE) {
-			if (board.WhitePawns.isBitSet(pozitie-11) || board.WhitePawns.isBitSet(pozitie-9)) {
+			if (board.WhitePawns.isBitSet(pionAtacDreaptaNegru) ||
+					board.WhitePawns.isBitSet(pionAtacStangaNegru)) {
 				return true;
 			}
 		} else {
-			if (board.BlackPawns.isBitSet(pozitie+11) || board.BlackPawns.isBitSet(pozitie+9)) {
+			if (board.BlackPawns.isBitSet(pionAtacDreaptaAlb) ||
+					board.BlackPawns.isBitSet(pionAtacStangaAlb)) {
 				return true;
 			}
 		}
