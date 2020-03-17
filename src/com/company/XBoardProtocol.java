@@ -104,7 +104,8 @@ public class XBoardProtocol {
 
 		if (buffer.contains("go")) {
 			database.forceMode = false;
-			// TODO side to move
+			database.engineColor = database.turn;
+			database.opponentColor = !database.engineColor;
 			int sursa = 0;
 			int dest = 0;
 			BoardCommands.MoveToIndexes verificare = new BoardCommands.MoveToIndexes(move.toString(), sursa, dest).invoke();
@@ -115,6 +116,7 @@ public class XBoardProtocol {
 
 		if (buffer.contains("usermove")) {
 			BoardCommands.parseOpponentMove(buffer);
+			database.turn = database.engineColor;
 
 			if (database.DEBUG) {
 				Printer.print();
@@ -129,6 +131,8 @@ public class XBoardProtocol {
 
 				makeHardcodedMove(sursa, dest);
 			}
+
+			database.turn = database.opponentColor;
 
 			if (database.DEBUG) {
 				Printer.print();
