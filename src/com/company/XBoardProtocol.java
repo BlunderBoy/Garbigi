@@ -105,6 +105,11 @@ public class XBoardProtocol {
 		if (buffer.contains("go")) {
 			database.forceMode = false;
 			database.engineColor = database.turn;
+
+			if (database.engineColor == database.WHITE) {
+				move = new StringBuilder("d2d3");
+			}
+
 			database.opponentColor = !database.engineColor;
 			int sursa = 0;
 			int dest = 0;
