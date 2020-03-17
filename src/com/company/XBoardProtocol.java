@@ -53,13 +53,16 @@ public class XBoardProtocol {
 			database.numarDeMiscariFacute = 0;
 			BoardCommands.initGame();
 			/////////
-			System.out.println(BoardCommands.isSquareAttacked(4,4,false));
-			System.out.println(BoardCommands.isSquareAttacked(5,5,true));
-			System.out.println(BoardCommands.isSquareAttacked(5,5,false));
-			System.out.println(BoardCommands.isSquareAttacked(5,3,true));
+
+			//System.out.println(BoardCommands.isSquareAttacked(4,4,false));
+			//System.out.println(BoardCommands.isSquareAttacked(5,5,true));
+			//System.out.println(BoardCommands.isSquareAttacked(5,5,false));
+			//System.out.println(BoardCommands.isSquareAttacked(5,3,true));
+
 			//DEBUG pentru consola
 			System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
+
 			Printer.print();
 			return NEXT_INSTRUCTION;
 		}
@@ -94,7 +97,10 @@ public class XBoardProtocol {
 		if (buffer.contains("computer")) { return NEXT_INSTRUCTION; }
 		
 		if (buffer.contains("usermove") || buffer.contains("go")) {
-			if(database.forceMode) {
+			BoardCommands.parseOpponentMove(buffer);
+			Printer.print();
+			// TODO o problema in blocul asta de cod comentat: nu avem return daca este in force mode..
+			/*if(database.forceMode) {
 				BoardCommands.parseOpponentMove(buffer);
 			} else {
 				if (database.engineColor == database.WHITE) {
@@ -120,7 +126,7 @@ public class XBoardProtocol {
 				}
 				database.numarDeMiscariFacute++;
 			return NEXT_INSTRUCTION;
-			}
+			}*/
 		}
 
 		if ("quit".equals(buffer)) {

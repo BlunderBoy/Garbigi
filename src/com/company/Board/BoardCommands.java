@@ -2,6 +2,8 @@ package com.company.Board;
 
 import com.company.Database;
 
+import javax.xml.crypto.Data;
+
 /**
  * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
  * crearea unui board dintr-un fen, actualizarea board-ului cand primesti/faci o mutare (soon)
@@ -10,7 +12,7 @@ import com.company.Database;
 public class BoardCommands {
 	public static void initGame() {
 		Database.initializareArray();
-		BoardCommands.createBoardstateFromFEN("rnbqkbnr/ppp1pppp/8/3p4/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1 ");
+		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 		Database.getInstance().engineColor = Database.getInstance().BLACK;
 		Database.getInstance().opponentColor = Database.getInstance().WHITE;
 		Database.getInstance().turn = Database.getInstance().WHITE;
@@ -41,8 +43,7 @@ public class BoardCommands {
 	}
 
 	//WHITE = true, BLACK = false
-	public static boolean isSquareAttacked(int rank, int file, boolean side)
-	{
+	public static boolean isSquareAttacked(int rank, int file, boolean side) {
 		System.out.print("e pozitia " + rank + " " + file + " atacata de ");
 		if(side)
 		{
@@ -80,8 +81,7 @@ public class BoardCommands {
 		return false;
 	}
 
-	private static void castlingPermissions(String[] tokens)
-	{
+	private static void castlingPermissions(String[] tokens) {
 		if(tokens[2].contains("K"))
 		{
 			BoardState.getInstance().castlePermision[0] = 1;
@@ -100,8 +100,7 @@ public class BoardCommands {
 		}
 	}
 
-	private static void populareBiboards(int index, BoardState board, String token)
-	{
+	private static void populareBiboards(int index, BoardState board, String token) {
 		char currentChar;
 		for (int i = 0; i < token.length(); i++) {
 			currentChar = token.charAt(i);
@@ -196,9 +195,11 @@ public class BoardCommands {
 	// TODO mare todo ce e aici smr
 	// TODO maybe ar trebui mutat in XBoardProtocol??
 	public static int parseOpponentMove(String command) {
+		Database data =  Database.getInstance();
+		BoardState board = BoardState.getInstance();
 		String[] tokens = command.split(" ");
 		String move = tokens[1];
-		// TODO maybe check if move is legal??
+		// TODO maybe check if move is legal?? pt pawns
 		// TODO castling
 		int sourceIndex = 0;
 		int destIndex = 0;
@@ -207,33 +208,136 @@ public class BoardCommands {
 		sourceIndex = moveToIndexes.getSourceIndex();
 		destIndex = moveToIndexes.getDestIndex();
 
+		// astea-s comentarii inutile pt mine btw, ignora-le
 		// verifica daca piesa de la source este a celui care trb sa mute
 		// verifica daca exista spatiu unde sa o mute sau daca captureaza piesa
 		// actualizeaza bitboards
 
-		int indexToCheck = 0;
+		// shelved for the moment
+		// aparent e mai "comod" sa verifici de FIECARE data FIECARE piesa...
+		// daca avem probleme de viteza... AICI trebuie optimizat
+		// + toate chestiile care au... 12 blocuri de cod duplicat
+		// poate sa insistam pe ideea mea de common arrays?
+
+		/*int indexToCheck = 0;
 		if (Database.getInstance().turn == Database.getInstance().BLACK) {
 			indexToCheck = 1;
+		}*/
+
+		char pieceType = getPieceType(sourceIndex);
+
+		if (pieceType == 0) {
+			return -1;
+		}
+
+		switch (pieceType) {
+			case 'P':
+				System.out.println("White pawn.");
+				if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
+					updateBitboard(sourceIndex, destIndex, board.WhitePawns);
+				}
+				break;
+			case 'p':
+				System.out.println("Black pawn.");
+				if (isPawnMoveLegal(sourceIndex, destIndex, data.BLACK)) {
+					updateBitboard(sourceIndex, destIndex, board.BlackPawns);
+				}
+				break;
+			case 'R':
+				System.out.println("White rook.");
+				break;
+			case 'r':
+				System.out.println("Black rook.");
+				break;
+			case 'N':
+				System.out.println("White knight.");
+				break;
+			case 'n':
+				System.out.println("Black knight.");
+				break;
+			case 'B':
+				System.out.println("White bishop.");
+				break;
+			case 'b':
+				System.out.println("Black bishop.");
+				break;
+			case 'Q':
+				System.out.println("White queen.");
+				break;
+			case 'q':
+				System.out.println("Black queen.");
+				break;
+			case 'K':
+				System.out.println("White king.");
+				break;
+			case 'k':
+				System.out.println("Black king.");
+				break;
+			default:
+				System.out.println("you did smth wrong");
 		}
 
 		if (Database.getInstance().DEBUG) {
 				System.out.println("move: " + command + "source index: " + sourceIndex + ", dest index: " + destIndex);
 		}
 
-		return 0;
+		return -1; // illegal move
 	}
 
-	private static void updateBitboard(int sourceIndex, int destIndex, Bitboard bitboard) {
-		// TODO capturari
-		bitboard.clearBit(sourceIndex);
-		bitboard.setBit(destIndex);
+	// cu capturari
+	private static void updateBitboard(int sourceIndex, int destIndex, Bitboard source) {
+		source.clearBit(sourceIndex);
+		source.setBit(destIndex);
+
+		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
+		if (dest == null) {
+			System.out.println("this should NOT reach this.");
+			return;
+		}
+		System.out.println("apparently am pisea asta: " + getPieceType(destIndex));
+		// daca a ajuns aici, clar avem destinatie, deci capturare
+		dest.clearBit(destIndex);
+
+	}
+
+	private static Bitboard getBitboardFromType (char type) {
+		BoardState board = BoardState.getInstance();
+		switch (type) {
+			case 'P':
+				return board.WhitePawns;
+			case 'p':
+				return board.BlackPawns;
+			case 'R':
+				return board.WhiteRooks;
+			case 'r':
+				return board.BlackRooks;
+			case 'N':
+				return board.WhiteKnights;
+			case 'n':
+				return board.BlackKnights;
+			case 'B':
+				return board.WhiteBishops;
+			case 'b':
+				return board.BlackBishops;
+			case 'Q':
+				return board.WhiteQueens;
+			case 'q':
+				return board.BlackQueens;
+			case 'K':
+				return board.WhiteKing;
+			case 'k':
+				return board.BlackKing;
+			default:
+				return null;
+		}
 	}
 
 	private static char getPieceType (int index) {
-		if (BoardState.getInstance().Pawns[0].isBitSet(index)) {
+		System.out.println("Checking index " + index);
+		if (BoardState.getInstance().WhitePawns.isBitSet(index)) {
 			return 'P';
 		}
-		if (BoardState.getInstance().Pawns[1].isBitSet(index)) {
+		if (BoardState.getInstance().BlackPawns.isBitSet(index)) {
 			return 'p';
 		}
 		if (BoardState.getInstance().Rooks[0].isBitSet(index)) {
@@ -270,27 +374,68 @@ public class BoardCommands {
 	}
 
 	// TODO
-	private static boolean isPawnMoveLegal (int source, int dest) {
+	private static boolean isPawnMoveLegal (int source, int dest, boolean side) {
+		Database data = Database.getInstance();
+		BoardState board = BoardState.getInstance();
+		if (side == data.WHITE) {
+			// daca avem double move
+			if (source < 16 && source > 7 && dest == (source + 16)) {
+				System.out.println("legal 2 square move");
+				// TODO en passant
+				return true;
+			}
+			// daca avem miscare normala in fata
+			if (dest == (source + 8)) {
+				System.out.println("legal 1 sq move");
+				return true;
+			}
+			// daca avem capturare
+			if ((dest == (source + 9) || dest == (source + 7)) && board.BlackPawns.isBitSet(dest)) {
+				// miscare legala de capturare
+				System.out.println("capturare");
+			}
+			return false;
+		}
+
+		if (side == data.BLACK) {
+			// daca avem double move
+			if (source < 56 && source > 47 && dest == (source - 16)) {
+				System.out.println("legal 2 square move");
+				// TODO en passant
+				return true;
+			}
+			// daca avem miscare normala in fata
+			if (dest == (source - 8)) {
+				System.out.println("legal 1 sq move");
+				return true;
+			}
+			// daca avem capturare
+			if ((dest == (source - 9) || dest == (source - 7)) && board.WhitePawns.isBitSet(dest)) {
+				// miscare legala de capturare
+				System.out.println("capturare");
+			}
+			return false;
+		}
+		return false;
+	}
+
+	private static boolean isRookMoveLegal (int source, int dest, boolean side) {
 		return true;
 	}
 
-	private static boolean isRookMoveLegal (int source, int dest) {
+	private static boolean isKnightMoveLegal (int source, int dest, boolean side) {
 		return true;
 	}
 
-	private static boolean isKnightMoveLegal (int source, int dest) {
+	private static boolean isBishopMoveLegal (int source, int dest, boolean side) {
 		return true;
 	}
 
-	private static boolean isBishopMoveLegal (int source, int dest) {
+	private static boolean isQueenMoveLegal (int source, int dest, boolean side) {
 		return true;
 	}
 
-	private static boolean isQueenMoveLegal (int source, int dest) {
-		return true;
-	}
-
-	private static boolean isKingMoveLegal (int source, int dest) {
+	private static boolean isKingMoveLegal (int source, int dest, boolean side) {
 		return true;
 	}
 

@@ -107,7 +107,7 @@ public class Printer {
                 System.out.println();
             }
         }
-		System.out.println("Negru: ");
+		/*System.out.println("Negru: ");
         print(BoardState.getInstance().AllBlackPieces);
 		System.out.println("Alb: ");
         print(BoardState.getInstance().AllWhitePieces);
@@ -130,7 +130,7 @@ public class Printer {
 			{
 				System.out.print("negruRegina " + BoardState.getInstance().castlePermision[i] + " ");
 			}
-		}
+		}*/
     }
 
     static void print(Bitboard b) {
