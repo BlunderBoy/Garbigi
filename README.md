@@ -65,3 +65,10 @@ Feature :
  - reuse = 0, xboard deschide o instanta noua a programului la fiecare new (
  probabil nu o sa folosim reuse in build-ul final)
  - time = 0, urmeaza sa fie implementat, momentan nu avem treaba cu timpul
+ 
+ Build and run :
+ ======
+ 
+ - make build (pentru a crea jar-ul si a compila codul sursa)
+ - xboard -cp -fcp "make run" (pentru a rula xboard cu enginul nostru)
+ - make clean pentru a sterge jar-ul si pentru a putea recompila sursele
