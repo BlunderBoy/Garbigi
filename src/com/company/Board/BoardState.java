@@ -97,6 +97,16 @@ public class BoardState {
 		instance.BlackKing.valoare = 50000;
 	}
 
+	public void updateBitboards() {
+		AllBlackPieces.reprezentare = BlackPawns.reprezentare | BlackBishops.reprezentare | BlackRooks.reprezentare |
+									  BlackKnights.reprezentare | BlackKing.reprezentare | BlackQueens.reprezentare;
+
+		AllWhitePieces.reprezentare = WhitePawns.reprezentare | WhiteBishops.reprezentare | WhiteRooks.reprezentare |
+									  WhiteKnights.reprezentare | WhiteKing.reprezentare | WhiteQueens.reprezentare;
+
+		AllPieces.reprezentare = AllBlackPieces.reprezentare | AllWhitePieces.reprezentare;
+	}
+
 	public void resetBoard() {
 		for (Bitboard b : allBitboards) {
 			b.resetBitboard();

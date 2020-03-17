@@ -2,8 +2,6 @@ package com.company.Board;
 
 import com.company.Database;
 
-import javax.xml.crypto.Data;
-
 /**
  * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
  * crearea unui board dintr-un fen, actualizarea board-ului cand primesti/faci o mutare (soon)
@@ -52,16 +50,16 @@ public class BoardCommands {
 	}
 
 	//WHITE = true, BLACK = false
+	// verifica daca piesele de pe SIDE ataca square-ul dat
 	public static boolean isSquareAttacked(int rank, int file, boolean side) {
 		System.out.print("e pozitia " + rank + " " + file + " atacata de ");
-		if(side)
-		{
+
+		if(side) {
 			System.out.print("alb? ");
-		}
-		else
-		{
+		} else {
 			System.out.print("negru? ");
 		}
+
 		rank--;
 		file--;
 		BoardState board = BoardState.getInstance();
@@ -73,9 +71,10 @@ public class BoardCommands {
 		int count = 0;
 		
 		int pionAtacDreaptaNegru = Database.conversie120la64(pozitie - 11);
-		int pionAtacStangaNegru = Database.conversie120la64(pozitie - 9);;
-		int pionAtacDreaptaAlb = Database.conversie120la64(pozitie + 11);;
-		int pionAtacStangaAlb = Database.conversie120la64(pozitie + 9);;
+		int pionAtacStangaNegru = Database.conversie120la64(pozitie - 9);
+		int pionAtacDreaptaAlb = Database.conversie120la64(pozitie + 11);
+		int pionAtacStangaAlb = Database.conversie120la64(pozitie + 9);
+
 		if (side == database.WHITE) {
 			if (board.WhitePawns.isBitSet(pionAtacDreaptaNegru) ||
 					board.WhitePawns.isBitSet(pionAtacStangaNegru)) {
@@ -201,13 +200,26 @@ public class BoardCommands {
 		}
 	}
 
+	/*public static int makeMove(String hardcodedmove) {
+
+
+		if (sourceIndex < 0 || sourceIndex > 63 || destIndex < 0 || destIndex > 63) {
+			System.out.println("Illegal move, wrong index you dumbass");
+			return -69;
+		}
+
+		return -1;
+	}*/
+
 	// TODO mare todo ce e aici smr
 	// TODO maybe ar trebui mutat in XBoardProtocol??
 	public static int parseOpponentMove(String command) {
 		Database data =  Database.getInstance();
 		BoardState board = BoardState.getInstance();
+
 		String[] tokens = command.split(" ");
 		String move = tokens[1];
+
 		// TODO maybe check if move is legal?? pt pawns
 		// TODO castling
 		int sourceIndex = 0;
@@ -216,6 +228,11 @@ public class BoardCommands {
 		MoveToIndexes moveToIndexes = new MoveToIndexes(move, sourceIndex, destIndex).invoke();
 		sourceIndex = moveToIndexes.getSourceIndex();
 		destIndex = moveToIndexes.getDestIndex();
+
+		if (sourceIndex < 0 || sourceIndex > 63 || destIndex < 0 || destIndex > 63) {
+			System.out.println("Illegal move, wrong index you dumbass");
+			return -69;
+		}
 
 		// astea-s comentarii inutile pt mine btw, ignora-le
 		// verifica daca piesa de la source este a celui care trb sa mute
@@ -241,49 +258,62 @@ public class BoardCommands {
 
 		switch (pieceType) {
 			case 'P':
-				System.out.println("White pawn.");
+				if (data.DEBUG)
+					System.out.println("White pawn.");
 				if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.WhitePawns);
 				}
 				break;
 			case 'p':
-				System.out.println("Black pawn.");
+				if (data.DEBUG)
+					System.out.println("Black pawn.");
 				if (isPawnMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.BlackPawns);
 				}
 				break;
 			case 'R':
-				System.out.println("White rook.");
+				if (data.DEBUG)
+					System.out.println("White rook.");
 				break;
 			case 'r':
-				System.out.println("Black rook.");
+				if (data.DEBUG)
+					System.out.println("Black rook.");
 				break;
 			case 'N':
-				System.out.println("White knight.");
+				if (data.DEBUG)
+					System.out.println("White knight.");
 				break;
 			case 'n':
-				System.out.println("Black knight.");
+				if (data.DEBUG)
+					System.out.println("Black knight.");
 				break;
 			case 'B':
-				System.out.println("White bishop.");
+				if (data.DEBUG)
+					System.out.println("White bishop.");
 				break;
 			case 'b':
-				System.out.println("Black bishop.");
+				if (data.DEBUG)
+					System.out.println("Black bishop.");
 				break;
 			case 'Q':
-				System.out.println("White queen.");
+				if (data.DEBUG)
+					System.out.println("White queen.");
 				break;
 			case 'q':
-				System.out.println("Black queen.");
+				if (data.DEBUG)
+					System.out.println("Black queen.");
 				break;
 			case 'K':
-				System.out.println("White king.");
+				if (data.DEBUG)
+					System.out.println("White king.");
 				break;
 			case 'k':
-				System.out.println("Black king.");
+				if (data.DEBUG)
+					System.out.println("Black king.");
 				break;
 			default:
-				System.out.println("you did smth wrong");
+				if (data.DEBUG)
+					System.out.println("you did smth wrong");
 		}
 
 		if (Database.getInstance().DEBUG) {
@@ -294,18 +324,23 @@ public class BoardCommands {
 	}
 
 	// cu capturari
-	private static void updateBitboard(int sourceIndex, int destIndex, Bitboard source) {
+	public static void updateBitboard(int sourceIndex, int destIndex, Bitboard source) {
+		// verificam LA INCEPUT daca avem capturare
+		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
+
+		if (dest != null) {
+			if (Database.getInstance().DEBUG)
+				System.out.println("avem capturare");
+			dest.clearBit(destIndex);
+		} else {
+			if (Database.getInstance().DEBUG)
+				System.out.println("nu avem capturare");
+		}
+
 		source.clearBit(sourceIndex);
 		source.setBit(destIndex);
 
-		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
-		if (dest == null) {
-			System.out.println("this should NOT reach this.");
-			return;
-		}
-		System.out.println("apparently am pisea asta: " + getPieceType(destIndex));
-		// daca a ajuns aici, clar avem destinatie, deci capturare
-		//dest.clearBit(destIndex);
+		BoardState.getInstance().updateBitboards();
 	}
 
 	private static Bitboard getBitboardFromType (char type) {
@@ -341,7 +376,6 @@ public class BoardCommands {
 	}
 
 	private static char getPieceType (int index) {
-		System.out.println("Checking index " + index);
 		if (BoardState.getInstance().WhitePawns.isBitSet(index)) {
 			return 'P';
 		}
@@ -381,47 +415,80 @@ public class BoardCommands {
 		return 0;
 	}
 
-	// TODO
-	private static boolean isPawnMoveLegal (int source, int dest, boolean side) {
+	// TODO finished I guess??
+	public static boolean isPawnMoveLegal (int source, int dest, boolean side) {
 		Database data = Database.getInstance();
 		BoardState board = BoardState.getInstance();
+
+		int indexToCheck = 0;
+		if (side == data.BLACK) {
+			indexToCheck = 1;
+		}
+
+		if (!BoardState.getInstance().Pawns[indexToCheck].isBitSet(source)) {
+			System.out.println("# Illegal move, no source");
+			return false;
+		}
+
 		if (side == data.WHITE) {
 			// daca avem double move
 			if (source < 16 && source > 7 && dest == (source + 16)) {
-				System.out.println("legal 2 square move");
+				if (Database.getInstance().DEBUG)
+					System.out.println("legal 2 square move");
 				// TODO en passant
 				return true;
 			}
 			// daca avem miscare normala in fata
 			if (dest == (source + 8)) {
-				System.out.println("legal 1 sq move");
-				return true;
+				if (getBitboardFromType(getPieceType(dest)) == null) {
+					if (Database.getInstance().DEBUG)
+						System.out.println("legal 1 sq move");
+					return true;
+				} else {
+					if (Database.getInstance().DEBUG)
+						System.out.println("avem piesa in fata noastra");
+				}
 			}
 			// daca avem capturare
-			if ((dest == (source + 9) || dest == (source + 7)) && board.BlackPawns.isBitSet(dest)) {
+			if ((dest == (source + 9) || dest == (source + 7)) && board.AllBlackPieces.isBitSet(dest)) {
 				// miscare legala de capturare
-				System.out.println("capturare");
+				if (Database.getInstance().DEBUG)
+					System.out.println("capturare");
+				return true;
 			}
+			if (Database.getInstance().DEBUG)
+				System.out.println("this shouldn't happen yet");
 			return false;
 		}
 
 		if (side == data.BLACK) {
 			// daca avem double move
 			if (source < 56 && source > 47 && dest == (source - 16)) {
-				System.out.println("legal 2 square move");
+				if (Database.getInstance().DEBUG)
+					System.out.println("legal 2 square move");
 				// TODO en passant
 				return true;
 			}
 			// daca avem miscare normala in fata
 			if (dest == (source - 8)) {
-				System.out.println("legal 1 sq move");
-				return true;
+				if (getBitboardFromType(getPieceType(dest)) == null) {
+					if (Database.getInstance().DEBUG)
+						System.out.println("legal 1 sq move");
+					return true;
+				} else {
+					if (Database.getInstance().DEBUG)
+						System.out.println("avem piesa in fata noastra");
+				}
 			}
 			// daca avem capturare
-			if ((dest == (source - 9) || dest == (source - 7)) && board.WhitePawns.isBitSet(dest)) {
+			if ((dest == (source - 9) || dest == (source - 7)) && board.AllWhitePieces.isBitSet(dest)) {
 				// miscare legala de capturare
-				System.out.println("capturare");
+				if (Database.getInstance().DEBUG)
+					System.out.println("capturare");
+				return true;
 			}
+			if (Database.getInstance().DEBUG)
+				System.out.println("this shouldn't happen yet");
 			return false;
 		}
 		return false;
@@ -450,7 +517,7 @@ public class BoardCommands {
 	/**
 	 * Face conversia de la "usermove plm" la indexuri (pt board-ul reprezentat pe 64)
 	 */
-	private static class MoveToIndexes {
+	public static class MoveToIndexes {
 		private String move;
 		private int sourceIndex;
 		private int destIndex;

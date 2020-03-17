@@ -23,7 +23,6 @@ public class Bitboard {
 			shifter <<= 1;
 		}
 	}
-	
 
 	public Bitboard() {
 		reprezentare = 0;

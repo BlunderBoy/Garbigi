@@ -11,11 +11,13 @@ public class XBoardProtocol {
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
 	private static final String numeEngine = "Neintitulat";
+	StringBuilder move = new StringBuilder("c7c6"); // default pt negru
 
 	void printOptiuniInitiale() {
 		System.out.println("feature ping=0 usermove=1 time=0 myname=\"" + numeEngine +"\" sigterm=0 sigint=0 reuse=0");
-		System.out.println("feature done=1");
+		//System.out.println("feature done=1");
 	}
+
 	int parseInput(String buffer) {
 		Database database = Database.getInstance();
 
@@ -32,18 +34,20 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("white")) {
-			System.out.println("# JOC PE NEGRU");
+			System.out.println("# am primit white, joc pe alb");
 			database.turn = database.WHITE;
-            database.engineColor = database.WHITE;
-            database.opponentColor = database.BLACK;
+			database.engineColor = database.WHITE;
+			database.opponentColor = database.BLACK;
+			move = new StringBuilder("d2d3");
 			return NEXT_INSTRUCTION;
 		}
 
 		if (buffer.contains("black")) {
-			System.out.println("# JOC PE ALB");
+			System.out.println("# am primit black, joc pe negru");
 			database.turn = database.BLACK;
-            database.engineColor = database.BLACK;
-            database.opponentColor = database.WHITE;
+			database.engineColor = database.BLACK;
+			database.opponentColor = database.WHITE;
+			move = new StringBuilder("c7c6");
 			return NEXT_INSTRUCTION;
 		}
 
@@ -53,6 +57,8 @@ public class XBoardProtocol {
 			database.numarDeMiscariFacute = 0;
 			BoardCommands.initGame();
 			/////////
+
+			//System.out.println(BoardCommands.isSquareAttacked(3,3,true));
 
 			//System.out.println(BoardCommands.isSquareAttacked(4,4,false));
 			//System.out.println(BoardCommands.isSquareAttacked(5,5,true));
@@ -93,41 +99,43 @@ public class XBoardProtocol {
 		if (buffer.contains("easy")) { return NEXT_INSTRUCTION; }
 
 		if (buffer.contains("result")) { return NEXT_INSTRUCTION; }
-		
+
 		if (buffer.contains("computer")) { return NEXT_INSTRUCTION; }
-		
-		if (buffer.contains("usermove") || buffer.contains("go")) {
+
+		if (buffer.contains("go")) {
+			database.forceMode = false;
+			// TODO side to move
+			int sursa = 0;
+			int dest = 0;
+			BoardCommands.MoveToIndexes verificare = new BoardCommands.MoveToIndexes(move.toString(), sursa, dest).invoke();
+			sursa = verificare.getSourceIndex();
+			dest = verificare.getDestIndex();
+			makeHardcodedMove(sursa, dest);
+		}
+
+		if (buffer.contains("usermove")) {
 			BoardCommands.parseOpponentMove(buffer);
-			Printer.print();
+
+			if (database.DEBUG) {
+				Printer.print();
+			}
+
+			if (!database.forceMode) {
+				int sursa = 0;
+				int dest = 0;
+				BoardCommands.MoveToIndexes verificare = new BoardCommands.MoveToIndexes(move.toString(), sursa, dest).invoke();
+				sursa = verificare.getSourceIndex();
+				dest = verificare.getDestIndex();
+
+				makeHardcodedMove(sursa, dest);
+			}
+
+			if (database.DEBUG) {
+				Printer.print();
+			}
+
+			//Printer.print();
 			return NEXT_INSTRUCTION;
-			// TODO o problema in blocul asta de cod comentat: nu avem return daca este in force mode..
-			/*if(database.forceMode) {
-				BoardCommands.parseOpponentMove(buffer);
-			} else {
-				if (database.engineColor == database.WHITE) {
-					if (database.numarDeMiscariFacute == 0) {
-						System.out.println("move h2h4");
-					} else if (database.numarDeMiscariFacute == 1) {
-						System.out.println("move h4h5");
-					} else if (database.numarDeMiscariFacute == 2) {
-						System.out.println("move h5h6");
-					} else {
-						System.out.println("resign");
-					}
-				} else {
-					if (database.numarDeMiscariFacute == 0) {
-						System.out.println("move c7c6");
-					} else if (database.numarDeMiscariFacute == 1) {
-						System.out.println("move b8a6");
-					} else if (database.numarDeMiscariFacute == 2) {
-						System.out.println("move d8c7");
-					} else {
-						System.out.println("resign");
-					}
-				}
-				database.numarDeMiscariFacute++;
-			return NEXT_INSTRUCTION;
-			}*/
 		}
 
 		if ("quit".equals(buffer)) {
@@ -136,5 +144,42 @@ public class XBoardProtocol {
 
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return NEXT_INSTRUCTION; //aia e
+	}
+
+	private void makeHardcodedMove(int sursa, int dest) {
+		Database database = Database.getInstance();
+
+		if (database.engineColor == database.WHITE) {
+			if (BoardCommands.isPawnMoveLegal(sursa, dest, database.engineColor)) {
+				System.out.println("move " + move);
+				System.out.println("# I did the move: " + move);
+				move.setCharAt(1, (char) (move.charAt(1) + 1));
+				move.setCharAt(3, (char) (move.charAt(3) + 1));
+				database.numarDeMiscariFacute++;
+				System.out.println("# new move: " + move);
+
+				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().WhitePawns);
+			} else {
+				System.out.println("# not legal????? resigning");
+				System.out.println("resign");
+			}
+		} else if (database.engineColor == database.BLACK) {
+			if (BoardCommands.isPawnMoveLegal(sursa, dest, database.engineColor)) {
+				System.out.println("move " + move);
+				System.out.println("# I did the move: " + move);
+				move.setCharAt(1, (char) (move.charAt(1) - 1));
+				move.setCharAt(3, (char) (move.charAt(3) - 1));
+				System.out.println("# new move: " + move);
+				database.numarDeMiscariFacute++;
+
+				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().BlackPawns);
+
+			} else {
+				System.out.println("# not legal????? resigning");
+				System.out.println("resign");
+			}
+		} else {
+			System.out.println("# force mode??");
+		}
 	}
 }
