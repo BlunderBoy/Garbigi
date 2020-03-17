@@ -99,6 +99,7 @@ public class XBoardProtocol {
 		if (buffer.contains("usermove") || buffer.contains("go")) {
 			BoardCommands.parseOpponentMove(buffer);
 			Printer.print();
+			return NEXT_INSTRUCTION;
 			// TODO o problema in blocul asta de cod comentat: nu avem return daca este in force mode..
 			/*if(database.forceMode) {
 				BoardCommands.parseOpponentMove(buffer);

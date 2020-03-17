@@ -18,6 +18,15 @@ public class BoardCommands {
 		Database.getInstance().turn = Database.getInstance().WHITE;
 		Database.getInstance().forceMode = false;
 	}
+	
+	public static void initGame(String fen) {
+		Database.initializareArray();
+		BoardCommands.createBoardstateFromFEN(fen);
+		Database.getInstance().engineColor = Database.getInstance().BLACK;
+		Database.getInstance().opponentColor = Database.getInstance().WHITE;
+		Database.getInstance().turn = Database.getInstance().WHITE;
+		Database.getInstance().forceMode = false;
+	}
 
 	public static void createBoardstateFromFEN(String fen) {
 		BoardState.getInstance().resetBoard();
@@ -278,7 +287,7 @@ public class BoardCommands {
 		}
 
 		if (Database.getInstance().DEBUG) {
-				System.out.println("move: " + command + "source index: " + sourceIndex + ", dest index: " + destIndex);
+				System.out.println("move: " + command + " source index: " + sourceIndex + ", dest index: " + destIndex);
 		}
 
 		return -1; // illegal move
@@ -296,8 +305,7 @@ public class BoardCommands {
 		}
 		System.out.println("apparently am pisea asta: " + getPieceType(destIndex));
 		// daca a ajuns aici, clar avem destinatie, deci capturare
-		dest.clearBit(destIndex);
-
+		//dest.clearBit(destIndex);
 	}
 
 	private static Bitboard getBitboardFromType (char type) {
