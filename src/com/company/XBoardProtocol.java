@@ -120,7 +120,11 @@ public class XBoardProtocol {
 		}
 
 		if (buffer.contains("usermove")) {
-			BoardCommands.parseOpponentMove(buffer);
+			int err = BoardCommands.parseOpponentMove(buffer);
+			if (err == -2) {
+				System.out.println("No source");
+				return NEXT_INSTRUCTION;
+			}
 			database.turn = database.engineColor;
 
 			if (database.DEBUG) {

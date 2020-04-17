@@ -253,7 +253,8 @@ public class BoardCommands {
 		char pieceType = getPieceType(sourceIndex);
 
 		if (pieceType == 0) {
-			return -1;
+			System.out.println("nu avem piesa in source");
+			return -2;
 		}
 
 		switch (pieceType) {
@@ -262,6 +263,8 @@ public class BoardCommands {
 					System.out.println("White pawn.");
 				if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.WhitePawns);
+				} else {
+					System.out.println("nu e legal");
 				}
 				break;
 			case 'p':
@@ -421,8 +424,21 @@ public class BoardCommands {
 		BoardState board = BoardState.getInstance();
 
 		int indexToCheck = 0;
+		int doubleMoveSize = 16;
+		int doubleMoveUpperBoundary = 16;
+		int doubleMoveLowerBoundary = 7;
+		int normalMoveSize = 8;
+		int captureMoveL = 9;
+		int captureMoveR = 7;
+		int modifier = 1; // unele indexe daca sunt side black, doar se fac cu -,
+					      // deci asta o sa fie -1 sau +1
+		Bitboard enemyPieces = board.AllBlackPieces;
 		if (side == data.BLACK) {
 			indexToCheck = 1;
+			doubleMoveUpperBoundary = 56;
+			doubleMoveLowerBoundary = 47;
+			modifier = -1;
+			enemyPieces = board.AllWhitePieces;
 		}
 
 		if (!BoardState.getInstance().Pawns[indexToCheck].isBitSet(source)) {
@@ -430,67 +446,37 @@ public class BoardCommands {
 			return false;
 		}
 
-		if (side == data.WHITE) {
-			// daca avem double move
-			if (source < 16 && source > 7 && dest == (source + 16)) {
+		// daca avem double move
+		if (source < doubleMoveUpperBoundary && source > doubleMoveLowerBoundary
+				&& dest == (source + modifier * doubleMoveSize)) {
+			if (Database.getInstance().DEBUG)
+				System.out.println("legal 2 square move");
+			// TODO en passant
+			return true;
+		}
+		// daca avem miscare normala in fata
+		if (dest == (source + modifier * normalMoveSize)) {
+			if (getBitboardFromType(getPieceType(dest)) == null) {
 				if (Database.getInstance().DEBUG)
-					System.out.println("legal 2 square move");
-				// TODO en passant
+					System.out.println("legal 1 sq move");
 				return true;
-			}
-			// daca avem miscare normala in fata
-			if (dest == (source + 8)) {
-				if (getBitboardFromType(getPieceType(dest)) == null) {
-					if (Database.getInstance().DEBUG)
-						System.out.println("legal 1 sq move");
-					return true;
-				} else {
-					if (Database.getInstance().DEBUG)
-						System.out.println("avem piesa in fata noastra");
+			} else {
+				if (Database.getInstance().DEBUG)
+					System.out.println("avem piesa in fata noastra");
 				}
 			}
-			// daca avem capturare
-			if ((dest == (source + 9) || dest == (source + 7)) && board.AllBlackPieces.isBitSet(dest)) {
-				// miscare legala de capturare
-				if (Database.getInstance().DEBUG)
-					System.out.println("capturare");
-				return true;
-			}
+		// daca avem capturare
+		if ((dest == (source + captureMoveL) || dest == (source + captureMoveR))
+				&& enemyPieces.isBitSet(dest)) {
+			// miscare legala de capturare
 			if (Database.getInstance().DEBUG)
-				System.out.println("this shouldn't happen yet");
-			return false;
+				System.out.println("capturare");
+			return true;
 		}
 
-		if (side == data.BLACK) {
-			// daca avem double move
-			if (source < 56 && source > 47 && dest == (source - 16)) {
-				if (Database.getInstance().DEBUG)
-					System.out.println("legal 2 square move");
-				// TODO en passant
-				return true;
-			}
-			// daca avem miscare normala in fata
-			if (dest == (source - 8)) {
-				if (getBitboardFromType(getPieceType(dest)) == null) {
-					if (Database.getInstance().DEBUG)
-						System.out.println("legal 1 sq move");
-					return true;
-				} else {
-					if (Database.getInstance().DEBUG)
-						System.out.println("avem piesa in fata noastra");
-				}
-			}
-			// daca avem capturare
-			if ((dest == (source - 9) || dest == (source - 7)) && board.AllWhitePieces.isBitSet(dest)) {
-				// miscare legala de capturare
-				if (Database.getInstance().DEBUG)
-					System.out.println("capturare");
-				return true;
-			}
-			if (Database.getInstance().DEBUG)
-				System.out.println("this shouldn't happen yet");
-			return false;
-		}
+		if (Database.getInstance().DEBUG)
+			System.out.println("this shouldn't happen yet");
+
 		return false;
 	}
 
