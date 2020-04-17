@@ -57,7 +57,7 @@ public class BoardCommands {
 		if(side) {
 			System.out.print("alb? ");
 		} else {
-			System.out.print("negru? ");
+			System.out.print("negru?");
 		}
 
 		rank--;
@@ -68,26 +68,106 @@ public class BoardCommands {
 		System.out.print("adica numarul " + Database.conversie120la64(pozitie) + " ");
 		int directie;
 		
-		int count = 0;
 		
+		//pioni
 		int pionAtacDreaptaNegru = Database.conversie120la64(pozitie - 11);
 		int pionAtacStangaNegru = Database.conversie120la64(pozitie - 9);
 		int pionAtacDreaptaAlb = Database.conversie120la64(pozitie + 11);
 		int pionAtacStangaAlb = Database.conversie120la64(pozitie + 9);
 
 		if (side == database.WHITE) {
-			if (board.WhitePawns.isBitSet(pionAtacDreaptaNegru) ||
-					board.WhitePawns.isBitSet(pionAtacStangaNegru)) {
+			if ((pionAtacDreaptaNegru != 65) && board.WhitePawns.isBitSet(pionAtacDreaptaNegru) ||
+				(pionAtacStangaNegru != 65) && board.WhitePawns.isBitSet(pionAtacStangaNegru)) {
 				return true;
 			}
 		} else {
-			if (board.BlackPawns.isBitSet(pionAtacDreaptaAlb) ||
-					board.BlackPawns.isBitSet(pionAtacStangaAlb)) {
+			if ((pionAtacDreaptaAlb != 65) && board.BlackPawns.isBitSet(pionAtacDreaptaAlb)||
+					(pionAtacStangaAlb != 65) && board.BlackPawns.isBitSet(pionAtacStangaAlb)) {
 				return true;
+			}
+		}
+		
+		//cal
+		final int[] directiiCal = new int[]{-8, -19, -21, -12, 8, 19, 21, 12};
+		for (int i = 0; i < 8; i++) {
+			int checker = Database.conversie120la64(pozitie + directiiCal[i]);
+			if(checker != 65) {
+				if (side == database.WHITE)
+					if (board.WhiteKnights.isBitSet(checker)) {
+						return true;
+					}
+				if (side == database.BLACK)
+					if (board.BlackKnights.isBitSet(checker)) {
+						return true;
+					}
+			}
+		}
+		//rege
+		final int[] directiiRege = new int[]{-1, -10, 1, 10, -9, -11, 11, 9};
+		for (int i = 0; i < 8; i++) {
+			int checker = Database.conversie120la64(pozitie + directiiRege[i]);
+			if(checker != 65) {
+				if (side == database.WHITE)
+					if (board.WhiteKing.isBitSet(checker)) {
+						return true;
+					}
+				if (side == database.BLACK)
+					if (board.BlackKing.isBitSet(checker)) {
+						return true;
+					}
+			}
+		}
+		//tura si regina
+		final int[] directiiTura = new int[]{-1, -10, 1, 10};
+		for (int i = 0; i < 4; i++) {
+			directie = directiiTura[i];
+			int checker = pozitie + directie;
+			while (Database.conversie120la64(checker) != 65) {
+				if (board.AllPieces.isBitSet(Database.conversie120la64(checker))) {
+					if (side == database.WHITE) {
+						if (board.WhiteRooks.isBitSet(Database.conversie120la64(checker)) ||
+							board.WhiteQueens.isBitSet(Database.conversie120la64(checker))) {
+							return true;
+						}
+					}
+					if (side == database.BLACK) {
+						if (board.BlackRooks.isBitSet(Database.conversie120la64(checker)) ||
+							board.BlackQueens.isBitSet(Database.conversie120la64(checker))) {
+							return true;
+						}
+					}
+					break;
+				}
+				checker += directie;
+			}
+		}
+		//nebun si regina
+		final int[] directiiNebun = new int[]{-1, -11, 11, 9};
+		for (int i = 0; i < 4; i++) {
+			directie = directiiNebun[i];
+			int checker = pozitie + directie;
+			while (Database.conversie120la64(checker) != 65) {
+				if (board.AllPieces.isBitSet(Database.conversie120la64(checker))) {
+					if (side == database.WHITE) {
+						if (board.WhiteBishops.isBitSet(Database.conversie120la64(checker)) ||
+							board.WhiteQueens.isBitSet(Database.conversie120la64(checker))) {
+							return true;
+						}
+					}
+					if (side == database.BLACK) {
+						if (board.BlackBishops.isBitSet(Database.conversie120la64(checker)) ||
+							board.BlackQueens.isBitSet(Database.conversie120la64(checker))) {
+							return true;
+						}
+					}
+					break;
+				}
+				checker += directie;
 			}
 		}
 		return false;
 	}
+
 
 	private static void castlingPermissions(String[] tokens) {
 		if(tokens[2].contains("K"))
