@@ -121,8 +121,9 @@ public class XBoardProtocol {
 
 		if (buffer.contains("usermove")) {
 			int err = BoardCommands.parseOpponentMove(buffer);
-			if (err == -2) {
-				System.out.println("No source");
+			if (err < 0) {
+				if (database.DEBUG)
+					System.out.println("Illegal move boss");
 				return NEXT_INSTRUCTION;
 			}
 			database.turn = database.engineColor;
