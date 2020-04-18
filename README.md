@@ -1,7 +1,7 @@
   Inainte de toate am ales Java pentru familiaritate si pentru usurinta de 
 a folosi un limbaj orientat pe obiect intr-un proiect asa de mare.
 
-Reprezentarea interna a mutarilor :
+Reprezentarea interna a mutarilor:
 ======
 
 Am pornit de la idea ca vom reprezenta harta de sah cu numere pe 64 de biti
