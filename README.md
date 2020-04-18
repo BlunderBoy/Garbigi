@@ -40,10 +40,12 @@ BoardState la o rulare a unui meci de sah.
  - Bitboard-urile sunt generate din FEN-uri (notatii standard pentru sah), 
 putem introduce orice FEN la functia init game si se va porni jocul dintr-o 
 pozitie predefinita de FEN. Daca functia nu este apelata cu FEN aceasta va
-folosi FEN-ul care codifica inceputul meciului: 
+folosi FEN-ul care codifica inceputul meciului:
+<p style="text-align: center;">
 ```
-                       rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
 ```
+ </p>
 
 Parsarea si interpretarea comenzilor :
 ======
