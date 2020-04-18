@@ -51,7 +51,7 @@ rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
 
 
 
-Parsarea si interpretarea comenzilor :
+Parsarea si interpretarea comenzilor:
 ======
 
  - Comenzile sunt citite de la stdin intr-un loop infinit, singurul break
@@ -64,7 +64,7 @@ informatii si metode care nu tin de starea pieselor ci de starea jocului(cine
 e la mutare, cate mutari s-au facut, cine urmeaza sa mute, ce culoare joaca
 engine-ul etc.)
 
-Feature :
+Feature:
 ======
 
  - usermove = 0, pentru a fi mai usor de parsat usermove
@@ -73,7 +73,7 @@ Feature :
  probabil nu o sa folosim reuse in build-ul final)
  - time = 0, urmeaza sa fie implementat, momentan nu avem treaba cu timpul
  
- Build and run :
+ Build and run:
  ======
  - xboard -fcp "java -jar hopefully.jar" -debug -nameOfDebugFile "plm.txt" (pentru noi cand suntem prosti si uitam)
  - make build (pentru a crea jar-ul si a compila codul sursa)
