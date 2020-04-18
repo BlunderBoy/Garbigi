@@ -42,9 +42,10 @@ putem introduce orice FEN la functia init game si se va porni jocul dintr-o
 pozitie predefinita de FEN. Daca functia nu este apelata cu FEN aceasta va
 folosi FEN-ul care codifica inceputul meciului:
 
-```
-                                        rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
-```
+<p align="center">
+rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
+</p>
+
 
 
 Parsarea si interpretarea comenzilor :
