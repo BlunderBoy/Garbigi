@@ -68,7 +68,7 @@ Feature :
  
  Build and run :
  ======
- 
+ - xboard -fcp "java -jar hopefully.jar" -debug -nameOfDebugFile "plm.txt" (pentru noi cand suntem prosti si uitam)
  - make build (pentru a crea jar-ul si a compila codul sursa)
  - xboard -cp -fcp "make run" (pentru a rula xboard cu enginul nostru)
  - make clean pentru a sterge jar-ul si pentru a putea recompila sursele
