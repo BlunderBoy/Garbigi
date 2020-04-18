@@ -20,18 +20,19 @@ public class XBoardProtocol {
 		//System.out.println("feature done=1");
 	}
 
-	int parseInput(String buffer) {
+	int parseInput(String buffer) throws CloneNotSupportedException
+	{
 		Database database = Database.getInstance();
 
 		if (buffer.contains("debug")) {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("7q/6P1/8/8/8/8/8/8 w KQkq - 0 1");
+			BoardCommands.initGame("8/8/8/8/8/8/6p1/5B2 w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
 			
-			movegen.generatePawnMoves(true);
+			movegen.generatePawnMoves(false);
 			System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
 			for (Move m : movegen.mutariGenerate)
 			{

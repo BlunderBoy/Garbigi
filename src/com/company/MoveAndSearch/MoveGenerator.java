@@ -13,7 +13,7 @@ public class MoveGenerator
 	public ArrayList<Move> mutariGenerate;
 	
 	//helpere
-	HashMap<Integer, Integer> getrank;
+	static HashMap<Integer, Integer> getrank;
 	//using LITERAL FUCKING MAGIC dam pop la primul bit si ii aflam pozitia in O(FUCKING 1)
 	//nu chiar magic, folosim un magic number dupa ideea lui De Brujin de pop lsb
 	final int[] BitTable = {
@@ -39,7 +39,7 @@ public class MoveGenerator
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				getrank.put(j*(i+1), i+1);
+				getrank.put((i)*8 + j, i+1);
 			}
 		}
 	}
@@ -92,17 +92,17 @@ public class MoveGenerator
 	
 	//generatoare de mutari
 	//primeste white sau black pawns bitboard
-	public void generatePawnMoves(boolean side)
+	public void generatePawnMoves(boolean side) throws CloneNotSupportedException
 	{
 		BoardState board = BoardState.getInstance();
 		Bitboard bitBoard;
 		if(side == true )
 		{
-			bitBoard = board.WhitePawns;
+			bitBoard = (Bitboard) board.WhitePawns.clone();
 		}
 		else
 		{
-			bitBoard = board.BlackPawns;
+			bitBoard = (Bitboard) board.BlackPawns.clone();
 		}
 		while(bitBoard.reprezentare != 0)
 		{
