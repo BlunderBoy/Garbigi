@@ -16,7 +16,7 @@ bitboardurile pentru pioni albi, pioni negri, toate piesele albe si toate
 piesele negre arata asa:
 
 ```
-pioni albi	    pioni negru    	toate piesele albe   toate negre
+pioni albi	    pioni negru    	toate piesele albe  toate negre
 . . . . . . . .     . . . . . . . .     . . . . . . . .     # # # # # # # # 
 . . . . . . . .     # # # # # # # #     . . . . . . . .     # # # # # # # # 
 . . . . . . . .     . . . . . . . .     . . . . . . . .     . . . . . . . .
