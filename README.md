@@ -43,8 +43,11 @@ pozitie predefinita de FEN. Daca functia nu este apelata cu FEN aceasta va
 folosi FEN-ul care codifica inceputul meciului:
 
 <p align="center">
+<code>
 rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
+</code>
 </p>
+
 
 
 
