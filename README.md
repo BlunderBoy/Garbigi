@@ -14,6 +14,7 @@ stocheaza cate piese de acel tip mai sunt pe tabla) si reprezentare
 in care ar fi o piese un bit setat ca 1). De exemplu la inceputul jocului
 bitboardurile pentru pioni albi, pioni negri, toate piesele albe si toate
 piesele negre arata asa:
+
 <p align="center">
 <code>
 pioni albi	    pioni negru    	toate piesele albe   toate negre
@@ -27,7 +28,7 @@ pioni albi	    pioni negru    	toate piesele albe   toate negre
 . . . . . . . .     . . . . . . . .     # # # # # # # #     . . . . . . . .
 </code>
 </p>
-```
+
 Operatiile cu bitboardurile:
 ======
 
