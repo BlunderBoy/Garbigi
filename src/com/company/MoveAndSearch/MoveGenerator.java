@@ -22,9 +22,9 @@ public class MoveGenerator
     26, 60, 6, 23, 44, 46, 27, 56, 16, 7, 39, 48, 24, 59, 14, 12, 55, 38, 28,
     58, 20, 37, 17, 36, 8};
 
-	int popLSB(long bitboard) {
+    int popLSB(long bitboard) {
         long b = bitboard ^ (bitboard - 1);
-        int fold = (int)((b) ^ (b >>> 32));
+        int fold = (int) ((b) ^ (b >>> 32));
         return BitTable[(int) ((fold * 0x783a9b23) >>> 26)];
 	}
 	
