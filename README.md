@@ -26,6 +26,15 @@ pioni albi	    pioni negru    	toate piesele albe  toate negre
 # # # # # # # #     . . . . . . . .     # # # # # # # #     . . . . . . . .
 . . . . . . . .     . . . . . . . .     # # # # # # # #     . . . . . . . .
 ```
+Indexarile interne:
+======
+ - Avem 2 tipuri de indexari, una normala, pe 64 de pozitii, care reprezinta 1:1
+tabla de joc, si una pe 120 de pozitii, care ne ajuta la bounds checking (sa nu
+iasa piesele de pe un perete si sa intre pe altul)
+
+![Indexare pe 64](https://github.com/BlunderBoy/sah/blob/master/readme_resources/64indexes.jpg)
+
+![Indexare pe 120](https://github.com/BlunderBoy/sah/blob/master/readme_resources/120indexes.png)
 
 Operatiile cu bitboardurile:
 ======
