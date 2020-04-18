@@ -53,9 +53,9 @@ public class XBoardProtocol {
 
 		if (buffer.contains("debug")) {
 			/////////
-			Bitboard.initMasti();
-			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame();
+			//Bitboard.initMasti();
+			//database.numarDeMiscariFacute = 0;
+			//BoardCommands.initGame();
 			/////////
 
 			//System.out.println(BoardCommands.isSquareAttacked(3,3,true));
@@ -66,7 +66,7 @@ public class XBoardProtocol {
 			//System.out.println(BoardCommands.isSquareAttacked(5,3,true));
 
 			//DEBUG pentru consola
-			System.out.println(buffer);
+			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
 
 			Printer.print();
@@ -144,9 +144,9 @@ public class XBoardProtocol {
 
 			database.turn = database.opponentColor;
 
-			if (database.DEBUG) {
+			//if (database.DEBUG) {
 				Printer.print();
-			}
+			//}
 
 			//Printer.print();
 			return NEXT_INSTRUCTION;

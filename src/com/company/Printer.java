@@ -35,9 +35,11 @@ public class Printer {
 	public static void print() {
     	BoardState board = BoardState.getInstance();
     	boolean print;
-		System.out.println("boardstate usor de citit: ");
+		System.out.println("# boardstate usor de citit: ");
         for (int i = 63; i >= 0; i--) {
             print = false;
+            if ((i+1) % 8 == 0)
+                System.out.print("#");
 
             if (board.WhiteBishops.isBitSet(i)) {
                 System.out.print("B ");
