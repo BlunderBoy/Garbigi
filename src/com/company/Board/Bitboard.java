@@ -4,20 +4,19 @@ package com.company.Board;
  * Clasa asta tine efectiv obiectul de bitboard si functii care le prelucreaza
  */
 
-public class Bitboard {
+public class Bitboard implements Cloneable{
 	public long reprezentare;
 	public int numarPiese;
 	public int valoare;
 	public static long setMask[];
 	public static long clearMask[];
 	
-	public static void initMasti()
-	{
+	public static void initMasti() {
 		setMask = new long[64];
 		clearMask = new long[64];
 		long shifter = 1;
-		for (int i = 0; i < 64; i++)
-		{
+
+		for (int i = 0; i < 64; i++) {
 			setMask[i] = shifter;
 			clearMask[i] = ~setMask[i];
 			shifter <<= 1;
@@ -28,6 +27,17 @@ public class Bitboard {
 		reprezentare = 0;
 		numarPiese = 0;
 		valoare = 0;
+	}
+
+	public Bitboard(long reprezentare, int numarPiese, int valoare) {
+		this.reprezentare = reprezentare;
+		this.numarPiese = numarPiese;
+		this.valoare = valoare;
+	}
+
+	@Override
+	protected Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 	/**

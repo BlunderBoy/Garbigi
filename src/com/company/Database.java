@@ -15,7 +15,7 @@ public class Database {
 	}
 
 	// #defines practically
-	public final boolean DEBUG = false;
+	public final boolean DEBUG = true;
 	public final boolean BLACK = false;
 	public final boolean WHITE = true;
 

@@ -53,10 +53,11 @@ public class XBoardProtocol {
 
 		if (buffer.contains("debug")) {
 			/////////
-			//Bitboard.initMasti();
-			//database.numarDeMiscariFacute = 0;
-			//BoardCommands.initGame();
+			Bitboard.initMasti();
+			database.numarDeMiscariFacute = 0;
+			BoardCommands.initGame("8/8/8/n6P/8/8/8/8 w - - 0 1");
 			/////////
+
 
 			//System.out.println(BoardCommands.isSquareAttacked(3,3,true));
 

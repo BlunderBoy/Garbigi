@@ -2,8 +2,6 @@ package com.company.Board;
 
 import com.company.Database;
 
-import javax.xml.crypto.Data;
-
 /**
  * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
  * crearea unui board dintr-un fen, actualizarea board-ului cand primesti/faci o mutare (soon)
@@ -290,7 +288,7 @@ public class BoardCommands {
 		String[] tokens = command.split(" ");
 		String move = tokens[1];
 
-		// TODO castling
+		// TODO castling & en passant
 		int sourceIndex = 0;
 		int destIndex = 0;
 
@@ -306,9 +304,7 @@ public class BoardCommands {
 		}
 
 		// astea-s comentarii inutile pt mine btw, ignora-le
-		// verifica daca piesa de la source este a celui care trb sa mute
-		// verifica daca exista spatiu unde sa o mute sau daca captureaza piesa
-		// actualizeaza bitboards
+		// TODO (maybe) verifica daca piesa de la source este a celui care trb sa mute
 
 		// shelved for the moment
 		// aparent e mai "comod" sa verifici de FIECARE data FIECARE piesa...
@@ -316,17 +312,14 @@ public class BoardCommands {
 		// + toate chestiile care au... 12 blocuri de cod duplicat
 		// poate sa insistam pe ideea mea de common arrays?
 
-		/*int indexToCheck = 0;
-		if (Database.getInstance().turn == Database.getInstance().BLACK) {
-			indexToCheck = 1;
-		}*/
-
 		char pieceType = getPieceType(sourceIndex);
 
 		if (pieceType == 0) {
 			System.out.println("nu avem piesa in source");
 			return -2;
 		}
+
+		// isKingAttacked
 
 		switch (pieceType) {
 			case 'P':
@@ -538,6 +531,8 @@ public class BoardCommands {
 	// TODO TREBUIE PUSA LA FIECARE FUNCTIE
 	// TODO isKingMoveLegal
 
+	// TODO bounds checking pt tabla, am gasit un corner case pt pion black side
+	// "8/8/8/n6P/8/8/8/8 w - - 0 1", usermove h5a5
 	public static boolean isPawnMoveLegal (int source, int dest, boolean side) {
 		Database data = Database.getInstance();
 		BoardState board = BoardState.getInstance();
@@ -576,8 +571,14 @@ public class BoardCommands {
 		}
 		// daca avem capturare
 		// miscare legala de capturare
-		return (dest == (source + captureMoveL) || dest == (source + captureMoveR))
-				&& enemyPieces.isBitSet(dest);
+		System.out.println("src: " + source + " capture L "  + captureMoveL + " capture R " + captureMoveR);
+		if (dest == (source + captureMoveL) || dest == (source + captureMoveR)) {
+			if (enemyPieces.isBitSet(dest)) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static boolean isRookMoveLegal (int source, int dest, boolean side) {
@@ -604,7 +605,7 @@ public class BoardCommands {
 			}
 		}
 		// mergem acu pe directia aia
-		return !isObstacleInTheWay(source, dest, direction);
+		return isObstacleInTheWay(source, dest, direction);
 	}
 
 	private static boolean isObstacleInTheWay(int source, int dest, int direction) {
@@ -618,11 +619,11 @@ public class BoardCommands {
 				if (data.DEBUG) {
 					System.out.println("e ceva in drum boss");
 				}
-				return true;
+				return false;
 			}
 			currentIndex += direction;
 		}
-		return false;
+		return true;
 	}
 
 	public static boolean isKnightMoveLegal (int source, int dest, boolean side) {
@@ -673,7 +674,7 @@ public class BoardCommands {
 
 		if (checkDestIndex(dest, side)) return false;
 
-		return !isObstacleInTheWay(source, dest, direction);
+		return isObstacleInTheWay(source, dest, direction);
 	}
 	// verifica daca dest e piesa inamica, adica avem capturare, sau daca
 	// dest e piesa ta, adica esti prost
