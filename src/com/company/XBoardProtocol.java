@@ -1,6 +1,8 @@
 package com.company;
 
 import com.company.Board.*;
+import com.company.MoveAndSearch.Move;
+import com.company.MoveAndSearch.MoveGenerator;
 
 /**
  * Clasa asta tine chestii legate de comunicarea cu xboardu. Practic e un adapter pt engine.
@@ -21,6 +23,33 @@ public class XBoardProtocol {
 	int parseInput(String buffer) {
 		Database database = Database.getInstance();
 
+		if (buffer.contains("debug")) {
+			/////////
+			Bitboard.initMasti();
+			database.numarDeMiscariFacute = 0;
+			BoardCommands.initGame("7q/6P1/8/8/8/8/8/8 w KQkq - 0 1");
+			/////////
+			MoveGenerator movegen = new MoveGenerator();
+			
+			movegen.generatePawnMoves(true);
+			System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
+			for (Move m : movegen.mutariGenerate)
+			{
+				m.printMove();
+			}
+			//DEBUG pentru consola
+			//System.out.println(buffer);
+			//pune aici functia pe care vrei sa o testezi
+
+			Printer.print();
+			return NEXT_INSTRUCTION;
+		}
+
+		if (buffer.contains("new")) {
+			database.numarDeMiscariFacute = 0;
+			BoardCommands.initGame();
+			return NEXT_INSTRUCTION;
+		}
 		if (database.DEBUG) {
 			System.out.println("# " + buffer);
 		}
@@ -51,33 +80,6 @@ public class XBoardProtocol {
 			return NEXT_INSTRUCTION;
 		}
 
-		if (buffer.contains("debug")) {
-			/////////
-			//Bitboard.initMasti();
-			//database.numarDeMiscariFacute = 0;
-			//BoardCommands.initGame();
-			/////////
-
-			//System.out.println(BoardCommands.isSquareAttacked(3,3,true));
-
-			//System.out.println(BoardCommands.isSquareAttacked(4,4,false));
-			//System.out.println(BoardCommands.isSquareAttacked(5,5,true));
-			//System.out.println(BoardCommands.isSquareAttacked(5,5,false));
-			//System.out.println(BoardCommands.isSquareAttacked(5,3,true));
-
-			//DEBUG pentru consola
-			//System.out.println(buffer);
-			//pune aici functia pe care vrei sa o testezi
-
-			Printer.print();
-			return NEXT_INSTRUCTION;
-		}
-
-		if (buffer.contains("new")) {
-			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame();
-			return NEXT_INSTRUCTION;
-		}
 
 		if (buffer.contains("accepted")) { return NEXT_INSTRUCTION;}
 

@@ -58,7 +58,13 @@ public class BoardState {
 			                          WhiteRooks, WhiteQueens, WhiteKing,
 									  BlackPawns,BlackKnights, BlackBishops,
 									  BlackRooks, BlackQueens, BlackKing};
-
+	
+	public Bitboard[] WhiteBitboards = {WhiteQueens, WhiteRooks, WhiteKing,
+			WhiteBishops, WhiteKnights, WhitePawns};
+	
+	public Bitboard[] BlackBitboards = {BlackQueens, BlackRooks, BlackKing,
+			BlackBishops, BlackKnights, BlackPawns};
+	
 	public int materialAlb = 0;
 	public int materalNegru = 0;
 	

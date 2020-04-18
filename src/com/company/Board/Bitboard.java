@@ -29,12 +29,7 @@ public class Bitboard {
 		numarPiese = 0;
 		valoare = 0;
 	}
-
-	/**
-	 * Checks if the "position" is occupied in the respective bitboard.
-	 * @param pos Position to check.
-	 * @return True if occupied, false if not.
-	 */
+	
 	public boolean isBitSet(int pos) {
 		return (reprezentare & (setMask[pos])) != 0;
 	}

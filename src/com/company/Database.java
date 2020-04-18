@@ -43,6 +43,7 @@ public class Database {
 	public static int conversie120la64(int index) {
 		return array120[index];
 	}
+	public static int conversie64la120(int index) { return array64[index]; }
 
 	static int array64[];
 	static int array120[];
