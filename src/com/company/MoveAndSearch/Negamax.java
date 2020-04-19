@@ -12,7 +12,7 @@ public class Negamax {
     boolean gameOver() {
         return false;
     }
-
+    
     int negamax(int depth) {
         if (gameOver() || depth == 0) {
             return eval();
@@ -31,7 +31,6 @@ public class Negamax {
             if (score > max) {
                 max = score;
             }
-
             // undo move lmao
         }
 
