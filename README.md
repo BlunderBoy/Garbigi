@@ -68,8 +68,20 @@ rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1 *
 </code>
 </p>
 
+Magic bitboards
+======
+O zi intreaga am stat pe mizeria asta ca sa generez miscari pentru sliding pieces in O(1).
+E magie neagra, nu incercati sa intelegeti pentru ca o sa muriti. Anyway, hai sa le intelegem.
+In loc sa fac varianta clasica de fraieri in care generez miscari pentru piesele care fac
+"slide" (regina, nebun, tura) verificand fiecare patrat, eu folosesc un hastTable cu valorile
+deja calculate in care doar iau pozitia turei/nebunului/reginei si un bitboard care este
+bitboard blocant, adica unde nu poate sa mearga piesa si intorc direct unde poate sa se miste
+piesa. AMAZING, right?
 
-
+Noi folosim de aici versiunea plain. 
+https://www.chessprogramming.org/Magic_Bitboards
+Am urmat in mare parte wiki-ul si am gasit pseudocod pe site-uri vechi de zeci de ani pentru 
+metoda asta. Nu prea a fost la indemana dar ar trebui sa fie undeva la un 200% performance boost.
 
 Parsarea si interpretarea comenzilor :
 ======
