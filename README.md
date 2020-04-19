@@ -80,6 +80,7 @@ piesa. AMAZING, right?
 
 Noi folosim de aici versiunea plain. 
 https://www.chessprogramming.org/Magic_Bitboards
+
 Am urmat in mare parte wiki-ul si am gasit pseudocod pe site-uri vechi de zeci de ani pentru 
 metoda asta. Nu prea a fost la indemana dar ar trebui sa fie undeva la un 200% performance boost.
 
