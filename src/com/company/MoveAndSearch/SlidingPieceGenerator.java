@@ -170,89 +170,66 @@ public class SlidingPieceGenerator {
         //%8
         int[] valoriMarginaleDreapta = {8, 16, 24, 32, 40, 48};
         //jos
-        int[] rank1 = {1, 2, 3, 4, 5, 6};
+        int[] valoriMarginaleJos = {1, 2, 3, 4, 5, 6};
         //sus
-        int[] rank8 = {57, 58, 59, 60, 61, 62};
+        int[] valoriMarginaleSus = {57, 58, 59, 60, 61, 62};
+
         for (int i = 0; i < 64; i++) {
             rookMasks[i] = raysRook[i];
             rookMasks[i] = Bitboard.clearBit(i, raysRook[i]);
             bishopMasks[i] = raysBishop[i];
             bishopMasks[i] = Bitboard.clearBit(i, raysBishop[i]);
         }
-        for (int i2 : valoriMarginaleDreapta) {
-            rookMasks[i2] &= ~RANK_1;
-            rookMasks[i2] &= ~RANK_8;
-            rookMasks[i2] &= ~FILE_A;
 
-            bishopMasks[i2] &= ~RANK_1;
-            bishopMasks[i2] &= ~RANK_8;
-            bishopMasks[i2] &= ~FILE_A;
-        }
-        for (int i1 : valoriMarginaleStanga) {
-            rookMasks[i1] &= ~RANK_1;
-            rookMasks[i1] &= ~RANK_8;
-            rookMasks[i1] &= ~FILE_H;
+        updateBorders(valoriMarginaleDreapta, RANK_1, RANK_8, FILE_A);
+        updateBorders(valoriMarginaleStanga, RANK_1, RANK_8, FILE_H);
 
-            bishopMasks[i1] &= ~RANK_1;
-            bishopMasks[i1] &= ~RANK_8;
-            bishopMasks[i1] &= ~FILE_H;
-        }
-        for (int element : rank1) {
-            rookMasks[element] &= ~RANK_8;
-            rookMasks[element] &= ~FILE_A;
-            rookMasks[element] &= ~FILE_H;
+        updateBorders(valoriMarginaleJos, RANK_8, FILE_A, FILE_H);
+        updateBorders(valoriMarginaleSus, RANK_1, FILE_A, FILE_H);
 
-            bishopMasks[element] &= ~RANK_8;
-            bishopMasks[element] &= ~FILE_A;
-            bishopMasks[element] &= ~FILE_H;
-        }
-        for (int item : rank8) {
-            rookMasks[item] &= ~RANK_1;
-            rookMasks[item] &= ~FILE_A;
-            rookMasks[item] &= ~FILE_H;
+        updateCorners(rookMasks);
+        updateCorners(bishopMasks);
 
-            bishopMasks[item] &= ~RANK_1;
-            bishopMasks[item] &= ~FILE_A;
-            bishopMasks[item] &= ~FILE_H;
-        }
+        updateMiddle(rookMasks);
+        updateMiddle(bishopMasks);
+    }
 
-        rookMasks[0] &= ~RANK_8;
-        rookMasks[0] &= ~FILE_A;
-
-        rookMasks[7] &= ~RANK_8;
-        rookMasks[7] &= ~FILE_H;
-
-        rookMasks[56] &= ~RANK_1;
-        rookMasks[56] &= ~FILE_A;
-
-        rookMasks[63] &= ~RANK_1;
-        rookMasks[63] &= ~FILE_H;
-
-        bishopMasks[0] &= ~RANK_8;
-        bishopMasks[0] &= ~FILE_A;
-
-        bishopMasks[7] &= ~RANK_8;
-        bishopMasks[7] &= ~FILE_H;
-
-        bishopMasks[56] &= ~RANK_1;
-        bishopMasks[56] &= ~FILE_A;
-
-        bishopMasks[63] &= ~RANK_1;
-        bishopMasks[63] &= ~FILE_H;
-
+    private void updateMiddle (long[] pieceMasks) {
         int[] restul = {9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29, 30, 33,
                 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 49, 50, 51, 52, 53, 54};
 
         for (int value : restul) {
-            rookMasks[value] &= ~RANK_1;
-            rookMasks[value] &= ~FILE_A;
-            rookMasks[value] &= ~FILE_H;
-            rookMasks[value] &= ~RANK_8;
+            pieceMasks[value] &= ~RANK_1;
+            pieceMasks[value] &= ~FILE_A;
+            pieceMasks[value] &= ~FILE_H;
+            pieceMasks[value] &= ~RANK_8;
+        }
+    }
 
-            bishopMasks[value] &= ~RANK_1;
-            bishopMasks[value] &= ~FILE_A;
-            bishopMasks[value] &= ~FILE_H;
-            bishopMasks[value] &= ~RANK_8;
+    // scoate cele 2 patratele pt mastile care incep din colt
+    private void updateCorners (long[] pieceMasks) {
+        pieceMasks[0] &= ~RANK_8;
+        pieceMasks[0] &= ~FILE_A;
+
+        pieceMasks[7] &= ~RANK_8;
+        pieceMasks[7] &= ~FILE_H;
+
+        pieceMasks[56] &= ~RANK_1;
+        pieceMasks[56] &= ~FILE_A;
+
+        pieceMasks[63] &= ~RANK_1;
+        pieceMasks[63] &= ~FILE_H;
+    }
+    // scoate cele 3 chestii pt mastile care incep pe margini
+    private void updateBorders (int[] valoriMarginaleDreapta, long border1, long border2, long border3) {
+        for (int i2 : valoriMarginaleDreapta) {
+            rookMasks[i2] &= ~border1;
+            rookMasks[i2] &= ~border2;
+            rookMasks[i2] &= ~border3;
+
+            bishopMasks[i2] &= ~border1;
+            bishopMasks[i2] &= ~border2;
+            bishopMasks[i2] &= ~border3;
         }
     }
 
