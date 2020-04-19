@@ -6,16 +6,6 @@ import com.company.Database;
 
 import java.util.ArrayList;
 
-class Pair<F, S> {
-    public F first;
-    public S second;
-
-    public Pair(F first, S second) {
-        this.first = first;
-        this.second = second;
-    }
-}
-
 public class Negamax {
     // TODO
     int eval(BoardState board) {

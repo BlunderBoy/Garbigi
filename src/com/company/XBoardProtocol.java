@@ -28,13 +28,13 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("5r1r/8/8/8/8/6K1/r7/8 w KQkq - 0 1");
+			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
 			
-			movegen.generatePawnMoves(true);
-			movegen.generateKnightMoves(true);
-			movegen.generateKingMoves(true);
+			movegen.generatePawnMoves(false);
+			movegen.generateKnightMoves(false);
+			movegen.generateKingMoves(false);
 			for (Move m : movegen.mutariGenerate)
 			{
 				m.printMove();
