@@ -162,10 +162,8 @@ public class MoveGenerator {
                         }
                     }
                 }
-            } else //negru ghici
-            {
-                if (getRank(pozitie) == 4) //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
-                {
+            } else { //negru ghici
+                if (getRank(pozitie) == 4) { //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
                     //setez flag de promotie
                     if (!board.allPieces.isBitSet(pozitie - 8)) {
                         //adaug miscare pion negru in fata daca regele nu e in sah
