@@ -135,12 +135,31 @@ public class Printer {
 		}*/
     }
 
-    static void print(Bitboard b) {
+    public static void print(Bitboard b) {
     	long shifter = 1;
     	shifter <<= 63;
 
 	    for (int i = 0; i < 64; i++) {
 		    if ((b.reprezentare & shifter) != 0) {
+			    System.out.print("# ");
+		    } else {
+			    System.out.print(". ");
+		    }
+
+		    if ((i+1) % 8 == 0 && i != 0) {
+			    System.out.println();
+		    }
+		    shifter >>>= 1;
+	    }
+	    System.out.println();
+    }
+    
+    public static void print(long b) {
+    	long shifter = 1;
+    	shifter <<= 63;
+
+	    for (int i = 0; i < 64; i++) {
+		    if ((b & shifter) != 0) {
 			    System.out.print("# ");
 		    } else {
 			    System.out.print(". ");

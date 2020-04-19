@@ -3,6 +3,7 @@ package com.company;
 import com.company.Board.*;
 import com.company.MoveAndSearch.Move;
 import com.company.MoveAndSearch.MoveGenerator;
+import com.company.MoveAndSearch.SlidingPieceGenerator;
 
 /**
  * Clasa asta tine chestii legate de comunicarea cu xboardu. Practic e un adapter pt engine.
@@ -28,23 +29,27 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+			BoardCommands.initGame("3r3p/8/2r5/8/4B3/1p6/8/7R w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
+			SlidingPieceGenerator sld = new SlidingPieceGenerator();
+			System.out.println(SlidingPieceGenerator.miscariGenerate);
+			int lsb = MoveGenerator.popLSB(BoardState.getInstance().whiteBishops.reprezentare);
+			//BoardState.getInstance().whiteBishops.clearBit(lsb);
+			movegen.getBishopAttacks(lsb, BoardState.getInstance().allWhitePieces.reprezentare);
 			
-			movegen.generatePawnMoves(false);
-			movegen.generateKnightMoves(false);
-			movegen.generateKingMoves(false);
-			for (Move m : movegen.mutariGenerate)
-			{
-				m.printMove();
-			}
-			System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
+			//movegen.generatePawnMoves(true);
+			//movegen.generateKnightMoves(true);
+			//movegen.generateKingMoves(true);
+			//for (Move m : movegen.mutariGenerate)
+			//{
+			//	m.printMove();
+			//}
+			//System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
 			//DEBUG pentru consola
 			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
-
-			Printer.print();
+			
 			return NEXT_INSTRUCTION;
 		}
 
@@ -56,7 +61,7 @@ public class XBoardProtocol {
 		if (database.DEBUG) {
 			System.out.println("# " + buffer);
 		}
-
+		
 		if (buffer.contains("xboard")) { return 0; }
 
 		if (buffer.contains("protover")) {

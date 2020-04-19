@@ -138,7 +138,7 @@ public class BoardCommands {
 			}
 		}
 		//nebun si regina
-		final int[] directiiNebun = new int[]{-1, -11, 11, 9};
+		final int[] directiiNebun = new int[]{-9, -11, 11, 9};
 		for (int i = 0; i < 4; i++) {
 			directie = directiiNebun[i];
 			int checker = pozitie + directie;
