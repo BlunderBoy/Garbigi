@@ -174,7 +174,7 @@ public class XBoardProtocol {
 				database.numarDeMiscariFacute++;
 				System.out.println("# new move: " + move);
 
-				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().WhitePawns);
+				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().whitePawns);
 			} else {
 				System.out.println("# not legal????? resigning");
 				System.out.println("resign");
@@ -188,7 +188,7 @@ public class XBoardProtocol {
 				System.out.println("# new move: " + move);
 				database.numarDeMiscariFacute++;
 
-				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().BlackPawns);
+				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().blackPawns);
 
 			} else {
 				System.out.println("# not legal????? resigning");

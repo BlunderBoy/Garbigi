@@ -76,13 +76,13 @@ public class BoardCommands {
 		int pionAtacStangaAlb = Database.conversie120la64(pozitie + 9);
 
 		if (side == database.WHITE) {
-			if ((pionAtacDreaptaNegru != 65) && board.WhitePawns.isBitSet(pionAtacDreaptaNegru) ||
-				(pionAtacStangaNegru != 65) && board.WhitePawns.isBitSet(pionAtacStangaNegru)) {
+			if ((pionAtacDreaptaNegru != 65) && board.whitePawns.isBitSet(pionAtacDreaptaNegru) ||
+				(pionAtacStangaNegru != 65) && board.whitePawns.isBitSet(pionAtacStangaNegru)) {
 				return true;
 			}
 		} else {
-			if ((pionAtacDreaptaAlb != 65) && board.BlackPawns.isBitSet(pionAtacDreaptaAlb)||
-					(pionAtacStangaAlb != 65) && board.BlackPawns.isBitSet(pionAtacStangaAlb)) {
+			if ((pionAtacDreaptaAlb != 65) && board.blackPawns.isBitSet(pionAtacDreaptaAlb)||
+					(pionAtacStangaAlb != 65) && board.blackPawns.isBitSet(pionAtacStangaAlb)) {
 				return true;
 			}
 		}
@@ -93,11 +93,11 @@ public class BoardCommands {
 			int checker = Database.conversie120la64(pozitie + directiiCal[i]);
 			if(checker != 65) {
 				if (side == database.WHITE)
-					if (board.WhiteKnights.isBitSet(checker)) {
+					if (board.whiteKnights.isBitSet(checker)) {
 						return true;
 					}
 				if (side == database.BLACK)
-					if (board.BlackKnights.isBitSet(checker)) {
+					if (board.blackKnights.isBitSet(checker)) {
 						return true;
 					}
 			}
@@ -108,11 +108,11 @@ public class BoardCommands {
 			int checker = Database.conversie120la64(pozitie + directiiRege[i]);
 			if(checker != 65) {
 				if (side == database.WHITE)
-					if (board.WhiteKing.isBitSet(checker)) {
+					if (board.whiteKing.isBitSet(checker)) {
 						return true;
 					}
 				if (side == database.BLACK)
-					if (board.BlackKing.isBitSet(checker)) {
+					if (board.blackKing.isBitSet(checker)) {
 						return true;
 					}
 			}
@@ -123,16 +123,16 @@ public class BoardCommands {
 			directie = directiiTura[i];
 			int checker = pozitie + directie;
 			while (Database.conversie120la64(checker) != 65) {
-				if (board.AllPieces.isBitSet(Database.conversie120la64(checker))) {
+				if (board.allPieces.isBitSet(Database.conversie120la64(checker))) {
 					if (side == database.WHITE) {
-						if (board.WhiteRooks.isBitSet(Database.conversie120la64(checker)) ||
-							board.WhiteQueens.isBitSet(Database.conversie120la64(checker))) {
+						if (board.whiteRooks.isBitSet(Database.conversie120la64(checker)) ||
+							board.whiteQueens.isBitSet(Database.conversie120la64(checker))) {
 							return true;
 						}
 					}
 					if (side == database.BLACK) {
-						if (board.BlackRooks.isBitSet(Database.conversie120la64(checker)) ||
-							board.BlackQueens.isBitSet(Database.conversie120la64(checker))) {
+						if (board.blackRooks.isBitSet(Database.conversie120la64(checker)) ||
+							board.blackQueens.isBitSet(Database.conversie120la64(checker))) {
 							return true;
 						}
 					}
@@ -147,16 +147,16 @@ public class BoardCommands {
 			directie = directiiNebun[i];
 			int checker = pozitie + directie;
 			while (Database.conversie120la64(checker) != 65) {
-				if (board.AllPieces.isBitSet(Database.conversie120la64(checker))) {
+				if (board.allPieces.isBitSet(Database.conversie120la64(checker))) {
 					if (side == database.WHITE) {
-						if (board.WhiteBishops.isBitSet(Database.conversie120la64(checker)) ||
-							board.WhiteQueens.isBitSet(Database.conversie120la64(checker))) {
+						if (board.whiteBishops.isBitSet(Database.conversie120la64(checker)) ||
+							board.whiteQueens.isBitSet(Database.conversie120la64(checker))) {
 							return true;
 						}
 					}
 					if (side == database.BLACK) {
-						if (board.BlackBishops.isBitSet(Database.conversie120la64(checker)) ||
-							board.BlackQueens.isBitSet(Database.conversie120la64(checker))) {
+						if (board.blackBishops.isBitSet(Database.conversie120la64(checker)) ||
+							board.blackQueens.isBitSet(Database.conversie120la64(checker))) {
 							return true;
 						}
 					}
@@ -171,19 +171,19 @@ public class BoardCommands {
 	private static void castlingPermissions(String[] tokens) {
 		if(tokens[2].contains("K"))
 		{
-			BoardState.getInstance().castlePermision[0] = 1;
+			BoardState.getInstance().castlePermission[0] = 1;
 		}
 		if(tokens[2].contains("Q"))
 		{
-			BoardState.getInstance().castlePermision[1] = 1;
+			BoardState.getInstance().castlePermission[1] = 1;
 		}
 		if(tokens[2].contains("k"))
 		{
-			BoardState.getInstance().castlePermision[2] = 1;
+			BoardState.getInstance().castlePermission[2] = 1;
 		}
 		if(tokens[2].contains("q"))
 		{
-			BoardState.getInstance().castlePermision[3] = 1;
+			BoardState.getInstance().castlePermission[3] = 1;
 		}
 	}
 
@@ -194,52 +194,52 @@ public class BoardCommands {
 
 			switch (currentChar) {
 				case 'N':
-					board.WhiteKnights.setBit(index);
+					board.whiteKnights.setBit(index);
 					index--;
 					break;
 				case 'R':
-					board.WhiteRooks.setBit(index);
+					board.whiteRooks.setBit(index);
 					index--;
 					break;
 				case 'B':
-					board.WhiteBishops.setBit(index);
+					board.whiteBishops.setBit(index);
 					index--;
 					break;
 				case 'P':
-					board.WhitePawns.setBit(index);
+					board.whitePawns.setBit(index);
 					index--;
 					break;
 				case 'Q':
-					board.WhiteQueens.setBit(index);
+					board.whiteQueens.setBit(index);
 					index--;
 					break;
 				case 'K':
-					board.WhiteKing.setBit(index);
+					board.whiteKing.setBit(index);
 					index--;
 					break;
 
 				case 'n':
-					board.BlackKnights.setBit(index);
+					board.blackKnights.setBit(index);
 					index--;
 					break;
 				case 'r':
-					board.BlackRooks.setBit(index);
+					board.blackRooks.setBit(index);
 					index--;
 					break;
 				case 'b':
-					board.BlackBishops.setBit(index);
+					board.blackBishops.setBit(index);
 					index--;
 					break;
 				case 'p':
-					board.BlackPawns.setBit(index);
+					board.blackPawns.setBit(index);
 					index--;
 					break;
 				case 'q':
-					board.BlackQueens.setBit(index);
+					board.blackQueens.setBit(index);
 					index--;
 					break;
 				case 'k':
-					board.BlackKing.setBit(index);
+					board.blackKing.setBit(index);
 					index--;
 					break;
 				case '/':
@@ -249,22 +249,22 @@ public class BoardCommands {
 					break;
 			}
 		}
-		board.AllWhitePieces.reprezentare = board.WhiteKing.reprezentare |
-				               board.WhiteBishops.reprezentare |
-							   board.WhiteKnights.reprezentare |
-				               board.WhiteQueens.reprezentare |
-						       board.WhiteRooks.reprezentare |
-							   board.WhitePawns.reprezentare;
+		board.allWhitePieces.reprezentare = board.whiteKing.reprezentare |
+				               board.whiteBishops.reprezentare |
+							   board.whiteKnights.reprezentare |
+				               board.whiteQueens.reprezentare |
+						       board.whiteRooks.reprezentare |
+							   board.whitePawns.reprezentare;
 		
-		board.AllBlackPieces.reprezentare = board.BlackKing.reprezentare |
-				               board.BlackBishops.reprezentare |
-							   board.BlackKnights.reprezentare |
-				               board.BlackQueens.reprezentare |
-						       board.BlackRooks.reprezentare |
-							   board.BlackPawns.reprezentare;
+		board.allBlackPieces.reprezentare = board.blackKing.reprezentare |
+				               board.blackBishops.reprezentare |
+							   board.blackKnights.reprezentare |
+				               board.blackQueens.reprezentare |
+						       board.blackRooks.reprezentare |
+							   board.blackPawns.reprezentare;
 		
-		board.AllPieces.reprezentare = board.AllWhitePieces.reprezentare |
-							           board.AllBlackPieces.reprezentare;
+		board.allPieces.reprezentare = board.allWhitePieces.reprezentare |
+							           board.allBlackPieces.reprezentare;
 		
 		for(Bitboard b : board.allBitboards) {
 			b.numarPiese = Long.bitCount(b.reprezentare);
@@ -326,7 +326,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("White pawn.");
 				if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
-					updateBitboard(sourceIndex, destIndex, board.WhitePawns);
+					updateBitboard(sourceIndex, destIndex, board.whitePawns);
 				} else {
 					System.out.println("nu e legal");
 					returnCode = -1;
@@ -336,7 +336,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("Black pawn.");
 				if (isPawnMoveLegal(sourceIndex, destIndex, data.BLACK)) {
-					updateBitboard(sourceIndex, destIndex, board.BlackPawns);
+					updateBitboard(sourceIndex, destIndex, board.blackPawns);
 				} else {
 					returnCode = -1;
 				}
@@ -345,7 +345,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("White rook.");
 				if (isRookMoveLegal(sourceIndex, destIndex, data.WHITE)) {
-					updateBitboard(sourceIndex, destIndex, board.WhiteRooks);
+					updateBitboard(sourceIndex, destIndex, board.whiteRooks);
 				} else {
 					returnCode = -1;
 				}
@@ -354,7 +354,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("Black rook.");
 				if (isRookMoveLegal(sourceIndex, destIndex, data.BLACK)) {
-					updateBitboard(sourceIndex, destIndex, board.BlackRooks);
+					updateBitboard(sourceIndex, destIndex, board.blackRooks);
 				} else {
 					returnCode = -1;
 				}
@@ -363,7 +363,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("White knight.");
 				if (isKnightMoveLegal(sourceIndex, destIndex, data.WHITE)) {
-					updateBitboard(sourceIndex, destIndex, board.WhiteKnights);
+					updateBitboard(sourceIndex, destIndex, board.whiteKnights);
 				} else {
 					returnCode = -1;
 				}
@@ -372,7 +372,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("Black knight.");
 				if (isKnightMoveLegal(sourceIndex, destIndex, data.BLACK)) {
-					updateBitboard(sourceIndex, destIndex, board.BlackKnights);
+					updateBitboard(sourceIndex, destIndex, board.blackKnights);
 				} else {
 					returnCode = -1;
 				}
@@ -381,7 +381,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("White bishop.");
 				if (isBishopMoveLegal(sourceIndex, destIndex, data.WHITE)) {
-					updateBitboard(sourceIndex, destIndex, board.WhiteBishops);
+					updateBitboard(sourceIndex, destIndex, board.whiteBishops);
 				} else {
 					returnCode = -1;
 				}
@@ -390,7 +390,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("Black bishop.");
 				if (isBishopMoveLegal(sourceIndex, destIndex, data.BLACK)) {
-					updateBitboard(sourceIndex, destIndex, board.BlackBishops);
+					updateBitboard(sourceIndex, destIndex, board.blackBishops);
 				} else {
 					returnCode = -1;
 				}
@@ -399,7 +399,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("White queen.");
 				if (isQueenMoveLegal(sourceIndex, destIndex, data.WHITE)) {
-					updateBitboard(sourceIndex, destIndex, board.WhiteQueens);
+					updateBitboard(sourceIndex, destIndex, board.whiteQueens);
 				} else {
 					returnCode = -1;
 				}
@@ -408,7 +408,7 @@ public class BoardCommands {
 				if (data.DEBUG)
 					System.out.println("Black queen.");
 				if (isQueenMoveLegal(sourceIndex, destIndex, data.BLACK)) {
-					updateBitboard(sourceIndex, destIndex, board.BlackQueens);
+					updateBitboard(sourceIndex, destIndex, board.blackQueens);
 				} else {
 					returnCode = -1;
 				}
@@ -453,73 +453,92 @@ public class BoardCommands {
 		BoardState.getInstance().updateBitboards();
 	}
 
+	public static void updateBitboard(int sourceIndex, int destIndex, Bitboard source, BoardState board) {
+		// verificam LA INCEPUT daca avem capturare
+		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
+
+		if (dest != null) {
+			if (Database.getInstance().DEBUG)
+				System.out.println("avem capturare");
+			dest.clearBit(destIndex);
+		} else {
+			if (Database.getInstance().DEBUG)
+				System.out.println("nu avem capturare");
+		}
+
+		source.clearBit(sourceIndex);
+		source.setBit(destIndex);
+
+		board.updateBitboards();
+	}
+
 	private static Bitboard getBitboardFromType (char type) {
 		BoardState board = BoardState.getInstance();
 		switch (type) {
 			case 'P':
-				return board.WhitePawns;
+				return board.whitePawns;
 			case 'p':
-				return board.BlackPawns;
+				return board.blackPawns;
 			case 'R':
-				return board.WhiteRooks;
+				return board.whiteRooks;
 			case 'r':
-				return board.BlackRooks;
+				return board.blackRooks;
 			case 'N':
-				return board.WhiteKnights;
+				return board.whiteKnights;
 			case 'n':
-				return board.BlackKnights;
+				return board.blackKnights;
 			case 'B':
-				return board.WhiteBishops;
+				return board.whiteBishops;
 			case 'b':
-				return board.BlackBishops;
+				return board.blackBishops;
 			case 'Q':
-				return board.WhiteQueens;
+				return board.whiteQueens;
 			case 'q':
-				return board.BlackQueens;
+				return board.blackQueens;
 			case 'K':
-				return board.WhiteKing;
+				return board.whiteKing;
 			case 'k':
-				return board.BlackKing;
+				return board.blackKing;
 			default:
 				return null;
 		}
 	}
 
 	private static char getPieceType (int index) {
-		if (BoardState.getInstance().WhitePawns.isBitSet(index)) {
+		if (BoardState.getInstance().whitePawns.isBitSet(index)) {
 			return 'P';
 		}
-		if (BoardState.getInstance().BlackPawns.isBitSet(index)) {
+		if (BoardState.getInstance().blackPawns.isBitSet(index)) {
 			return 'p';
 		}
-		if (BoardState.getInstance().Rooks[0].isBitSet(index)) {
+		if (BoardState.getInstance().whiteRooks.isBitSet(index)) {
 			return 'R';
 		}
-		if (BoardState.getInstance().Rooks[1].isBitSet(index)) {
+		if (BoardState.getInstance().blackRooks.isBitSet(index)) {
 			return 'r';
 		}
-		if (BoardState.getInstance().Bishops[0].isBitSet(index)) {
+		if (BoardState.getInstance().whiteBishops.isBitSet(index)) {
 			return 'B';
 		}
-		if (BoardState.getInstance().Bishops[1].isBitSet(index)) {
+		if (BoardState.getInstance().blackBishops.isBitSet(index)) {
 			return 'b';
 		}
-		if (BoardState.getInstance().Knights[0].isBitSet(index)) {
+		if (BoardState.getInstance().whiteKnights.isBitSet(index)) {
 			return 'N';
 		}
-		if (BoardState.getInstance().Knights[1].isBitSet(index)) {
+		if (BoardState.getInstance().blackKnights.isBitSet(index)) {
 			return 'n';
 		}
-		if (BoardState.getInstance().Queens[0].isBitSet(index)) {
+		if (BoardState.getInstance().whiteQueens.isBitSet(index)) {
 			return 'Q';
 		}
-		if (BoardState.getInstance().Queens[1].isBitSet(index)) {
+		if (BoardState.getInstance().blackQueens.isBitSet(index)) {
 			return 'q';
 		}
-		if (BoardState.getInstance().Kings[0].isBitSet(index)) {
+		if (BoardState.getInstance().whiteKing.isBitSet(index)) {
 			return 'K';
 		}
-		if (BoardState.getInstance().Kings[1].isBitSet(index)) {
+		if (BoardState.getInstance().blackKing.isBitSet(index)) {
 			return 'k';
 		}
 		return 0;
@@ -543,14 +562,14 @@ public class BoardCommands {
 		int captureMoveL = 9;
 		int captureMoveR = 7;
 
-		Bitboard enemyPieces = board.AllBlackPieces;
+		Bitboard enemyPieces = board.allBlackPieces;
 		if (side == data.BLACK) {
 			doubleMoveUpperBoundary = 56;
 			doubleMoveLowerBoundary = 47;
 			normalMoveSize = -8;
 			captureMoveL = -9;
 			captureMoveR = -7;
-			enemyPieces = board.AllWhitePieces;
+			enemyPieces = board.allWhitePieces;
 		}
 		// daca avem double move
 		if (source < doubleMoveUpperBoundary && source > doubleMoveLowerBoundary
@@ -615,7 +634,7 @@ public class BoardCommands {
 		int currentIndex = source + direction;
 
 		while (currentIndex != dest) { // mergem patrat cu patrat si vedem daca e ceva in cale
-			if (board.AllPieces.isBitSet(currentIndex)) {
+			if (board.allPieces.isBitSet(currentIndex)) {
 				if (data.DEBUG) {
 					System.out.println("e ceva in drum boss");
 				}
@@ -683,14 +702,14 @@ public class BoardCommands {
 		BoardState board = BoardState.getInstance();
 
 		if (side == data.BLACK) {
-			if (board.AllWhitePieces.isBitSet(dest) && data.DEBUG)
+			if (board.allWhitePieces.isBitSet(dest) && data.DEBUG)
 				System.out.println("avem capturare de la black pt white");
 
-			return board.AllBlackPieces.isBitSet(dest);
+			return board.allBlackPieces.isBitSet(dest);
 		} else {
-			if (board.AllBlackPieces.isBitSet(dest) && data.DEBUG)
+			if (board.allBlackPieces.isBitSet(dest) && data.DEBUG)
 				System.out.println("avem capturare de la white pt black");
-			return board.AllWhitePieces.isBitSet(dest);
+			return board.allWhitePieces.isBitSet(dest);
 		}
 	}
 

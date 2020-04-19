@@ -5,7 +5,7 @@ package com.company.Board;
  * pentru prelucrarea lor (ex: initializare, resetare)
  */
 
-public class BoardState {
+public class BoardState implements Cloneable{
 	private static BoardState instance;
 	/*
 	 piese { EMPTY, wP, wN, wB, wR, wQ, wK, bP, bN, bB, bR, bQ, bK };
@@ -18,53 +18,46 @@ public class BoardState {
 	am 2 randuri in plus sus si jos din cauza calului.
 	cu indexi de la 21 la 98
 	 */
-	public int[] pieseFormat120 = new int[120];
+	public static int[] pieseFormat120 = new int[120];
 	/* tin un array de 64 care tine minte doar tabla din mijloc
 	cu indexi de la 0 la 63.
 	 */
-	public int[] pieseFormat64 = new int[64];
+	public static int[] pieseFormat64 = new int[64];
 	
 	public int enPassant = 0;
 	
 	/* Pozitia pieselor albe */
-	public Bitboard WhitePawns = new Bitboard();
-	public Bitboard WhiteRooks = new Bitboard();
-	public Bitboard WhiteKnights = new Bitboard();
-	public Bitboard WhiteBishops = new Bitboard();
-	public Bitboard WhiteQueens = new Bitboard();
-	public Bitboard WhiteKing = new Bitboard();
+	public Bitboard whitePawns = new Bitboard();
+	public Bitboard whiteRooks = new Bitboard();
+	public Bitboard whiteKnights = new Bitboard();
+	public Bitboard whiteBishops = new Bitboard();
+	public Bitboard whiteQueens = new Bitboard();
+	public Bitboard whiteKing = new Bitboard();
 
 	/* Pozitia pieselor negre */
-	public Bitboard BlackPawns = new Bitboard();
-	public Bitboard BlackRooks = new Bitboard();
-	public Bitboard BlackKnights = new Bitboard();
-	public Bitboard BlackBishops = new Bitboard();
-	public Bitboard BlackQueens = new Bitboard();
-	public Bitboard BlackKing = new Bitboard();
-
-	public Bitboard[] Pawns = {WhitePawns, BlackPawns};
-	public Bitboard[] Rooks = {WhiteRooks, BlackRooks};
-	public Bitboard[] Knights = {WhiteKnights, BlackKnights};
-	public Bitboard[] Bishops = {WhiteBishops, BlackBishops};
-	public Bitboard[] Queens = {WhiteQueens, BlackQueens};
-	public Bitboard[] Kings = {WhiteKing, BlackKing};
+	public Bitboard blackPawns = new Bitboard();
+	public Bitboard blackRooks = new Bitboard();
+	public Bitboard blackKnights = new Bitboard();
+	public Bitboard blackBishops = new Bitboard();
+	public Bitboard blackQueens = new Bitboard();
+	public Bitboard blackKing = new Bitboard();
 
 	/* Helpere */
-	public Bitboard AllWhitePieces = new Bitboard();
-	public Bitboard AllBlackPieces = new Bitboard();
-	public Bitboard AllPieces = new Bitboard();
+	public Bitboard allWhitePieces = new Bitboard();
+	public Bitboard allBlackPieces = new Bitboard();
+	public Bitboard allPieces = new Bitboard();
 
-	public Bitboard[] allBitboards = {WhitePawns, WhiteKnights, WhiteBishops,
-			                          WhiteRooks, WhiteQueens, WhiteKing,
-									  BlackPawns,BlackKnights, BlackBishops,
-									  BlackRooks, BlackQueens, BlackKing};
+	public Bitboard[] allBitboards = {whitePawns, whiteKnights, whiteBishops,
+			whiteRooks, whiteQueens, whiteKing,
+			blackPawns, blackKnights, blackBishops,
+			blackRooks, blackQueens, blackKing};
 	
-	public Bitboard[] WhiteBitboards = {WhiteQueens, WhiteRooks, WhiteKing,
-			WhiteBishops, WhiteKnights, WhitePawns};
+	public Bitboard[] whiteBitboards = {whiteQueens, whiteRooks, whiteKing,
+			whiteBishops, whiteKnights, whitePawns};
 	
-	public Bitboard[] BlackBitboards = {BlackQueens, BlackRooks, BlackKing,
-			BlackBishops, BlackKnights, BlackPawns};
-	
+	public Bitboard[] blackBitboards = {blackQueens, blackRooks, blackKing,
+			blackBishops, blackKnights, blackPawns};
+
 	public int materialAlb = 0;
 	public int materalNegru = 0;
 	
@@ -74,10 +67,46 @@ public class BoardState {
 	se vede ca un numar de 4 biti
 	daca bitul e setat inseamna ca se poate
 	*/
-	public int castlePermision[] = {0,0,0,0};
+	public int[] castlePermission = {0,0,0,0};
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
-	public MoveHistory istoric[] = new MoveHistory[10];
+	//public MoveHistory istoric[] = new MoveHistory[10];
+
+
+	@Override
+	public BoardState clone() throws CloneNotSupportedException {
+		BoardState clone = (BoardState) super.clone();
+		clone.whitePawns = this.whitePawns.clone();
+		clone.blackPawns = this.blackPawns.clone();
+		clone.whiteRooks = this.whiteRooks.clone();
+		clone.blackRooks = this.blackRooks.clone();
+		clone.whiteKnights = this.whiteKnights.clone();
+		clone.blackKnights = this.blackKnights.clone();
+		clone.whiteBishops = this.whiteBishops.clone();
+		clone.blackBishops = this.blackBishops.clone();
+		clone.whiteQueens = this.whiteQueens.clone();
+		clone.blackQueens = this.blackQueens.clone();
+		clone.whiteKing = this.whiteKing.clone();
+		clone.blackKing = this.blackKing.clone();
+
+		clone.allWhitePieces = this.allWhitePieces.clone();
+		clone.allBlackPieces = this.allBlackPieces.clone();
+		clone.allPieces = this.allPieces.clone();
+
+		clone.allBitboards = new Bitboard[] {clone.whitePawns, clone.whiteKnights, clone.whiteBishops,
+											 clone.whiteRooks, clone.whiteQueens, clone.whiteKing,
+											 clone.blackPawns, clone.blackKnights, clone.blackBishops,
+											 clone.blackRooks, clone.blackQueens, clone.blackKing};
+
+		clone.whiteBitboards = new Bitboard[] {clone.whitePawns, clone.whiteKnights, clone.whiteBishops,
+											   clone.whiteRooks, clone.whiteQueens, clone.whiteKing};
+
+		clone.blackBitboards = new Bitboard[] {clone.blackPawns, clone.blackKnights, clone.blackBishops,
+											   clone.blackRooks, clone.blackQueens, clone.blackKing};
+
+		clone.castlePermission = this.castlePermission.clone();
+		return clone;
+	}
 
 	public static BoardState getInstance() {
 		if (instance == null) {
@@ -88,29 +117,29 @@ public class BoardState {
 	}
 
 	public void initializareValoarePiese() {
-		instance.WhitePawns.valoare = 100;
-		instance.WhiteKnights.valoare = 325;
-		instance.WhiteBishops.valoare = 325;
-		instance.WhiteRooks.valoare = 550;
-		instance.WhiteQueens.valoare = 1000;
-		instance.WhiteKing.valoare = 50000;
+		instance.whitePawns.valoare = 100;
+		instance.whiteKnights.valoare = 325;
+		instance.whiteBishops.valoare = 325;
+		instance.whiteRooks.valoare = 550;
+		instance.whiteQueens.valoare = 1000;
+		instance.whiteKing.valoare = 50000;
 
-		instance.BlackPawns.valoare = 100;
-		instance.BlackKnights.valoare = 325;
-		instance.BlackBishops.valoare = 325;
-		instance.BlackRooks.valoare = 550;
-		instance.BlackQueens.valoare = 1000;
-		instance.BlackKing.valoare = 50000;
+		instance.blackPawns.valoare = 100;
+		instance.blackKnights.valoare = 325;
+		instance.blackBishops.valoare = 325;
+		instance.blackRooks.valoare = 550;
+		instance.blackQueens.valoare = 1000;
+		instance.blackKing.valoare = 50000;
 	}
 
 	public void updateBitboards() {
-		AllBlackPieces.reprezentare = BlackPawns.reprezentare | BlackBishops.reprezentare | BlackRooks.reprezentare |
-									  BlackKnights.reprezentare | BlackKing.reprezentare | BlackQueens.reprezentare;
+		allBlackPieces.reprezentare = blackPawns.reprezentare | blackBishops.reprezentare | blackRooks.reprezentare |
+									  blackKnights.reprezentare | blackKing.reprezentare | blackQueens.reprezentare;
 
-		AllWhitePieces.reprezentare = WhitePawns.reprezentare | WhiteBishops.reprezentare | WhiteRooks.reprezentare |
-									  WhiteKnights.reprezentare | WhiteKing.reprezentare | WhiteQueens.reprezentare;
+		allWhitePieces.reprezentare = whitePawns.reprezentare | whiteBishops.reprezentare | whiteRooks.reprezentare |
+									  whiteKnights.reprezentare | whiteKing.reprezentare | whiteQueens.reprezentare;
 
-		AllPieces.reprezentare = AllBlackPieces.reprezentare | AllWhitePieces.reprezentare;
+		allPieces.reprezentare = allBlackPieces.reprezentare | allWhitePieces.reprezentare;
 	}
 
 	public void resetBoard() {

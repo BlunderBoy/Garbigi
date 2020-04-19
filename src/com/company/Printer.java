@@ -41,62 +41,62 @@ public class Printer {
             if ((i+1) % 8 == 0)
                 System.out.print("#");
 
-            if (board.WhiteBishops.isBitSet(i)) {
+            if (board.whiteBishops.isBitSet(i)) {
                 System.out.print("B ");
                 print = true;
             }
 
-            if (board.WhiteKnights.isBitSet(i)) {
+            if (board.whiteKnights.isBitSet(i)) {
                 System.out.print("N ");
                 print = true;
             }
 
-            if (board.WhitePawns.isBitSet(i)) {
+            if (board.whitePawns.isBitSet(i)) {
                 System.out.print("P ");
                 print = true;
             }
 
-            if (board.WhiteKing.isBitSet(i)) {
+            if (board.whiteKing.isBitSet(i)) {
                 System.out.print("K ");
                 print = true;
             }
 
-            if (board.WhiteQueens.isBitSet(i)) {
+            if (board.whiteQueens.isBitSet(i)) {
                 System.out.print("Q ");
                 print = true;
             }
 
-            if (board.WhiteRooks.isBitSet(i)) {
+            if (board.whiteRooks.isBitSet(i)) {
                 System.out.print("R ");
                 print = true;
             }
 
-            if (board.BlackBishops.isBitSet(i)) {
+            if (board.blackBishops.isBitSet(i)) {
                 System.out.print("b ");
                 print = true;
             }
 
-            if (board.BlackKnights.isBitSet(i)) {
+            if (board.blackKnights.isBitSet(i)) {
                 System.out.print("n ");
                 print = true;
             }
 
-            if (board.BlackPawns.isBitSet(i)) {
+            if (board.blackPawns.isBitSet(i)) {
                 System.out.print("p ");
                 print = true;
             }
 
-            if (board.BlackKing.isBitSet(i)) {
+            if (board.blackKing.isBitSet(i)) {
                 System.out.print("k ");
                 print = true;
             }
 
-            if (board.BlackQueens.isBitSet(i)) {
+            if (board.blackQueens.isBitSet(i)) {
                 System.out.print("q ");
                 print = true;
             }
 
-            if (board.BlackRooks.isBitSet(i)) {
+            if (board.blackRooks.isBitSet(i)) {
                 System.out.print("r ");
                 print = true;
             }
