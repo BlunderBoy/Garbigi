@@ -1,7 +1,7 @@
   Inainte de toate am ales Java pentru familiaritate si pentru usurinta de 
 a folosi un limbaj orientat pe obiect intr-un proiect asa de mare.
 
-Reprezentarea interna a mutarilor:
+Reprezentarea interna a starilor:
 ======
 
 Am pornit de la idea ca vom reprezenta harta de sah cu numere pe 64 de biti
@@ -26,6 +26,16 @@ pioni albi	    pioni negru    	toate piesele albe  toate negre
 # # # # # # # #     . . . . . . . .     # # # # # # # #     . . . . . . . .
 . . . . . . . .     . . . . . . . .     # # # # # # # #     . . . . . . . .
 ```
+Reprezentarea interna a mutarilor:
+======
+- In total 4 nibbles pentru a codifica o mutare. En passant se seteaza cand se poate captura un pion en passant.
+```
+mutare:
+	0000 0000 0011 1111 sursa (2^6 64 de valori, de la 0 la 63)
+	0000 1111 1100 0000 destinatie (2^6 64 de valori, de la 0 la 63)
+	0011 0000 0000 0000 promotie (4 valori - cal 0 (00), nebun 01 (01), tura (10), regina (11))
+	1100 0000 0000 0000 flag (4 valori - promotie 1 (01), en passant 2 (10), castling 3 (11))
+ ``` 
 Indexarile interne:
 ======
  - Avem 2 tipuri de indexari, una normala, pe 64 de pozitii, care reprezinta 1:1

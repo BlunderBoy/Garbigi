@@ -7,7 +7,8 @@ import java.util.Scanner;
 // TODO: setup cu fen, in features!!!!!!!!
 
 public class Main {
-    public static void main(String[] args)  {
+    public static void main(String[] args) throws CloneNotSupportedException
+    {
 
     	Scanner in = new Scanner(System.in);
 

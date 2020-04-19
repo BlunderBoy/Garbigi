@@ -36,7 +36,7 @@ public class Bitboard implements Cloneable{
 	}
 
 	@Override
-	protected Bitboard clone() throws CloneNotSupportedException {
+	public Bitboard clone() throws CloneNotSupportedException {
 		return (Bitboard) super.clone();
 	}
 

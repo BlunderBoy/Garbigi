@@ -24,6 +24,7 @@ public class BoardState implements Cloneable{
 	 */
 	public static int[] pieseFormat64 = new int[64];
 	
+	//numar de la 0 la 63 unde este square-ul en passant
 	public int enPassant = 0;
 	
 	/* Pozitia pieselor albe */
