@@ -29,14 +29,20 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("3r3p/8/2r5/8/4B3/1p6/8/7R w KQkq - 0 1");
+			BoardCommands.initGame("3r4/1r6/6p1/8/8/5R2/Bp6/8 w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
 			SlidingPieceGenerator sld = new SlidingPieceGenerator();
-			System.out.println(SlidingPieceGenerator.miscariGenerate);
+			int counter = 0;
+			
 			int lsb = MoveGenerator.popLSB(BoardState.getInstance().whiteBishops.reprezentare);
+			for (int i = 0; i < 63; i++)
+			{
+				lsb = i;
+				movegen.getBishopAttacks(lsb, BoardState.getInstance().allPieces.reprezentare);
+			}
 			//BoardState.getInstance().whiteBishops.clearBit(lsb);
-			movegen.getBishopAttacks(lsb, BoardState.getInstance().allWhitePieces.reprezentare);
+			movegen.getBishopAttacks(lsb, BoardState.getInstance().allPieces.reprezentare);
 			
 			//movegen.generatePawnMoves(true);
 			//movegen.generateKnightMoves(true);
