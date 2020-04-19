@@ -7,6 +7,18 @@ import com.company.Database;
 import java.util.ArrayList;
 
 public class Negamax {
+    long startTime;
+    long stopTime;
+    // cand apelam negamax prima oara, o sa construim un obiect Negamax si ii dam
+    // new Negamax(System.nanoTime(), *5 sec*)
+    // alea *5 sec* trebuie fine tuned by us
+    // TODO daca o miscare nu e "stabila", sa continue search-ul, eventual sa mai bagam un time limit field
+    // ceva de genu soft limit si hard limit
+    public Negamax (long startTime, long stopTime) {
+        this.startTime = startTime;
+        this.stopTime = stopTime;
+    }
+
     // TODO
     int eval(BoardState board) {
         return 0;
@@ -58,7 +70,9 @@ public class Negamax {
     }
 
     Move negamax(int depth, int alfa, int beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
-        if (gameOver() || depth == 0) {
+        long elapsedTime = System.nanoTime() - startTime;
+
+        if (gameOver() || depth == 0 || (elapsedTime > stopTime)) {
             return new Move(0, eval(currentState));
         }
 
