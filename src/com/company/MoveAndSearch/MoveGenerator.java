@@ -331,12 +331,28 @@ public class MoveGenerator {
         }
     }
 	
-	public void getBishopAttacks(int pozitie, long blockers)
+	public void getBishopAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.bishopMasks[pozitie];
 		long rezultat = SlidingPieceGenerator.magicBishopTable[pozitie][(int) ((blockers * SlidingPieceGenerator.bishopMagics[pozitie])
 				>>> (64 - SlidingPieceGenerator.bishopIndexBits[pozitie]))];
 		
+		if(side)
+		{
+			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		}
+		else
+		{
+			rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		}
+		Printer.print(rezultat);
+	}
+	
+	public void getRookAttacks(int pozitie, long blockers)
+	{
+		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
+		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie]) >>> (64 - SlidingPieceGenerator.rookIndexBits[pozitie]));
+		long rezultat = SlidingPieceGenerator.magicRookTable[pozitie][key];
 		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
 		Printer.print(rezultat);
 	}

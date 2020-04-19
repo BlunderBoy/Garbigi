@@ -299,7 +299,11 @@ public class SlidingPieceGenerator
 			for (int blockerIndex = 0; blockerIndex < (1L << rookIndexBits[square]); blockerIndex++)
 			{
 				long blockers = getBlockersFromIndex(blockerIndex, rookMasks[square]);
-				magicRookTable[square][(int)((blockers * rookMagics[square])) >>> ((64 - rookIndexBits[square]))] = getRookAttacksSlow(square, blockers);
+				long a = getRookAttacksSlow(square, blockers);
+				int cheie = (int)(blockers * rookMagics[square]) >>> (64 - rookIndexBits[square]);
+//				System.out.println(cheie);
+//				Printer.print(a);
+				magicRookTable[square][cheie] = a;
 			}
 		}
 	}
@@ -346,11 +350,10 @@ public class SlidingPieceGenerator
 		return atackSet;
 	}
 	
-	private long getRookAttacksSlow(int pozitie, long blockers)
+	public long getRookAttacksSlow(int pozitie, long blockers)
 	{
 		//blockers e un bitboard de piese
 		//pozitie e patratul pe care sunt
-		
 		long atackSet = 0;
 		pozitie = Database.conversie64la120(pozitie);
 		
