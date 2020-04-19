@@ -44,27 +44,23 @@ public class BoardCommands {
 		cineMuta(database, tokens);
 		populareBiboards(index, board, tokens[0]);
 		castlingPermissions(tokens);
-		//TODO en passant ???
+		enPassant(tokens, board);
 		database.halfMoves = Integer.parseInt(tokens[4]);
 		database.fullMoves = Integer.parseInt(tokens[5]);
+	}
+	
+	public static void enPassant(String[] tokens, BoardState board)
+	{
+		if(!tokens[3].equals("-"))
+			board.enPassant = ((8 * (tokens[3].charAt(1) - '0') - 1) - (tokens[3].charAt(0) - 'a')) - 1;
 	}
 
 	//WHITE = true, BLACK = false
 	// verifica daca piesele de pe SIDE ataca square-ul dat
-	public static boolean isSquareAttacked(int rank, int file, boolean side) {
-		System.out.print("e pozitia " + rank + " " + file + " atacata de ");
-
-		if(side) {
-			System.out.print("alb? ");
-		} else {
-			System.out.print("negru?");
-		}
-
-		rank--;
-		file--;
+	public static boolean isSquareAttacked(int pozitie, boolean side) {
 		BoardState board = BoardState.getInstance();
 		Database database = Database.getInstance();
-		int pozitie = Database.conversieRFla120(rank, file);
+		pozitie = Database.conversie64la120(pozitie);
 		System.out.print("adica numarul " + Database.conversie120la64(pozitie) + " ");
 		int directie;
 		

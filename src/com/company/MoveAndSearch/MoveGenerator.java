@@ -2,6 +2,7 @@ package com.company.MoveAndSearch;
 
 import com.company.*;
 import com.company.Board.Bitboard;
+import com.company.Board.BoardCommands;
 import com.company.Board.BoardState;
 
 import javax.xml.crypto.Data;
@@ -96,7 +97,7 @@ public class MoveGenerator
 	{
 		BoardState board = BoardState.getInstance();
 		Bitboard bitBoard;
-		if(side == true )
+		if(side)
 		{
 			bitBoard = (Bitboard) board.WhitePawns.clone();
 		}
@@ -110,15 +111,16 @@ public class MoveGenerator
 			int pozitie = popLSB(bitBoard.reprezentare);
 			bitBoard.clearBit(pozitie);
 			int move = 0;
-			int negruDreapta = Database.conversie64la120(pozitie - 9);
-			int negruStanga = Database.conversie64la120(pozitie - 7);
-			int albStanga = Database.conversie64la120(pozitie + 9);
-			int albDreapta = Database.conversie64la120(pozitie + 7);
+			int temp = Database.conversie120la64(pozitie);
+			int negruDreapta = temp - 11;
+			int negruStanga = temp - 9;
+			int albStanga = temp + 11;
+			int albDreapta = temp + 9;
 			
 			//TODO : daca facand pop regele ar fi in sah inseamna ca misacarea nu e valida, ca sa nu tot verific
 			
 			//daca suntem pe alb
-			if(side == true){
+			if(side){
 				
 				if(getRank(pozitie) == 7) //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
 				{
@@ -133,7 +135,7 @@ public class MoveGenerator
 						}
 					}
 					
-					if(albDreapta != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albDreapta)))
+					if(Database.conversie120la64(albDreapta) != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albDreapta)))
 					{
 						//adaug miscare pion alb in dreapta daca regele nu e in sah
 						if(board.AllBlackPieces.isBitSet(Database.conversie120la64(albDreapta)))
@@ -145,7 +147,7 @@ public class MoveGenerator
 							}
 						}
 					}
-					if(albStanga != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albStanga)))
+					if(Database.conversie120la64(albStanga) != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albStanga)))
 					{
 						//adaug miscare pion alb in dreapta daca regele nu e in sah
 						if(board.AllBlackPieces.isBitSet(Database.conversie120la64(albStanga)))
@@ -160,12 +162,25 @@ public class MoveGenerator
 				}
 				else
 				{
+					if(getRank(pozitie) == 5)
+					{
+						if(Database.conversie120la64(albDreapta) != 65 && (board.enPassant == Database.conversie120la64(albDreapta)))
+						{
+							move = createMove(pozitie, pozitie + 7, 0, 2);
+							addEnPassantMove(move);
+						}
+						if(Database.conversie120la64(albStanga) != 65 && (board.enPassant == Database.conversie120la64(albStanga)))
+						{
+							move = createMove(pozitie, pozitie + 9, 0, 2);
+							addEnPassantMove(move);
+						}
+					}
 					if(!board.AllPieces.isBitSet(pozitie + 8))
 					{
 						move = createMove(pozitie, pozitie + 8, 0, 0);
 						addMove(move);
 					}
-					if(albDreapta != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albDreapta)))
+					if(Database.conversie120la64(albDreapta) != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albDreapta)))
 					{
 						if(board.AllBlackPieces.isBitSet(Database.conversie120la64(albDreapta)))
 						{
@@ -173,7 +188,7 @@ public class MoveGenerator
 							addCaptureMove(move);
 						}
 					}
-					if(albStanga != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albStanga)))
+					if(Database.conversie120la64(albStanga) != 65 && !board.AllWhitePieces.isBitSet(Database.conversie120la64(albStanga)))
 					{
 						if(board.AllBlackPieces.isBitSet(Database.conversie120la64(albStanga)))
 						{
@@ -185,7 +200,7 @@ public class MoveGenerator
 			}
 			else //negru ghici
 			{
-				if(getRank(pozitie) == 2) //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
+				if(getRank(pozitie) == 4) //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
 				{
 					//setez flag de promotie
 					if(!board.AllPieces.isBitSet(pozitie - 8))
@@ -197,7 +212,7 @@ public class MoveGenerator
 							addMove(move);
 						}
 					}
-					if(negruDreapta != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruDreapta)))
+					if(Database.conversie120la64(negruDreapta) != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruDreapta)))
 					{
 						//adaug miscare pion negru in dreapta daca regele nu e in sah
 						if(board.AllWhitePieces.isBitSet(Database.conversie120la64(negruDreapta)))
@@ -209,7 +224,7 @@ public class MoveGenerator
 							}
 						}
 					}
-					if(negruStanga != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruStanga)))
+					if(Database.conversie120la64(negruStanga) != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruStanga)))
 					{
 						//adaug miscare pion negru in dreapta daca regele nu e in sah
 						if(board.AllWhitePieces.isBitSet(Database.conversie120la64(negruStanga)))
@@ -224,12 +239,25 @@ public class MoveGenerator
 				}
 				else
 				{
+					if(getRank(pozitie) == 3)
+					{
+						if(Database.conversie120la64(negruDreapta) != 65 && (board.enPassant == Database.conversie120la64(negruDreapta)))
+						{
+							move = createMove(pozitie, pozitie - 9, 0, 2);
+							addEnPassantMove(move);
+						}
+						if(Database.conversie120la64(negruStanga) != 65 && (board.enPassant == Database.conversie120la64((negruStanga))))
+						{
+							move = createMove(pozitie, pozitie - 7, 0, 2);
+							addEnPassantMove(move);
+						}
+					}
 					if(!board.AllPieces.isBitSet(pozitie - 8))
 					{
 						move = createMove(pozitie, pozitie - 8, 0, 0);
 						addMove(move);
 					}
-					if(negruDreapta != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruDreapta)))
+					if(Database.conversie120la64(negruDreapta) != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruDreapta)))
 					{
 						if(board.AllWhitePieces.isBitSet(Database.conversie120la64(negruDreapta)))
 						{
@@ -237,7 +265,7 @@ public class MoveGenerator
 							addCaptureMove(move);
 						}
 					}
-					if(negruStanga != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruStanga)))
+					if(Database.conversie120la64(negruStanga) != 65 && !board.AllBlackPieces.isBitSet(Database.conversie120la64(negruStanga)))
 					{
 						if(board.AllWhitePieces.isBitSet(Database.conversie120la64(negruStanga)))
 						{
@@ -250,4 +278,136 @@ public class MoveGenerator
 		}
 	}
 	
+	public void generateKnightMoves(boolean side) throws CloneNotSupportedException
+	{
+		BoardState board = BoardState.getInstance();
+		Bitboard bitBoard;
+		if(side)
+		{
+			bitBoard = (Bitboard) board.WhiteKnights.clone();
+		}
+		else
+		{
+			bitBoard = (Bitboard) board.BlackKnights.clone();
+		}
+		while(bitBoard.reprezentare != 0)
+		{
+			int pozitie = popLSB(bitBoard.reprezentare);
+			bitBoard.clearBit(pozitie);
+			int temp = Database.conversie64la120(pozitie);
+			final int[] directiiCal = new int[]{-8, -19, -21, -12, 8, 19, 21, 12};
+			for (int i = 0; i < 8; i++) {
+				int checker = Database.conversie120la64(temp + directiiCal[i]);
+				int move = 0;
+				if(checker != 65)
+				{
+					if(side)
+					{
+						if(!board.AllWhitePieces.isBitSet(checker))
+						{
+							if(board.AllBlackPieces.isBitSet(checker))
+							{
+								move = createMove(pozitie, checker, 0, 0);
+								addCaptureMove(move);
+							}
+							else
+							{
+								move = createMove(pozitie, checker, 0, 0);
+								addMove(move);
+							}
+						}
+					}
+					else
+					{
+						if(!board.AllBlackPieces.isBitSet(checker))
+						{
+							if(board.AllWhitePieces.isBitSet(checker))
+							{
+								move = createMove(pozitie, checker, 0, 0);
+								addCaptureMove(move);
+							}
+							else
+							{
+								move = createMove(pozitie, checker, 0, 0);
+								addMove(move);
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	//sa nu generez miscari ilegale
+	public void generateKingMoves(boolean side) throws CloneNotSupportedException
+	{
+		BoardState board = BoardState.getInstance();
+		Bitboard bitBoard;
+		if(side)
+		{
+			bitBoard = (Bitboard) board.WhiteKing.clone();
+		}
+		else
+		{
+			bitBoard = (Bitboard) board.BlackKing.clone();
+		}
+		while(bitBoard.reprezentare != 0)
+		{
+			int pozitie = popLSB(bitBoard.reprezentare);
+			bitBoard.clearBit(pozitie);
+			int temp = Database.conversie64la120(pozitie);
+			final int[] directiiRege = new int[]{-1, -10, 1, 10, -9, -11, 11, 9};
+			for (int i = 0; i < 8; i++) {
+				int checker = Database.conversie120la64(temp + directiiRege[i]);
+				int move = 0;
+				if(checker != 65)
+				{
+					if(side)
+					{
+						if(!board.AllWhitePieces.isBitSet(checker))
+						{
+							if(board.AllBlackPieces.isBitSet(checker))
+							{
+								if(!BoardCommands.isSquareAttacked(checker, false))
+								{
+									move = createMove(pozitie, checker, 0, 0);
+									addCaptureMove(move);
+								}
+							}
+							else
+							{
+								if(!BoardCommands.isSquareAttacked(checker, false))
+								{
+									move = createMove(pozitie, checker, 0, 0);
+									addMove(move);
+								}
+							}
+						}
+					}
+					else
+					{
+						if(!board.AllBlackPieces.isBitSet(checker))
+						{
+							if(board.AllWhitePieces.isBitSet(checker))
+							{
+								if(!BoardCommands.isSquareAttacked(checker, true))
+								{
+									move = createMove(pozitie, checker, 0, 0);
+									addCaptureMove(move);
+								}
+							}
+							else
+							{
+								if(!BoardCommands.isSquareAttacked(checker, true))
+								{
+									move = createMove(pozitie, checker, 0, 0);
+									addMove(move);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
 }

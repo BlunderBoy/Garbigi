@@ -28,16 +28,18 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("8/8/8/8/8/8/6p1/5B2 w KQkq - 0 1");
+			BoardCommands.initGame("5r1r/8/8/8/8/6K1/r7/8 w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
 			
-			movegen.generatePawnMoves(false);
-			System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
+			movegen.generatePawnMoves(true);
+			movegen.generateKnightMoves(true);
+			movegen.generateKingMoves(true);
 			for (Move m : movegen.mutariGenerate)
 			{
 				m.printMove();
 			}
+			System.out.println("am generat : " + movegen.mutariGenerate.size() + " mutari");
 			//DEBUG pentru consola
 			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
