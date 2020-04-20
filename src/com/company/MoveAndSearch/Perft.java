@@ -3,10 +3,12 @@ package com.company.MoveAndSearch;
 import com.company.Board.BoardState;
 import com.company.Printer;
 
+import java.text.NumberFormat;
+
 public class Perft
 {
 	
-	int numarNoduri = 0;
+	long numarNoduri;
 	public void test(int depth, BoardState board, boolean side) throws CloneNotSupportedException
 	{
 		if(depth == 0)
@@ -26,11 +28,12 @@ public class Perft
 	public void timeTest(int depth, BoardState board) throws CloneNotSupportedException
 	{
 		long time = System.nanoTime();
+		NumberFormat format = NumberFormat.getInstance();
 		test(depth, board, true);
 		time = System.nanoTime() - time;
 		double trecut = (double)time / 1_000_000_000;
-		System.out.println("am vizitat " + numarNoduri + " noduri.");
-		System.out.println("mi-a luat " + time + " nano (" + trecut + " sec)");
-		System.out.println("noduri pe sec: " + (numarNoduri)/trecut);
+		System.out.println("am vizitat " + format.format(numarNoduri) + " noduri.");
+		System.out.println("mi-a luat " + format.format(time) + " nano (" + trecut + " sec)");
+		System.out.println("noduri pe sec: " + format.format((int)((numarNoduri)/trecut)));
 	}
 }

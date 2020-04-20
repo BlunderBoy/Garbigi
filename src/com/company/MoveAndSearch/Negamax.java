@@ -2,6 +2,7 @@ package com.company.MoveAndSearch;
 
 import com.company.Board.BoardState;
 import com.company.Database;
+import com.company.Printer;
 
 import java.util.PriorityQueue;
 
@@ -19,6 +20,11 @@ public class Negamax {
     public Negamax (long startTime, long stopTime) {
         this.startTime = startTime;
         this.stopTime = stopTime;
+    }
+    
+    public Negamax()
+    {
+    
     }
 
     // alt TODO
@@ -116,29 +122,30 @@ public class Negamax {
         board.updateBitboards();
     }
 
-    Move negamax(int depth, int alfa, int beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
+    public Move negamax(int depth, int alfa, int beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
         long elapsedTime = System.nanoTime() - startTime;
-
-        if (gameOver() || depth == 0 || (elapsedTime > stopTime)) {
+        if (gameOver() || depth == 0) {
             // TODO identifica midgame si endgame, ca degeaba avem psqtable pt fiecare daca nu le folosim
             Move dummy = new Move();
             dummy.scor = Eval.eval(currentState, MIDGAME);
             return dummy;
         }
-
+	    
         int max = Integer.MIN_VALUE;
         Move bestLocalMove = new Move();
 
         MoveGenerator plm = new MoveGenerator(BoardState.getInstance());
+        plm.generateAllMoves(side);
         PriorityQueue<Move> moves = plm.mutariGenerate;
         // TODO chiar fa clona board stateului si fa miscarile etc
         // TODO abeta pruning
         // TODO isKingAttacked !!!!!!!!!!!
+	   
         while (!moves.isEmpty()) {
             Move move = moves.poll();
             // apply move?
             applyMove(currentState, move, side);
-
+	        Printer.print();
             bestLocalMove = negamax(depth - 1, -beta, -alfa, !side, currentState);
             bestLocalMove.scor = -bestLocalMove.scor;
             bestLocalMove.sursa = move.sursa;
@@ -159,7 +166,6 @@ public class Negamax {
             if (alfa >= beta) {
                 break;
             }
-
             undoMove(currentState, move, side);
         }
 

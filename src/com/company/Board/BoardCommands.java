@@ -46,7 +46,7 @@ public class BoardCommands {
 		//token 3 = en passant square
 		//token 4 = numar de miscari de la ultima capturare (irelevant mostly)
 		//token 5 = numar de miscari in total
-
+		
 		cineMuta(database, tokens);
 		populareBiboards(index, board, tokens[0]);
 		castlingPermissions(tokens);
@@ -171,6 +171,8 @@ public class BoardCommands {
 	}
 
 	private static void castlingPermissions(String[] tokens) {
+		if(tokens.equals("-"))
+			return;
 		if(tokens[2].contains("K"))
 		{
 			BoardState.getInstance().castlePermission[0] = 1;

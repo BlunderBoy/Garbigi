@@ -84,7 +84,7 @@ public class Move implements Comparable<Move>{
 //        System.out.println("destinatie = " + getDestinatie() + " adica " + helpere[getDestinatie()]);
 //        System.out.println("flag = " + getFlag());
 	
-	    System.out.println(prioritate + " " + helpere[getSursa()] + " " + helpere[getDestinatie()]);
+	    System.out.println("scor " + scor  + " prio: " + prioritate + " " + helpere[getSursa()] + " " + helpere[getDestinatie()]);
 
         if (getFlag() == 1) {
             System.out.print("promotie la : ");
