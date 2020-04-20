@@ -31,6 +31,16 @@ public class Move implements Comparable<Move>{
 
     public Move () { }
 
+    public Move (int sursa, int destinatie, int promotie, int flag, int piesa, int piesaDestinatie, int scor) {
+        this.sursa = sursa;
+        this.destinatie = destinatie;
+        this.promotie = promotie;
+        this.flag = flag;
+        this.piesa = piesa;
+        this.piesaDestinatie = piesaDestinatie;
+        this.scor = scor;
+    }
+
     final String[] helpere = new String[]{
             "h1", "g1", "f1", "e1", "d1", "c1", "b1", "a1",
             "h2", "g2", "f2", "e2", "d2", "c2", "b2", "a2",
