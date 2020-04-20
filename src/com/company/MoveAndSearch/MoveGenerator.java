@@ -331,31 +331,53 @@ public class MoveGenerator {
         }
     }
 	
-	public long getBishopAttacks(int pozitie, long blockers)
+	public long getBishopAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.bishopMasks[pozitie];
 		long rezultat = SlidingPieceGenerator.magicBishopTable[pozitie][(int) ((blockers * SlidingPieceGenerator.bishopMagics[pozitie])
 				>>> (64 - SlidingPieceGenerator.bishopIndexBits[pozitie]))];
-		rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		if(side)
+		{
+			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		}
+		else
+		{
+			rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		}
 		return rezultat;
 	}
 	
-	public long getRookAttacks(int pozitie, long blockers)
+	public long getRookAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
 		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie])
 				>>> (64 - SlidingPieceGenerator.rookIndexBits[pozitie]));
 		System.out.println("--" + key);
 		long rezultat = SlidingPieceGenerator.magicRookTable[pozitie][key];
-		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		if(side)
+		{
+			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		}
+		else
+		{
+			rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		}
 		return rezultat;
 	}
 	
-	public void getQueenAtaacks(int pozitie, long blockers)
+	public long getQueenAtacks(int pozitie, long blockers, boolean side)
 	{
-		long rezultat = getRookAttacks(pozitie, blockers) | getBishopAttacks(pozitie, blockers);
+		long rezultat = getRookAttacks(pozitie, blockers, side) | getBishopAttacks(pozitie, blockers, side);
 		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
-		Printer.print(rezultat);
+		if(side)
+		{
+			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		}
+		else
+		{
+			rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		}
+		return rezultat;
 	}
 	
 	public void generateRookMoves(boolean side) throws CloneNotSupportedException
@@ -363,10 +385,144 @@ public class MoveGenerator {
 		BoardState board = BoardState.getInstance();
         Bitboard bitBoard;
         if (side) {
-            bitBoard = (Bitboard) board.blackRooks.clone();
+            bitBoard = (Bitboard) board.whiteRooks.clone();
         } else {
             bitBoard = (Bitboard) board.blackRooks.clone();
         }
-        
+         while (bitBoard.reprezentare != 0)
+         {
+	         int pozitie = popLSB(bitBoard.reprezentare);
+	         bitBoard.clearBit(pozitie);
+	         long atackBoard = getRookAttacks(pozitie, board.allPieces.reprezentare, side);
+	         while(atackBoard != 0)
+	         {
+	         	int move = 0;
+	         	int checker = popLSB(atackBoard);
+	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
+	         	if(side)
+	            {
+	            	if(board.allBlackPieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         	else
+	            {
+	                if(board.allWhitePieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         }
+         }
+	}
+	
+	public void generateBishopMoves(boolean side) throws CloneNotSupportedException
+	{
+		BoardState board = BoardState.getInstance();
+        Bitboard bitBoard;
+        if (side) {
+            bitBoard = (Bitboard) board.blackBishops.clone();
+        } else {
+            bitBoard = (Bitboard) board.blackBishops.clone();
+        }
+         while (bitBoard.reprezentare != 0)
+         {
+	         int pozitie = popLSB(bitBoard.reprezentare);
+	         bitBoard.clearBit(pozitie);
+	         long atackBoard = getBishopAttacks(pozitie, board.allPieces.reprezentare, side);
+	         while(atackBoard != 0)
+	         {
+	         	int move = 0;
+	         	int checker = popLSB(atackBoard);
+	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
+	         	if(side)
+	            {
+	            	if(board.allBlackPieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         	else
+	            {
+	                if(board.allWhitePieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         }
+         }
+	}
+	public void generateQueenMoves(boolean side) throws CloneNotSupportedException
+	{
+		BoardState board = BoardState.getInstance();
+        Bitboard bitBoard;
+        if (side) {
+            bitBoard = (Bitboard) board.blackQueens.clone();
+        } else {
+            bitBoard = (Bitboard) board.blackQueens.clone();
+        }
+         while (bitBoard.reprezentare != 0)
+         {
+	         int pozitie = popLSB(bitBoard.reprezentare);
+	         bitBoard.clearBit(pozitie);
+	         long atackBoard = getQueenAtacks(pozitie, board.allPieces.reprezentare, side);
+	         while(atackBoard != 0)
+	         {
+	         	int move = 0;
+	         	int checker = popLSB(atackBoard);
+	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
+	         	if(side)
+	            {
+	            	if(board.allBlackPieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         	else
+	            {
+	                if(board.allWhitePieces.isBitSet(checker))
+		            {
+		                move = createMove(pozitie, checker, 0, 0);
+		                addCaptureMove(move);
+		            }
+	            	else
+		            {
+		            	move = createMove(pozitie, checker, 0, 0);
+		                addMove(move);
+		            }
+	            }
+	         }
+         }
 	}
 }

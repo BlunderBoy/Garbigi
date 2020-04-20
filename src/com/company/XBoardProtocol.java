@@ -39,10 +39,9 @@ public class XBoardProtocol {
 			System.out.println(lsb);
 			BoardState.getInstance().whiteRooks.clearBit(lsb);
 			
-			movegen.getQueenAtaacks(lsb, BoardState.getInstance().allPieces.reprezentare);
 			
 			//movegen.generatePawnMoves(true);
-			//movegen.generateKnightMoves(true);
+			//movegen.generateKnightMoves(true)
 			//movegen.generateKingMoves(true);
 			//for (Move m : movegen.mutariGenerate)
 			//{
