@@ -19,7 +19,7 @@ public class Move implements Comparable<Move>{
 	int piesa; //piesa care se muta
 	int piesaDestinatie;
 	//
-    int scor;
+    double scor;
     int prioritate;
     // 0 -> pion
     // 1 -> cal
@@ -28,6 +28,19 @@ public class Move implements Comparable<Move>{
     // 4 -> regina
     // 5 -> rege
     // plz respect these
+
+
+    @Override
+    public String toString () {
+        return "{" + "sursa: " + sursa +
+                ", destinatie: " + destinatie +
+                ", promotie: " + promotie +
+                ", flag: " + flag +
+                ", piesa: " + piesa +
+                ", piesaDestinatie: " + piesaDestinatie +
+                ", scor: " + scor +
+                '}';
+    }
 
     public Move () { }
 

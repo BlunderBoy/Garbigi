@@ -17,14 +17,14 @@ public class Negamax {
     // alea *5 sec* trebuie fine tuned by us
     // TODO daca o miscare nu e "stabila", sa continue search-ul, eventual sa mai bagam un time limit field
     // ceva de genu soft limit si hard limit
-    public Negamax (long startTime, long stopTime) {
-        this.startTime = startTime;
+    public Negamax (long stopTime) {
+        this.startTime = System.nanoTime();
         this.stopTime = stopTime;
     }
-    
+
     public Negamax()
     {
-    
+
     }
 
     // alt TODO
@@ -122,41 +122,45 @@ public class Negamax {
         board.updateBitboards();
     }
 
-    public Move negamax(int depth, int alfa, int beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
+    public Move negamax(int depth, double alfa, double beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
         long elapsedTime = System.nanoTime() - startTime;
-        if (gameOver() || depth == 0) {
+        if (gameOver() || depth == 0/* || elapsedTime > stopTime*/) {
             // TODO identifica midgame si endgame, ca degeaba avem psqtable pt fiecare daca nu le folosim
             Move dummy = new Move();
             dummy.scor = Eval.eval(currentState, MIDGAME);
             return dummy;
         }
-	    
-        int max = Integer.MIN_VALUE;
+
+        double max = Integer.MIN_VALUE;
         Move bestLocalMove = new Move();
 
         MoveGenerator plm = new MoveGenerator(BoardState.getInstance());
         plm.generateAllMoves(side);
         PriorityQueue<Move> moves = plm.mutariGenerate;
-        // TODO chiar fa clona board stateului si fa miscarile etc
-        // TODO abeta pruning
         // TODO isKingAttacked !!!!!!!!!!!
-	   
         while (!moves.isEmpty()) {
             Move move = moves.poll();
             // apply move?
             applyMove(currentState, move, side);
-	        Printer.print();
-            bestLocalMove = negamax(depth - 1, -beta, -alfa, !side, currentState);
-            bestLocalMove.scor = -bestLocalMove.scor;
-            bestLocalMove.sursa = move.sursa;
-            bestLocalMove.destinatie = move.destinatie;
-            bestLocalMove.promotie = move.promotie;
-            bestLocalMove.flag = move.flag;
-            bestLocalMove.piesa = move.piesa;
-            bestLocalMove.piesaDestinatie = move.piesaDestinatie;
+            Move result;
+            result = negamax(depth - 1, -beta, -alfa, !side, currentState);
+            result.scor = -result.scor;
+            result.sursa = move.sursa;
+            result.destinatie = move.destinatie;
+            result.promotie = move.promotie;
+            result.flag = move.flag;
+            result.piesa = move.piesa;
+            result.piesaDestinatie = move.piesaDestinatie;
 
-            if (bestLocalMove.scor > max) {
-                max = bestLocalMove.scor;
+            Printer.print();
+
+            System.out.println("comparing " + result.scor + " with " + max);
+            if (result.scor > max) {
+                max = result.scor;
+                bestLocalMove = result;
+                System.out.println("returned score for best move " + max);
+                result.printMove();
+                System.out.println();
             }
 
             if (max > alfa) {
@@ -166,6 +170,7 @@ public class Negamax {
             if (alfa >= beta) {
                 break;
             }
+
             undoMove(currentState, move, side);
         }
 

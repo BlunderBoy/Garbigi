@@ -8,10 +8,10 @@ import static com.company.Board.Bitboard.clearBit;
 
 
 public class Eval {
-    public static int eval(BoardState board, int gamePhase) throws CloneNotSupportedException {
-        int score = getScoreWhite(board.whitePawns.reprezentare, board.whitePawns.valoare, PSqTable.pawnValues[gamePhase]);
-        //System.out.println("score for white pawns: " + score);
-        int temp = getScoreWhite(board.whiteKnights.reprezentare, board.whiteKnights.valoare, PSqTable.knightValues[gamePhase]);
+    public static double eval(BoardState board, int gamePhase) throws CloneNotSupportedException {
+        double score = getScoreWhite(board.whitePawns.reprezentare, board.whitePawns.valoare, PSqTable.pawnValues[gamePhase]);
+        //System.out.prdoubleln("score for white pawns: " + score);
+        double temp = getScoreWhite(board.whiteKnights.reprezentare, board.whiteKnights.valoare, PSqTable.knightValues[gamePhase]);
         //System.out.println("score for white knights: " + temp);
         score += temp;
         temp = getScoreWhite(board.whiteBishops.reprezentare, board.whiteBishops.valoare, PSqTable.bishopValues[gamePhase]);
@@ -46,7 +46,8 @@ public class Eval {
         //System.out.println("score for black king: " + temp);
         score -= temp;
 
-        return score;
+        return (score/((long)100));
+        //return score;
     }
 
     private static int getScoreWhite (long bitboard, int valoare, int[] value) throws CloneNotSupportedException {

@@ -34,10 +34,12 @@ public class XBoardProtocol {
 			Printer.print();
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
+
+			MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
-			
-			new Negamax(0, 10000000).negamax(4,0,10000000,true,BoardState.getInstance()).printMove();
+
+			new Negamax(10000000).negamax(4,0,10000000,true,BoardState.getInstance()).printMove();
 			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
