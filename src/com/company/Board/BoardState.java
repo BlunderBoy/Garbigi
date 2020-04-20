@@ -12,7 +12,7 @@ public class BoardState implements Cloneable{
 	 File { FILE_A, FILE_B, FILE_C, FILE_D, FILE_E, FILE_F, FILE_G, FILE_NONE };
 	 Rank { RANK_1, RANK_2, RANK_3, RANK_4, RANK_5, RANK_6, RANK_7, RANK_8, RANK_NONE };
 	*/
-	
+
 	/* tin un array de 120 care acopera tabla in toate
 	directiile ca sa verific daca iese ceva de pe tabla.
 	am 2 randuri in plus sus si jos din cauza calului.

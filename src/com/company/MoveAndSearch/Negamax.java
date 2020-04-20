@@ -1,12 +1,17 @@
 package com.company.MoveAndSearch;
 
+import com.company.Board.Bitboard;
 import com.company.Board.BoardCommands;
 import com.company.Board.BoardState;
+import com.company.Board.PSqTable;
 import com.company.Database;
 
 import java.util.ArrayList;
 
 public class Negamax {
+    public final int MIDGAME = 0;
+    public final int ENDGAME = 1;
+
     long startTime;
     long stopTime;
     // cand apelam negamax prima oara, o sa construim un obiect Negamax si ii dam
@@ -18,11 +23,37 @@ public class Negamax {
         this.startTime = startTime;
         this.stopTime = stopTime;
     }
+    
+    int eval(BoardState board, int gamePhase) throws CloneNotSupportedException {
+        int score = getScore(board.whitePawns.clone(), PSqTable.pawnValues[gamePhase]);
+        score += getScore(board.whiteKnights.clone(), PSqTable.knightValues[gamePhase]);
+        score += getScore(board.whiteBishops.clone(), PSqTable.bishopValues[gamePhase]);
+        score += getScore(board.whiteRooks.clone(), PSqTable.rookValues[gamePhase]);
+        score += getScore(board.whiteQueens.clone(), PSqTable.queenValues[gamePhase]);
+        score += getScore(board.whiteKing.clone(), PSqTable.kingValues[gamePhase]);
 
-    // TODO
-    int eval(BoardState board) {
-        return 0;
+        score -= getScore(board.blackPawns.clone(), PSqTable.pawnValues[gamePhase]);
+        score -= getScore(board.blackKnights.clone(), PSqTable.knightValues[gamePhase]);
+        score -= getScore(board.blackBishops.clone(), PSqTable.bishopValues[gamePhase]);
+        score -= getScore(board.blackRooks.clone(), PSqTable.rookValues[gamePhase]);
+        score -= getScore(board.blackQueens.clone(), PSqTable.queenValues[gamePhase]);
+        score -= getScore(board.blackKing.clone(), PSqTable.kingValues[gamePhase]);
+
+        return score;
     }
+
+    private int getScore (Bitboard bitboard, int[] value) throws CloneNotSupportedException {
+        int score = 0;
+
+        while (bitboard.reprezentare != 0) {
+            int index = Bitboard.popLSB(bitboard.reprezentare);
+            bitboard.clearBit(index);
+            score += bitboard.valoare + value[index];
+        }
+
+        return score;
+    }
+
     // alt TODO
     boolean gameOver() {
         return false;
@@ -73,7 +104,8 @@ public class Negamax {
         long elapsedTime = System.nanoTime() - startTime;
 
         if (gameOver() || depth == 0 || (elapsedTime > stopTime)) {
-            return new Move(0, eval(currentState));
+            // TODO identifica midgame si endgame, ca degeaba avem psqtable pt fiecare daca nu le folosim
+            return new Move(0, eval(currentState, MIDGAME));
         }
 
         int max = Integer.MIN_VALUE;
