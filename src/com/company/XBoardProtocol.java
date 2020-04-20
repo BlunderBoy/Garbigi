@@ -26,22 +26,20 @@ public class XBoardProtocol {
 		Database database = Database.getInstance();
 
 		if (buffer.contains("debug")) {
+			System.out.println("__");
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("3r4/8/1r2R1p1/8/8/4B3/1p6/8 w KQkq - 0 1");
+			BoardCommands.initGame("8/8/8/4R3/3N1N2/2B1P1B1/8/8 w KQkq - 0 1");
 			/////////
 			MoveGenerator movegen = new MoveGenerator();
 			SlidingPieceGenerator sld = new SlidingPieceGenerator();
-			int counter = 0;
 			
-			int lsb = MoveGenerator.popLSB(BoardState.getInstance().whiteRooks.reprezentare);
+			int lsb = MoveGenerator.popLSB(BoardState.getInstance().whitePawns.reprezentare);
+			System.out.println(lsb);
 			BoardState.getInstance().whiteRooks.clearBit(lsb);
-			for (int i = 0; i < 64; i++)
-			{
-				lsb = i;
-			movegen.getRookAttacks(lsb, BoardState.getInstance().allPieces.reprezentare);
-			}
+			
+			movegen.getQueenAtaacks(lsb, BoardState.getInstance().allPieces.reprezentare);
 			
 			//movegen.generatePawnMoves(true);
 			//movegen.generateKnightMoves(true);

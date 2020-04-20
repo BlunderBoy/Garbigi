@@ -323,29 +323,42 @@ public class MoveGenerator {
         }
     }
 	
-	public void getBishopAttacks(int pozitie, long blockers, boolean side)
+	public long getBishopAttacks(int pozitie, long blockers)
 	{
 		blockers &= SlidingPieceGenerator.bishopMasks[pozitie];
 		long rezultat = SlidingPieceGenerator.magicBishopTable[pozitie][(int) ((blockers * SlidingPieceGenerator.bishopMagics[pozitie])
 				>>> (64 - SlidingPieceGenerator.bishopIndexBits[pozitie]))];
-		
-		if(side)
-		{
-			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
-		}
-		else
-		{
-			rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
-		}
+		rezultat &= ~BoardState.getInstance().allBlackPieces.reprezentare;
+		return rezultat;
+	}
+	
+	public long getRookAttacks(int pozitie, long blockers)
+	{
+		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
+		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie])
+				>>> (64 - SlidingPieceGenerator.rookIndexBits[pozitie]));
+		System.out.println("--" + key);
+		long rezultat = SlidingPieceGenerator.magicRookTable[pozitie][key];
+		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
+		return rezultat;
+	}
+	
+	public void getQueenAtaacks(int pozitie, long blockers)
+	{
+		long rezultat = getRookAttacks(pozitie, blockers) | getBishopAttacks(pozitie, blockers);
+		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
 		Printer.print(rezultat);
 	}
 	
-	public void getRookAttacks(int pozitie, long blockers)
+	public void generateRookMoves(boolean side) throws CloneNotSupportedException
 	{
-		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
-		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie]) >>> (64 - SlidingPieceGenerator.rookIndexBits[pozitie]));
-		long rezultat = SlidingPieceGenerator.magicRookTable[pozitie][key];
-		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
-		Printer.print(rezultat);
+		BoardState board = BoardState.getInstance();
+        Bitboard bitBoard;
+        if (side) {
+            bitBoard = (Bitboard) board.blackRooks.clone();
+        } else {
+            bitBoard = (Bitboard) board.blackRooks.clone();
+        }
+        
 	}
 }

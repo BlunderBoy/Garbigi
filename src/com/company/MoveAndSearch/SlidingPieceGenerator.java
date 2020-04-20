@@ -254,7 +254,8 @@ public class SlidingPieceGenerator {
         for (int square = 0; square < 64; square++) {
             for (int blockerIndex = 0; blockerIndex < (1L << rookIndexBits[square]); blockerIndex++) {
                 long blockers = getBlockersFromIndex(blockerIndex, rookMasks[square]);
-                magicRookTable[square][(int) ((blockers * rookMagics[square])) >>> ((64 - rookIndexBits[square]))] = getRookAttacksSlow(square, blockers);
+                int key = (int)((blockers * rookMagics[square]) >>> (64 - rookIndexBits[square]));
+                magicRookTable[square][key] = getRookAttacksSlow(square, blockers);
             }
         }
     }
