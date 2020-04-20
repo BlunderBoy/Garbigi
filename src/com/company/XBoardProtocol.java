@@ -3,6 +3,7 @@ package com.company;
 import com.company.Board.*;
 import com.company.MoveAndSearch.Move;
 import com.company.MoveAndSearch.MoveGenerator;
+import com.company.MoveAndSearch.Negamax;
 import com.company.MoveAndSearch.SlidingPieceGenerator;
 
 /**
@@ -30,12 +31,16 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("8/8/8/4R3/3N1N2/2B1P1B1/8/8 w KQkq - 0 1");
+			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w - - 0 1");
 			/////////
+
+			System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
+			Printer.print();
+
 			MoveGenerator movegen = new MoveGenerator();
 			SlidingPieceGenerator sld = new SlidingPieceGenerator();
 			
-			int lsb = MoveGenerator.popLSB(BoardState.getInstance().whitePawns.reprezentare);
+			int lsb = Bitboard.popLSB(BoardState.getInstance().whitePawns.reprezentare);
 			System.out.println(lsb);
 			BoardState.getInstance().whiteRooks.clearBit(lsb);
 			

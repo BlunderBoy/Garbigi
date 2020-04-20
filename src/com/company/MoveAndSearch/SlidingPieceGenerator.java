@@ -240,7 +240,7 @@ public class SlidingPieceGenerator {
         long blockers = 0;
         long bits = Long.bitCount(mask);
         for (int i = 0; i < bits; i++) {
-            int bitPos = MoveGenerator.popLSB(mask);
+            int bitPos = Bitboard.popLSB(mask);
             mask = Bitboard.clearBit(bitPos, mask);
             if ((index & (1L << i)) != 0) {
                 blockers |= (1L << bitPos);
