@@ -27,11 +27,16 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("8/8/2q5/1Qp5/4q1r1/5P2/8/8 w KQkq - 0 1");
+			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
 			/////////
+			//public Move (int sursa, int destinatie, int promotie, int flag, int piesa, int piesaDestinatie, int scor) {
+			Move plm = new Move(13, 29, 0, 0, 0, -1, 0);
+			Negamax.applyMove(BoardState.getInstance(), plm, database.WHITE);
+			Printer.print();
+			Negamax.undoMove(BoardState.getInstance(), plm, database.WHITE);
+			Printer.print();
 
 			//System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
-			Printer.print();
 
 			MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 			movegen.generateAllMovesAndStats(true);
