@@ -74,7 +74,7 @@ public class Move implements Comparable<Move>{
 //        System.out.println("destinatie = " + getDestinatie() + " adica " + helpere[getDestinatie()]);
 //        System.out.println("flag = " + getFlag());
 	
-	    System.out.println(helpere[getSursa()] + " " + helpere[getDestinatie()]);
+	    System.out.println(prioritate + " " + helpere[getSursa()] + " " + helpere[getDestinatie()]);
 
         if (getFlag() == 1) {
             System.out.print("promotie la : ");
@@ -112,6 +112,6 @@ public class Move implements Comparable<Move>{
 	@Override
 	public int compareTo(Move move)
 	{
-		return this.prioritate - move.prioritate;
+		return move.prioritate - this.prioritate;
 	}
 }

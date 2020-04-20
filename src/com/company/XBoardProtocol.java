@@ -27,7 +27,7 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame();
+			BoardCommands.initGame("8/8/2q5/1Qp5/4q1r1/5P2/8/8 w KQkq - 0 1");
 			/////////
 
 			//System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
