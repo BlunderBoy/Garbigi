@@ -1,6 +1,7 @@
 package com.company.MoveAndSearch;
 
 import com.company.Board.BoardState;
+import com.company.Printer;
 
 public class Perft
 {
@@ -13,13 +14,16 @@ public class Perft
 		
 		MoveGenerator generator = new MoveGenerator(board);
 		generator.generateAllMoves(side);
-		for ( Move move: generator.mutariGenerate)
+		while (!generator.mutariGenerate.isEmpty())
 		{
+			Move move = generator.mutariGenerate.poll();
 			numarNoduri++;
-			BoardState b = board.clone();
-			//Negamax.applyMove(b, move, side);
+			Negamax.applyMove(board, move, side);
+			Printer.print();
 			side = !side;
-			test(depth-1, b);
+			test(depth-1, board);
+			Negamax.undoMove(board, move, side);
+			Printer.print();
 		}
 	}
 	public void timeTest(int depth, BoardState board) throws CloneNotSupportedException

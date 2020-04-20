@@ -27,15 +27,15 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("8/8/2q5/1Qp5/4q1r1/5P2/8/8 w KQkq - 0 1");
+			BoardCommands.initGame();
 			/////////
 
 			//System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
 			Printer.print();
 
 			MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
-			movegen.generateAllMovesAndStats(true);
-			//new Perft().timeTest(4,BoardState.getInstance());
+			//movegen.generateAllMovesAndStats(true);
+			new Perft().timeTest(1,BoardState.getInstance());
 			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
