@@ -459,14 +459,14 @@ public class BoardCommands {
 		// verificam LA INCEPUT daca avem capturare
 		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
 
-//		if (dest != null) {
-//			if (Database.getInstance().DEBUG)
-//				System.out.println("avem capturare");
-//			dest.clearBit(destIndex);
-//		} else {
-//			if (Database.getInstance().DEBUG)
-//				System.out.println("nu avem capturare");
-//		}
+		if (dest != null) {
+			if (Database.getInstance().DEBUG)
+				System.out.println("avem capturare");
+			dest.clearBit(destIndex);
+		} else {
+			if (Database.getInstance().DEBUG)
+				System.out.println("nu avem capturare");
+		}
 
 		source.clearBit(sourceIndex);
 		source.setBit(destIndex);
