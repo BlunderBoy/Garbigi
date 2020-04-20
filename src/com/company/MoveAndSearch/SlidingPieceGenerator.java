@@ -132,7 +132,7 @@ public class SlidingPieceGenerator {
     public static long[] raysRook;
     public static long[] raysBishop;
 
-    public SlidingPieceGenerator () {
+    public static void  initSlidingPieceGenerator () {
         initRookRays();
         initBishopRays();
         initRookBishopMask();
@@ -162,7 +162,7 @@ public class SlidingPieceGenerator {
         }
     }
 
-    void initRookBishopMask () {
+    static void initRookBishopMask() {
         rookMasks = new long[64];
         bishopMasks = new long[64];
         //%8 - 1
@@ -194,7 +194,7 @@ public class SlidingPieceGenerator {
         updateMiddle(bishopMasks);
     }
 
-    private void updateMiddle (long[] pieceMasks) {
+    private static void updateMiddle(long[] pieceMasks) {
         int[] restul = {9, 10, 11, 12, 13, 14, 17, 18, 19, 20, 21, 22, 25, 26, 27, 28, 29, 30, 33,
                 34, 35, 36, 37, 38, 41, 42, 43, 44, 45, 46, 49, 50, 51, 52, 53, 54};
 
@@ -207,7 +207,7 @@ public class SlidingPieceGenerator {
     }
 
     // scoate cele 2 patratele pt mastile care incep din colt
-    private void updateCorners (long[] pieceMasks) {
+    private static void updateCorners(long[] pieceMasks) {
         pieceMasks[0] &= ~RANK_8;
         pieceMasks[0] &= ~FILE_A;
 
@@ -221,7 +221,7 @@ public class SlidingPieceGenerator {
         pieceMasks[63] &= ~FILE_H;
     }
     // scoate cele 3 chestii pt mastile care incep pe margini
-    private void updateBorders (int[] valoriMarginaleDreapta, long border1, long border2, long border3) {
+    private static void updateBorders(int[] valoriMarginaleDreapta, long border1, long border2, long border3) {
         for (int i2 : valoriMarginaleDreapta) {
             rookMasks[i2] &= ~border1;
             rookMasks[i2] &= ~border2;
@@ -249,7 +249,7 @@ public class SlidingPieceGenerator {
         return blockers;
     }
 
-    public void initRookMagicTable () {
+    public static void initRookMagicTable() {
         magicRookTable = new long[64][4096];
         for (int square = 0; square < 64; square++) {
             for (int blockerIndex = 0; blockerIndex < (1L << rookIndexBits[square]); blockerIndex++) {
@@ -260,7 +260,7 @@ public class SlidingPieceGenerator {
         }
     }
 
-    public void initBishopMagicTable () {
+    public static void initBishopMagicTable() {
         magicBishopTable = new long[64][1024];
         for (int square = 0; square < 64; square++) {
             for (int blockerIndex = 0; blockerIndex < (1L << bishopIndexBits[square]); blockerIndex++) {
@@ -270,7 +270,7 @@ public class SlidingPieceGenerator {
         }
     }
 
-    public long getBishopAttacksSlow (int pozitie, long blockers) {
+    public static long getBishopAttacksSlow(int pozitie, long blockers) {
         //blockers e un bitboard de piese
         //pozitie e patratul pe care sunt
         long atackSet = 0;
@@ -293,7 +293,7 @@ public class SlidingPieceGenerator {
         return atackSet;
     }
 
-    private long getRookAttacksSlow (int pozitie, long blockers) {
+    private static long getRookAttacksSlow(int pozitie, long blockers) {
         //blockers e un bitboard de piese
         //pozitie e patratul pe care sunt
 

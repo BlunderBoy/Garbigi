@@ -10,10 +10,17 @@ mutare:
 	en passant se seteaza cand se poate captura un pion en passant
 	Stockfish ty ty
  */
-public class Move {
-    int mutare;
+public class Move implements Comparable<Move>{
+    //codificare
+	int sursa;
+	int destinatie;
+	int promotie; //(4 valori - cal 0 (00), nebun 01 (01), tura (10), regina (11)) -1 pentru noncap
+	int flag; ////(4 valori - promotie 1 (01), en passant 2 (10), castling 3 (11))
+	int piesa; //piesa care se muta
+	int piesaDestinatie;
+	//
     int scor;
-    int piesa;
+    int prioritate;
     // 0 -> pion
     // 1 -> cal
     // 2 -> nebun
@@ -22,10 +29,7 @@ public class Move {
     // 5 -> rege
     // plz respect these
 
-    public Move (int mutare, int scor) {
-        this.mutare = mutare;
-        this.scor = scor;
-    }
+    public Move () { }
 
     final String[] helpere = new String[]{
             "h1", "g1", "f1", "e1", "d1", "c1", "b1", "a1",
@@ -38,33 +42,39 @@ public class Move {
             "h8", "g8", "f8", "e8", "d8", "c8", "b8", "a8"};
 
 
-    int getSursa () {
-        return (mutare & 0x3F);
+    public int getSursa () {
+        return sursa;
     }
 
-    int getDestinatie () {
-        //magic calculat cu python
-        //mutare >> 6 & 3F
-        return (mutare >> 6) & 0x3F;
+    public int getDestinatie () {
+        return destinatie;
     }
 
-    int getPromotie () {
-        //magic calculat cu python
-        //mutare >> 14 & 3
-        return (mutare >> 12) & 0x3;
+    public int getPromotie () {
+        return promotie;
     }
 
-    int getFlag () {
-        return (mutare >> 14);
+    public int getFlag () {
+        return flag;
+    }
+    
+    public int getPiesa(){
+    	return piesa;
+    }
+    
+    public int getPiesaDestinatie(){
+    	return piesa;
     }
 
     public void printMove () {
         System.out.println("-----------------");
-        System.out.println(Integer.toBinaryString(mutare));
-        System.out.println("valoare = " + mutare + " scor = " + scor);
-        System.out.println("sursa = " + getSursa() + " adica " + helpere[getSursa()]);
-        System.out.println("destinatie = " + getDestinatie() + " adica " + helpere[getDestinatie()]);
-        System.out.println("flag = " + getFlag());
+//        System.out.println(Integer.toBinaryString(mutare));
+//        System.out.println("valoare = " + mutare + " scor = " + scor);
+//        System.out.println("sursa = " + getSursa() + " adica " + helpere[getSursa()]);
+//        System.out.println("destinatie = " + getDestinatie() + " adica " + helpere[getDestinatie()]);
+//        System.out.println("flag = " + getFlag());
+	
+	    System.out.println(helpere[getSursa()] + " " + helpere[getDestinatie()]);
 
         if (getFlag() == 1) {
             System.out.print("promotie la : ");
@@ -83,7 +93,7 @@ public class Move {
         }
 
         if (getFlag() == 2) {
-            System.out.println("se poate captura un pion en passant");
+            System.out.println("s-a capturat un pion en passant");
         }
 
         if (getFlag() == 3) {
@@ -97,6 +107,11 @@ public class Move {
     public String getMove () {
         return (helpere[getSursa()] + helpere[getDestinatie()]);
     }
-
-
+	
+	
+	@Override
+	public int compareTo(Move move)
+	{
+		return this.prioritate - move.prioritate;
+	}
 }

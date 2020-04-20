@@ -1,6 +1,8 @@
 package com.company.Board;
 
 import com.company.Database;
+import com.company.MoveAndSearch.MoveGenerator;
+import com.company.MoveAndSearch.SlidingPieceGenerator;
 
 /**
  * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
@@ -11,6 +13,8 @@ public class BoardCommands {
 	public static void initGame() {
 		Database.initializareArray();
 		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		SlidingPieceGenerator.initSlidingPieceGenerator();
+		MoveGenerator.initMoveGenerator();
 		Database.getInstance().engineColor = Database.getInstance().BLACK;
 		Database.getInstance().opponentColor = Database.getInstance().WHITE;
 		Database.getInstance().turn = Database.getInstance().WHITE;
@@ -20,6 +24,8 @@ public class BoardCommands {
 	public static void initGame(String fen) {
 		Database.initializareArray();
 		BoardCommands.createBoardstateFromFEN(fen);
+		SlidingPieceGenerator.initSlidingPieceGenerator();
+		MoveGenerator.initMoveGenerator();
 		Database.getInstance().engineColor = Database.getInstance().BLACK;
 		Database.getInstance().opponentColor = Database.getInstance().WHITE;
 		Database.getInstance().turn = Database.getInstance().WHITE;
@@ -61,7 +67,7 @@ public class BoardCommands {
 		BoardState board = BoardState.getInstance();
 		Database database = Database.getInstance();
 		pozitie = Database.conversie64la120(pozitie);
-		System.out.print("adica numarul " + Database.conversie120la64(pozitie) + " ");
+//		System.out.print("adica numarul " + Database.conversie120la64(pozitie) + " ");
 		int directie;
 		
 		
@@ -434,14 +440,14 @@ public class BoardCommands {
 		// verificam LA INCEPUT daca avem capturare
 		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
 
-		if (dest != null) {
-			if (Database.getInstance().DEBUG)
-				System.out.println("avem capturare");
-			dest.clearBit(destIndex);
-		} else {
-			if (Database.getInstance().DEBUG)
-				System.out.println("nu avem capturare");
-		}
+//		if (dest != null) {
+//			if (Database.getInstance().DEBUG)
+//				//System.out.println("avem capturare");
+//			dest.clearBit(destIndex);
+//		} else {
+//			if (Database.getInstance().DEBUG)
+//				//System.out.println("nu avem capturare");
+//		}
 
 		source.clearBit(sourceIndex);
 		source.setBit(destIndex);
@@ -453,14 +459,14 @@ public class BoardCommands {
 		// verificam LA INCEPUT daca avem capturare
 		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
 
-		if (dest != null) {
-			if (Database.getInstance().DEBUG)
-				System.out.println("avem capturare");
-			dest.clearBit(destIndex);
-		} else {
-			if (Database.getInstance().DEBUG)
-				System.out.println("nu avem capturare");
-		}
+//		if (dest != null) {
+//			if (Database.getInstance().DEBUG)
+//				System.out.println("avem capturare");
+//			dest.clearBit(destIndex);
+//		} else {
+//			if (Database.getInstance().DEBUG)
+//				System.out.println("nu avem capturare");
+//		}
 
 		source.clearBit(sourceIndex);
 		source.setBit(destIndex);
@@ -538,6 +544,63 @@ public class BoardCommands {
 			return 'k';
 		}
 		return 0;
+	}
+	
+	public static int getPieceType(BoardState board, int index, boolean side) {
+		if (side)
+		{
+			return getPieceTypeWhite(board, index);
+		}
+		else
+		{
+			return getPieceTypeBlack(board, index);
+		}
+	}
+	
+	static int getPieceTypeWhite(BoardState board, int index)
+	{
+		if (board.whitePawns.isBitSet(index)) {
+			return 0;
+		}
+		if (board.whiteKnights.isBitSet(index)) {
+			return 1;
+		}
+		if (board.whiteBishops.isBitSet(index)) {
+			return 2;
+		}
+		if (board.whiteRooks.isBitSet(index)) {
+			return 3;
+		}
+		if (board.whiteQueens.isBitSet(index)) {
+			return 4;
+		}
+		if (board.whiteKing.isBitSet(index)) {
+			return 5;
+		}
+		return -1;
+	}
+	
+	static int getPieceTypeBlack(BoardState board, int index)
+	{
+		if (board.blackPawns.isBitSet(index)) {
+			return 0;
+		}
+		if (board.blackKnights.isBitSet(index)) {
+			return 1;
+		}
+		if (board.blackBishops.isBitSet(index)) {
+			return 2;
+		}
+		if (board.blackRooks.isBitSet(index)) {
+			return 3;
+		}
+		if (board.blackQueens.isBitSet(index)) {
+			return 4;
+		}
+		if (board.blackKing.isBitSet(index)) {
+			return 5;
+		}
+		return -1;
 	}
 
 	// TODO

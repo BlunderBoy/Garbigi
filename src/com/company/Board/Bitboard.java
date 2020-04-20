@@ -53,7 +53,9 @@ public class Bitboard implements Cloneable{
 	 * @param pos Position to check.
 	 * @return True if occupied, false if not.
 	 */
-	public boolean isBitSet(int pos) { return (reprezentare & (setMask[pos])) != 0; }
+	public boolean isBitSet(int pos) { try {return (reprezentare & (setMask[pos])) != 0;}
+	catch (Exception e)
+	{ return true;} }
 
 	public void setBit(int pos) {
 		reprezentare = reprezentare | setMask[pos];

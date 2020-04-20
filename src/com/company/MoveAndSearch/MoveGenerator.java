@@ -1,29 +1,47 @@
 package com.company.MoveAndSearch;
 
-import com.company.*;
 import com.company.Board.Bitboard;
 import com.company.Board.BoardCommands;
 import com.company.Board.BoardState;
+import com.company.Database;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.PriorityQueue;
 
 import static com.company.Board.Bitboard.popLSB;
 
 public class MoveGenerator {
-	public ArrayList<Move> mutariGenerate;
+	public PriorityQueue<Move> mutariGenerate;
+	BoardState board;
 
     //helpere
-    HashMap<Integer, Integer> getrank;
+    static HashMap<Integer, Integer> getrank;
+    
+	int captures = 0;
+	int ep = 0;
+	int promotions = 0;
+	int castle = 0;
+	
+	public void stats()
+	{
+		System.out.println("capturari " + captures);
+		System.out.println("en passant " + ep);
+		System.out.println("promotii " + promotions);
+		System.out.println("castle " + castle);
+	}
 
-
-
-
-    public MoveGenerator() {
+    public MoveGenerator(BoardState board) throws CloneNotSupportedException
+    {
         //in hashpmap o sa am [0,1,2,3,4,5,6,7] cu cheia 1
         //[8,9,10,11,12,13,14,15] cu cheia 2 etc
         //ca sa pot lua usor rank-ul dupa pozitie
-        mutariGenerate = new ArrayList<>();
+        mutariGenerate = new PriorityQueue<>();
+        this.board = board.clone();
+    }
+    
+    public static void initMoveGenerator()
+    {
         getrank = new HashMap<>();
         for (int i = 0; i < 8; i++) {
             for (int j = 0; j < 8; j++) {
@@ -31,9 +49,38 @@ public class MoveGenerator {
             }
         }
     }
+    
+    public void generateAllMoves(boolean side) throws CloneNotSupportedException
+    {
+        generatePawnMoves(side);
+        generateKnightMoves(side);
+        generateKingMoves(side);
+        generateRookMoves(side);
+        generateBishopMoves(side);
+        generateQueenMoves(side);
+    }
+	
+	public void generateAllMovesAndStats(boolean side) throws CloneNotSupportedException
+	{
+		long time = System.nanoTime();
+		generatePawnMoves(side);
+		generateKnightMoves(side);
+		generateKingMoves(side);
+		generateRookMoves(side);
+		generateBishopMoves(side);
+		generateQueenMoves(side);
+		time = System.nanoTime() - time;
+		System.out.print("mi-a luat " + time + " nano (" + (double) time / 1_000_000_000 + " sec) " + " sa generez ");
+		System.out.println(mutariGenerate.size() + " mutari");
+		stats();
+		while(!mutariGenerate.isEmpty())
+		{
+			mutariGenerate.poll().printMove();
+		}
+	}
 
     //helper
-    public int getRank(int pozitiePiesaIn64) {
+    private int getRank(int pozitiePiesaIn64) {
         return getrank.get(pozitiePiesaIn64);
     }
 
@@ -46,36 +93,39 @@ public class MoveGenerator {
 
     //adaugare de mutari
     //quiet move fara capturare
-    void addMove(int mutare) {
-        Move move = new Move(mutare, 0);
-        mutariGenerate.add(move);
+    void addMove(Move mutare) {
+		mutare.prioritate = 0;
+        mutariGenerate.add(mutare);
     }
 
-    void addCaptureMove(int mutare) {
-        Move move = new Move(mutare, 0);
-        mutariGenerate.add(move);
+    void addCaptureMove(Move mutare) {
+    	captures++;
+    	mutare.prioritate = 5 - mutare.piesa; //daca e pion o sa fie 5, daca e regina o sa fie 1, LEAST VALUABLE ATACKER
+    	mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE PIECE
+        mutariGenerate.add(mutare);
     }
 
-    void addEnPassantMove(int mutare) {
-        Move move = new Move(mutare, 0);
-        mutariGenerate.add(move);
+    void addEnPassantMove(Move mutare) {
+		mutare.prioritate = 0;
+    	ep++;
+        mutariGenerate.add(mutare);
     }
 
     //creator de mutari
-    int createMove(int sursa, int destinatie, int promotie, int flag) {
-        int move = 0;
-        move = move |
-                sursa |
-                (destinatie << 6) |
-                (promotie << 12) |
-                (flag << 14);
-        return move;
+    Move createMove(int sursa, int destinatie, int promotie, int flag, int piesa, int piesaDestinatie) {
+        Move mutare = new Move();
+        mutare.sursa = sursa;
+        mutare.destinatie = destinatie;
+        mutare.promotie = promotie;
+        mutare.flag = flag;
+        mutare.piesa = piesa;
+        mutare.piesaDestinatie = piesaDestinatie;
+        return mutare;
     }
 
     //generatoare de mutari
     //primeste white sau black pawns bitboard
-    public void generatePawnMoves(boolean side) throws CloneNotSupportedException {
-        BoardState board = BoardState.getInstance();
+    private void generatePawnMoves(boolean side) throws CloneNotSupportedException {
         Bitboard bitBoard;
         if (side) {
             bitBoard = (Bitboard) board.whitePawns.clone();
@@ -86,8 +136,8 @@ public class MoveGenerator {
             //extrag locul unde se afla piesa
             int pozitie = popLSB(bitBoard.reprezentare);
             bitBoard.clearBit(pozitie);
-            int move = 0;
-            int temp = Database.conversie120la64(pozitie);
+            Move move;
+            int temp = Database.conversie64la120(pozitie);
             int negruDreapta = temp - 11;
             int negruStanga = temp - 9;
             int albStanga = temp + 11;
@@ -103,60 +153,63 @@ public class MoveGenerator {
                     if (!board.allPieces.isBitSet(pozitie + 8)) {
                         //adaug miscare pion alb in fata daca regele nu e in sah
                         for (int i = 3; i >= 0; i--) {
-                            move = createMove(pozitie, pozitie + 8, i, 1);
+                            move = createMove(pozitie, pozitie + 8, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 8, side));
                             addMove(move);
                         }
+                        promotions++;
                     }
 
                     if (Database.conversie120la64(albDreapta) != 65 && !board.allWhitePieces.isBitSet(Database.conversie120la64(albDreapta))) {
                         //adaug miscare pion alb in dreapta daca regele nu e in sah
                         if (board.allBlackPieces.isBitSet(Database.conversie120la64(albDreapta))) {
                             for (int i = 3; i >= 0; i--) {
-                                move = createMove(pozitie, pozitie + 7, i, 1);
+                                move = createMove(pozitie, pozitie + 7, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 7, side));
                                 addCaptureMove(move);
                             }
+                            promotions++;
                         }
                     }
                     if (Database.conversie120la64(albStanga) != 65 && !board.allWhitePieces.isBitSet(Database.conversie120la64(albStanga))) {
                         //adaug miscare pion alb in dreapta daca regele nu e in sah
                         if (board.allBlackPieces.isBitSet(Database.conversie120la64(albStanga))) {
                             for (int i = 3; i >= 0; i--) {
-                                move = createMove(pozitie, pozitie + 9, i, 1);
+                                move = createMove(pozitie, pozitie + 9, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 9, side));
                                 addCaptureMove(move);
                             }
+                            promotions++;
                         }
                     }
                 } else {
                     if (getRank(pozitie) == 5) {
                         if (Database.conversie120la64(albDreapta) != 65 && (board.enPassant == Database.conversie120la64(albDreapta))) {
-                            move = createMove(pozitie, pozitie + 7, 0, 2);
+                            move = createMove(pozitie, pozitie + 7, 0, 2, 0, BoardCommands.getPieceType(board, pozitie + 7, side));
                             addEnPassantMove(move);
                         }
                         if (Database.conversie120la64(albStanga) != 65 && (board.enPassant == Database.conversie120la64(albStanga))) {
-                            move = createMove(pozitie, pozitie + 9, 0, 2);
+                            move = createMove(pozitie, pozitie + 9, 0, 2, 0, BoardCommands.getPieceType(board, pozitie + 9, side));
                             addEnPassantMove(move);
                         }
                     }
                     if(getRank(pozitie) == 2)
                     {
                     	if (!board.allPieces.isBitSet(pozitie + 16) && !board.allPieces.isBitSet(pozitie + 8)) {
-                                move = createMove(pozitie, pozitie + 16, 0, 0);
+                                 move = createMove(pozitie, pozitie + 16, 0, 0, 0, BoardCommands.getPieceType(board, pozitie + 16, side));
                                 addMove(move);
                     	}
                     }
                     if (!board.allPieces.isBitSet(pozitie + 8)) {
-                        move = createMove(pozitie, pozitie + 8, 0, 0);
+                         move = createMove(pozitie, pozitie + 8, 0, 0, 0, BoardCommands.getPieceType(board, pozitie + 8, side));
                         addMove(move);
                     }
                     if (Database.conversie120la64(albDreapta) != 65 && !board.allWhitePieces.isBitSet(Database.conversie120la64(albDreapta))) {
                         if (board.allBlackPieces.isBitSet(Database.conversie120la64(albDreapta))) {
-                            move = createMove(pozitie, pozitie + 7, 0, 0);
+                             move = createMove(pozitie, pozitie + 7, 0, 0, 0, BoardCommands.getPieceType(board, pozitie + 7, side));
                             addCaptureMove(move);
                         }
                     }
                     if (Database.conversie120la64(albStanga) != 65 && !board.allWhitePieces.isBitSet(Database.conversie120la64(albStanga))) {
                         if (board.allBlackPieces.isBitSet(Database.conversie120la64(albStanga))) {
-                            move = createMove(pozitie, pozitie + 9, 0, 0);
+                             move = createMove(pozitie, pozitie + 9, 0, 0, 0, BoardCommands.getPieceType(board, pozitie + 9, side));
                             addCaptureMove(move);
                         }
                     }
@@ -167,59 +220,62 @@ public class MoveGenerator {
                     if (!board.allPieces.isBitSet(pozitie - 8)) {
                         //adaug miscare pion negru in fata daca regele nu e in sah
                         for (int i = 3; i >= 0; i--) {
-                            move = createMove(pozitie, pozitie - 8, i, 1);
+                            move = createMove(pozitie, pozitie - 8, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 8, side));
                             addMove(move);
                         }
+                        promotions++;
                     }
                     if (Database.conversie120la64(negruDreapta) != 65 && !board.allBlackPieces.isBitSet(Database.conversie120la64(negruDreapta))) {
                         //adaug miscare pion negru in dreapta daca regele nu e in sah
                         if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruDreapta))) {
                             for (int i = 3; i >= 0; i--) {
-                                move = createMove(pozitie, pozitie - 9, i, 1);
+                                move = createMove(pozitie, pozitie - 9, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 9, side));
                                 addCaptureMove(move);
                             }
+                            promotions++;
                         }
                     }
                     if (Database.conversie120la64(negruStanga) != 65 && !board.allBlackPieces.isBitSet(Database.conversie120la64(negruStanga))) {
                         //adaug miscare pion negru in dreapta daca regele nu e in sah
                         if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruStanga))) {
                             for (int i = 3; i >= 0; i--) {
-                                move = createMove(pozitie, pozitie - 7, i, 1);
+                                move = createMove(pozitie, pozitie - 7, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 7, side));
                                 addCaptureMove(move);
                             }
+                            promotions++;
                         }
                     }
                 } else {
                     if (getRank(pozitie) == 3) {
                         if (Database.conversie120la64(negruDreapta) != 65 && (board.enPassant == Database.conversie120la64(negruDreapta))) {
-                            move = createMove(pozitie, pozitie - 9, 0, 2);
+                        	move = createMove(pozitie, pozitie - 9, 0, 2, 0, BoardCommands.getPieceType(board, pozitie - 9, side));
                             addEnPassantMove(move);
                         }
                         if (Database.conversie120la64(negruStanga) != 65 && (board.enPassant == Database.conversie120la64((negruStanga)))) {
-                            move = createMove(pozitie, pozitie - 7, 0, 2);
+                            move = createMove(pozitie, pozitie - 7, 0, 2, 0, BoardCommands.getPieceType(board, pozitie - 7, side));
                             addEnPassantMove(move);
                         }
                     }
                     if(getRank(pozitie) == 7)
                     {
                     	if (!board.allPieces.isBitSet(pozitie - 16) && !board.allPieces.isBitSet(pozitie - 8)) {
-                                move = createMove(pozitie, pozitie - 16, 0, 0);
+                                move = createMove(pozitie, pozitie - 16, 0, 0, 0, BoardCommands.getPieceType(board, pozitie - 16, side));
                                 addMove(move);
                     	}
                     }
                     if (!board.allPieces.isBitSet(pozitie - 8)) {
-                        move = createMove(pozitie, pozitie - 8, 0, 0);
+                        move = createMove(pozitie, pozitie - 8, 0, 0, 0, BoardCommands.getPieceType(board, pozitie - 8, side));
                         addMove(move);
                     }
                     if (Database.conversie120la64(negruDreapta) != 65 && !board.allBlackPieces.isBitSet(Database.conversie120la64(negruDreapta))) {
                         if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruDreapta))) {
-                            move = createMove(pozitie, pozitie - 9, 0, 0);
+                            move = createMove(pozitie, pozitie - 9, 0, 0, 0 , BoardCommands.getPieceType(board, pozitie - 9, side));
                             addCaptureMove(move);
                         }
                     }
                     if (Database.conversie120la64(negruStanga) != 65 && !board.allBlackPieces.isBitSet(Database.conversie120la64(negruStanga))) {
                         if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruStanga))) {
-                            move = createMove(pozitie, pozitie - 7, 0, 0);
+                            move = createMove(pozitie, pozitie - 7, 0, 0, 0, BoardCommands.getPieceType(board, pozitie - 7, side));
                             addCaptureMove(move);
                         }
                     }
@@ -228,8 +284,7 @@ public class MoveGenerator {
         }
     }
 
-    public void generateKnightMoves(boolean side) throws CloneNotSupportedException {
-        BoardState board = BoardState.getInstance();
+    private void generateKnightMoves(boolean side) throws CloneNotSupportedException {
         Bitboard bitBoard;
         if (side) {
             bitBoard = (Bitboard) board.whiteKnights.clone();
@@ -243,25 +298,25 @@ public class MoveGenerator {
             final int[] directiiCal = new int[]{-8, -19, -21, -12, 8, 19, 21, 12};
             for (int i = 0; i < 8; i++) {
                 int checker = Database.conversie120la64(temp + directiiCal[i]);
-                int move = 0;
+                Move move;
                 if (checker != 65) {
                     if (side) {
                         if (!board.allWhitePieces.isBitSet(checker)) {
                             if (board.allBlackPieces.isBitSet(checker)) {
-                                move = createMove(pozitie, checker, 0, 0);
+                                move = createMove(pozitie, checker, 0, 0, 1, BoardCommands.getPieceType(board, checker, side));
                                 addCaptureMove(move);
                             } else {
-                                move = createMove(pozitie, checker, 0, 0);
+                                move = createMove(pozitie, checker, 0, 0, 1, BoardCommands.getPieceType(board, checker, side));
                                 addMove(move);
                             }
                         }
                     } else {
                         if (!board.allBlackPieces.isBitSet(checker)) {
                             if (board.allWhitePieces.isBitSet(checker)) {
-                                move = createMove(pozitie, checker, 0, 0);
+                                move = createMove(pozitie, checker, 0, 0, 1, BoardCommands.getPieceType(board, checker, side));
                                 addCaptureMove(move);
                             } else {
-                                move = createMove(pozitie, checker, 0, 0);
+                                move = createMove(pozitie, checker, 0, 0, 1, BoardCommands.getPieceType(board, checker, side));
                                 addMove(move);
                             }
                         }
@@ -272,8 +327,7 @@ public class MoveGenerator {
     }
 
     //sa nu generez miscari ilegale
-    public void generateKingMoves(boolean side) throws CloneNotSupportedException {
-        BoardState board = BoardState.getInstance();
+    private void generateKingMoves(boolean side) throws CloneNotSupportedException {
         Bitboard bitBoard;
         if (side) {
             bitBoard = (Bitboard) board.whiteKing.clone();
@@ -287,18 +341,18 @@ public class MoveGenerator {
             final int[] directiiRege = new int[]{-1, -10, 1, 10, -9, -11, 11, 9};
             for (int i = 0; i < 8; i++) {
                 int checker = Database.conversie120la64(temp + directiiRege[i]);
-                int move = 0;
+                Move move;
                 if (checker != 65) {
                     if (side) {
                         if (!board.allWhitePieces.isBitSet(checker)) {
                             if (board.allBlackPieces.isBitSet(checker)) {
                                 if (!BoardCommands.isSquareAttacked(checker, false)) {
-                                    move = createMove(pozitie, checker, 0, 0);
+                                    move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, side));
                                     addCaptureMove(move);
                                 }
                             } else {
                                 if (!BoardCommands.isSquareAttacked(checker, false)) {
-                                    move = createMove(pozitie, checker, 0, 0);
+                                    move = createMove(pozitie, checker, 0, 0, 5,BoardCommands.getPieceType(board, checker, side));
                                     addMove(move);
                                 }
                             }
@@ -307,12 +361,12 @@ public class MoveGenerator {
                         if (!board.allBlackPieces.isBitSet(checker)) {
                             if (board.allWhitePieces.isBitSet(checker)) {
                                 if (!BoardCommands.isSquareAttacked(checker, true)) {
-                                    move = createMove(pozitie, checker, 0, 0);
+                                    move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, side));
                                     addCaptureMove(move);
                                 }
                             } else {
                                 if (!BoardCommands.isSquareAttacked(checker, true)) {
-                                    move = createMove(pozitie, checker, 0, 0);
+                                    move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, side));
                                     addMove(move);
                                 }
                             }
@@ -320,10 +374,71 @@ public class MoveGenerator {
                     }
                 }
             }
+            Move move;
+            if (side)
+            {
+            	if(board.castlePermission[0] == 1)
+	            {
+	            	if(!board.allWhitePieces.isBitSet(pozitie-1) &&
+		            !board.allWhitePieces.isBitSet(pozitie-2))
+		            {
+		            	if(!BoardCommands.isSquareAttacked(pozitie-2, false))
+			            {
+		            	    move = createMove(pozitie, pozitie - 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie-2, side));
+		            	    addMove(move);
+		            	    castle++;
+			            }
+		            }
+	            }
+            	if(board.castlePermission[1] == 1)
+	            {
+	                if(!board.allWhitePieces.isBitSet(pozitie+1) &&
+		            !board.allWhitePieces.isBitSet(pozitie+2) &&
+	                !board.allWhitePieces.isBitSet(pozitie+3))
+		            {
+		            	if(!BoardCommands.isSquareAttacked(pozitie+2, false))
+			            {
+		            	    move = createMove(pozitie, pozitie + 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie+2, side));
+		            	    addMove(move);
+		            	    castle++;
+			            }
+		            }
+	            }
+            }
+            else
+            {
+            	if(board.castlePermission[2] == 1)
+	            {
+	                if(!board.allBlackPieces.isBitSet(pozitie-1) &&
+		            !board.allBlackPieces.isBitSet(pozitie-2))
+		            {
+		            	if(!BoardCommands.isSquareAttacked(pozitie-2, true))
+			            {
+		            	    move = createMove(pozitie, pozitie - 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie-2, side));
+		            	    addMove(move);
+		            	    castle++;
+			            }
+		            }
+	            }
+            	if(board.castlePermission[3] == 1)
+	            {
+	                if(!board.allBlackPieces.isBitSet(pozitie+1) &&
+		            !board.allBlackPieces.isBitSet(pozitie+2) &&
+	                !board.allBlackPieces.isBitSet(pozitie+3))
+		            {
+		            	if(!BoardCommands.isSquareAttacked(pozitie+2, true))
+			            {
+		            	    move = createMove(pozitie, pozitie + 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie+2, side));
+		            	    addMove(move);
+		            	    castle++;
+			            }
+		            }
+	            }
+            }
         }
     }
 	
-	public long getBishopAttacks(int pozitie, long blockers, boolean side)
+	private long getBishopAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.bishopMasks[pozitie];
 		long rezultat = SlidingPieceGenerator.magicBishopTable[pozitie][(int) ((blockers * SlidingPieceGenerator.bishopMagics[pozitie])
@@ -339,12 +454,11 @@ public class MoveGenerator {
 		return rezultat;
 	}
 	
-	public long getRookAttacks(int pozitie, long blockers, boolean side)
+	private long getRookAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
 		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie])
 				>>> (64 - SlidingPieceGenerator.rookIndexBits[pozitie]));
-		System.out.println("--" + key);
 		long rezultat = SlidingPieceGenerator.magicRookTable[pozitie][key];
 		if(side)
 		{
@@ -357,7 +471,7 @@ public class MoveGenerator {
 		return rezultat;
 	}
 	
-	public long getQueenAtacks(int pozitie, long blockers, boolean side)
+	private long getQueenAtacks(int pozitie, long blockers, boolean side)
 	{
 		long rezultat = getRookAttacks(pozitie, blockers, side) | getBishopAttacks(pozitie, blockers, side);
 		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
@@ -372,9 +486,8 @@ public class MoveGenerator {
 		return rezultat;
 	}
 	
-	public void generateRookMoves(boolean side) throws CloneNotSupportedException
+	private void generateRookMoves(boolean side) throws CloneNotSupportedException
 	{
-		BoardState board = BoardState.getInstance();
         Bitboard bitBoard;
         if (side) {
             bitBoard = (Bitboard) board.whiteRooks.clone();
@@ -388,19 +501,19 @@ public class MoveGenerator {
 	         long atackBoard = getRookAttacks(pozitie, board.allPieces.reprezentare, side);
 	         while(atackBoard != 0)
 	         {
-	         	int move = 0;
+	         	Move move;
 	         	int checker = popLSB(atackBoard);
 	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
 	         	if(side)
 	            {
 	            	if(board.allBlackPieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 3, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0, 3, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
@@ -408,12 +521,12 @@ public class MoveGenerator {
 	            {
 	                if(board.allWhitePieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 3, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0, 3, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
@@ -421,12 +534,11 @@ public class MoveGenerator {
          }
 	}
 	
-	public void generateBishopMoves(boolean side) throws CloneNotSupportedException
+	private void generateBishopMoves(boolean side) throws CloneNotSupportedException
 	{
-		BoardState board = BoardState.getInstance();
         Bitboard bitBoard;
         if (side) {
-            bitBoard = (Bitboard) board.blackBishops.clone();
+            bitBoard = (Bitboard) board.whiteBishops.clone();
         } else {
             bitBoard = (Bitboard) board.blackBishops.clone();
         }
@@ -437,19 +549,19 @@ public class MoveGenerator {
 	         long atackBoard = getBishopAttacks(pozitie, board.allPieces.reprezentare, side);
 	         while(atackBoard != 0)
 	         {
-	         	int move = 0;
+	         	Move move;
 	         	int checker = popLSB(atackBoard);
 	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
 	         	if(side)
 	            {
 	            	if(board.allBlackPieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 2, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0, 2, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
@@ -457,24 +569,23 @@ public class MoveGenerator {
 	            {
 	                if(board.allWhitePieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 2, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0,2, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
 	         }
          }
 	}
-	public void generateQueenMoves(boolean side) throws CloneNotSupportedException
+	private void generateQueenMoves(boolean side) throws CloneNotSupportedException
 	{
-		BoardState board = BoardState.getInstance();
         Bitboard bitBoard;
         if (side) {
-            bitBoard = (Bitboard) board.blackQueens.clone();
+            bitBoard = (Bitboard) board.whiteQueens.clone();
         } else {
             bitBoard = (Bitboard) board.blackQueens.clone();
         }
@@ -485,19 +596,19 @@ public class MoveGenerator {
 	         long atackBoard = getQueenAtacks(pozitie, board.allPieces.reprezentare, side);
 	         while(atackBoard != 0)
 	         {
-	         	int move = 0;
+	         	Move move;
 	         	int checker = popLSB(atackBoard);
 	         	atackBoard = Bitboard.clearBit(checker, atackBoard);
 	         	if(side)
 	            {
 	            	if(board.allBlackPieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
@@ -505,12 +616,12 @@ public class MoveGenerator {
 	            {
 	                if(board.allWhitePieces.isBitSet(checker))
 		            {
-		                move = createMove(pozitie, checker, 0, 0);
+		                move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, side));
 		                addCaptureMove(move);
 		            }
 	            	else
 		            {
-		            	move = createMove(pozitie, checker, 0, 0);
+		            	move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, side));
 		                addMove(move);
 		            }
 	            }
