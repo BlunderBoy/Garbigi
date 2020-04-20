@@ -58,9 +58,6 @@ public class BoardState implements Cloneable{
 	
 	public Bitboard[] blackBitboards = {blackPawns, blackKnights, blackBishops,
 			blackRooks, blackQueens, blackKing};
-
-	public int materialAlb = 0;
-	public int materalNegru = 0;
 	
 	/*
 	 0 0 0 0

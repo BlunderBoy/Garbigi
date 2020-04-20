@@ -142,5 +142,8 @@ public class PSqTable {
              -30,-30,  0,  0,  0,  0,-30,-30,
              -50,-30,-30,-30,-30,-30,-30,-50}
     };
+    
+    public static final int[][][] pieceSquareTables = {pawnValues,knightValues,bishopValues,
+    rookValues, queenValues, kingValues};
 
 }
