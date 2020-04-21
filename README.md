@@ -42,9 +42,9 @@ Indexarile interne:
 tabla de joc, si una pe 120 de pozitii, care ne ajuta la bounds checking (sa nu
 iasa piesele de pe un perete si sa intre pe altul)
 
-![Indexare pe 64](https://github.com/BlunderBoy/sah/blob/master/readme_resources/64indexes.jpg)
+![Indexare pe 64](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/64indexes.jpg)
 
-![Indexare pe 120](https://github.com/BlunderBoy/sah/blob/master/readme_resources/120indexes.png)
+![Indexare pe 120](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/120indexes.png)
 
 Operatiile cu bitboardurile:
 ======
