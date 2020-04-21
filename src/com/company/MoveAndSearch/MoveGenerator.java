@@ -30,6 +30,8 @@ public class MoveGenerator {
 		System.out.println("promotii " + promotions);
 		System.out.println("castle " + castle);
 	}
+	
+	public MoveGenerator() { }
 
     public MoveGenerator(BoardState board) throws CloneNotSupportedException
     {
@@ -80,7 +82,7 @@ public class MoveGenerator {
 	}
 
     //helper
-    private int getRank(int pozitiePiesaIn64) {
+    public int getRank(int pozitiePiesaIn64) {
         return getrank.get(pozitiePiesaIn64);
     }
 
@@ -328,7 +330,7 @@ public class MoveGenerator {
     }
 
     //sa nu generez miscari ilegale
-    private void generateKingMoves(boolean side) throws CloneNotSupportedException {
+    public void generateKingMoves(boolean side) throws CloneNotSupportedException {
         Bitboard bitBoard;
         if (side) {
             bitBoard = board.whiteKing.clone();

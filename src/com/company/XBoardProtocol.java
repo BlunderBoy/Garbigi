@@ -27,8 +27,8 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			//BoardCommands.initGame("7k/5ppp/8/8/8/8/8/K2b3Q w - - 0 1");
-			BoardCommands.initGame();
+			BoardCommands.initGame("8/ppp5/8/8/8/6P1/5P1P/8 w - - 0 1");
+			//BoardCommands.initGame();
 			/////////
 
 			//System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
@@ -41,7 +41,7 @@ public class XBoardProtocol {
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
 
-			//new Negamax(10000000).negamax(4,0,10000000,true,BoardState.getInstance()).printMove();
+			//new Negamax(10000000).negamax(4,Integer.MIN_VALUE,Integer.MAX_VALUE,true,BoardState.getInstance()).printMove();
 			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
