@@ -40,7 +40,7 @@ rulari, as zice ca poza ar descrie media rezultatelor la care am ajuns (putin
 optimista desigur :D), cel putin inainte sa, sincer, incercam toate
 "fine tuning"-urile la ochi, din lipsa de timp.
 
-![We pwned that bot](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/garbigi_vs_lobotomized_fairymax.png)
+![We pwned that bot](readme_resources/garbigi_vs_lobotomized_fairymax.png)
 
 Reprezentarea interna a starilor:
 ======
@@ -83,9 +83,9 @@ Indexarile interne:
 tabla de joc, si una pe 120 de pozitii, care ne ajuta la bounds checking (sa nu
 iasa piesele de pe un perete si sa intre pe altul)
 
-![Indexare pe 64](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/64indexes.jpg)
+![Indexare pe 64](readme_resources/64indexes.jpg)
 
-![Indexare pe 120](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/120indexes.png)
+![Indexare pe 120](readme_resources/120indexes.png)
 
 Operatiile cu bitboardurile:
 ======
