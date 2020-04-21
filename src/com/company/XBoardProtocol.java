@@ -137,7 +137,7 @@ public class XBoardProtocol {
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
-			Move move = search.negamax(7, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Move move = search.negamax(3, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 			if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 				System.out.println("resign");
 			} else {
@@ -171,7 +171,7 @@ public class XBoardProtocol {
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
 				System.out.println("#2 plm " + database.engineColor);
-				Move move = search.negamax(7, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Move move = search.negamax(3, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 				if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 					System.out.println("resign");
 				} else {

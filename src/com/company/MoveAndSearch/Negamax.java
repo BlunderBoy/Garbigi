@@ -272,7 +272,7 @@ public class Negamax {
             //Printer.print();
             //return dummy;
             //this.quintesenceStartTime = System.currentTimeMillis();
-            return quiescence(alfa, beta, currentState, MIDGAME, side, 4);
+            return quiescence(alfa, beta, currentState, MIDGAME, side, 2);
         }
 
         double max = Integer.MIN_VALUE;
