@@ -315,6 +315,7 @@ public class BoardCommands {
 
 			Bitboard source = getBitboardFromType(getPieceType(sourceIndex));
 			source.clearBit(sourceIndex);
+			board.updateBitboards();
 			return 1;
 		}
 
