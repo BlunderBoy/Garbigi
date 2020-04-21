@@ -18,9 +18,9 @@ public class Eval
 		score += getTableScore(board, gamePhase);
 		score += numarPioni(board);
 		score += passedPawns(board);
+		score += rankPioni(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
-		score += rankPioni(board);
 		if (!side) { // daca e negru
 	        return -(score/100);
         } else {
@@ -86,7 +86,7 @@ public class Eval
 		{
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
-			score += valoare + value[63 - index];
+			score += valoare + value[index];
 		}
 		return score;
 	}
@@ -94,12 +94,11 @@ public class Eval
 	private static int getBlackTableScore(long bitboard, int valoare, int[] value) throws CloneNotSupportedException
 	{
 		int score = 0;
-
 		while (bitboard != 0)
 		{
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
-			score += valoare + value[index];
+			score += valoare + value[PSqTable.index[index]];
 		}
 		return score;
 	}
@@ -112,16 +111,15 @@ public class Eval
 		{
 			score += getWhiteTableScore(board.whiteBitboards[i].reprezentare,
 					board.whiteBitboards[i].valoare,
-					PSqTable.pieceSquareTables[i][gamePhase]);
+					PSqTable.pieceSquareTables[i]);
 		}
 
 		for (int i = 0; i < 6; i++)
 		{
 			score -= getBlackTableScore(board.blackBitboards[i].reprezentare,
 					board.blackBitboards[i].valoare,
-					PSqTable.pieceSquareTables[i][gamePhase]);
+					PSqTable.pieceSquareTables[i]);
 		}
-
 		return score;
 	}
 
@@ -132,12 +130,12 @@ public class Eval
 		if (Long.bitCount(board.whitePawns.reprezentare) >
 				Long.bitCount((board.blackPawns.reprezentare)))
 		{
-			score += 50;
+			score += 25;
 		}
 		if (Long.bitCount(board.whitePawns.reprezentare) <
 				Long.bitCount((board.blackPawns.reprezentare)))
 		{
-			score -= 50;
+			score -= 25;
 		}
 		return score;
 	}
@@ -158,7 +156,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i + 1] & (bitboardAlb)) == 0)
 						{
-							score -= 75;
+							score -= 20;
 						}
 					}
 				}
@@ -168,7 +166,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i - 1] & (bitboardAlb)) == 0)
 						{
-							score -= 75;
+							score -= 20;
 						}
 					}
 				}
@@ -180,7 +178,7 @@ public class Eval
 						{
 							if ((SlidingPieceGenerator.files[i - 1] & (bitboardAlb)) == 0)
 							{
-								score -= 75;
+								score -= 20;
 							}
 						}
 					}
@@ -195,7 +193,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i + 1] & (bitboardNegru)) == 0)
 						{
-							score += 75;
+							score += 20;
 						}
 					}
 				}
@@ -205,7 +203,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i - 1] & (bitboardNegru)) == 0)
 						{
-							score += 75;
+							score += 20;
 						}
 					}
 				}
@@ -217,7 +215,7 @@ public class Eval
 						{
 							if ((SlidingPieceGenerator.files[i - 1] & (bitboardNegru)) == 0)
 							{
-								score += 75;
+								score += 20;
 							}
 						}
 					}
