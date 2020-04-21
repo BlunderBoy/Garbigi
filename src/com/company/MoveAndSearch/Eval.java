@@ -19,6 +19,8 @@ public class Eval
 		score += numarPioni(board);
 		score += passedPawns(board);
 		score += rankPioni(board);
+		score += castleBonus(board);
+		score += mobilityBonus(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
 		if (!side) { // daca e negru
@@ -28,43 +30,63 @@ public class Eval
         }
 
 	}
-
-	private static double castleBonus(BoardState board)
-    {
-        double score = 0;
-
-        long bitboardAlb = board.whiteKing.reprezentare;
-        long bitboardAlbTura = board.whiteRooks.reprezentare;
-        long bitboardNegru = board.blackKing.reprezentare;
-        long bitboardNegruTura = board.blackRooks.reprezentare;
-
-        int lsb = Bitboard.popLSB(bitboardNegruTura);
-        bitboardNegru = Bitboard.clearBit(lsb, bitboardNegruTura);
-        int lsbrege = Bitboard.popLSB(bitboardNegru);
-        if(Math.abs(lsbrege - lsb) == 1)
-        {
-            score -= 15;
-        }
-        lsb = Bitboard.popLSB(bitboardNegruTura);
-        if(Math.abs(lsbrege - lsb) == 1)
-        {
-            score -= 15;
-        }
-
-        lsb = Bitboard.popLSB(bitboardAlbTura);
-        bitboardAlb = Bitboard.clearBit(lsb, bitboardAlbTura);
-        lsbrege = Bitboard.popLSB(bitboardAlb);
-        if(Math.abs(lsbrege - lsb) == 1)
-        {
-            score += 15;
-        }
-        lsb = Bitboard.popLSB(bitboardAlbTura);
-        if(Math.abs(lsbrege - lsb) == 1)
-        {
-            score += 15;
-        }
-        return score;
-    }
+	
+	private static double mobilityBonus(BoardState board) throws CloneNotSupportedException
+	{
+		double score = 0;
+		long bishopAlb = board.whiteBishops.reprezentare;
+		long rookAlb = board.whiteRooks.reprezentare;
+		long reginaAlb = board.whiteQueens.reprezentare;
+		long bishopNegru = board.blackBishops.reprezentare;
+		long rookNegru = board.blackRooks.reprezentare;
+		long reginaNegru = board.blackQueens.reprezentare;
+		MoveGenerator mv = new MoveGenerator(board, true);
+		
+		while(bishopAlb != 0)
+		{
+			int lsb = Bitboard.popLSB(bishopAlb);
+			bishopAlb = Bitboard.clearBit(lsb, bishopAlb);
+			score += Long.bitCount(mv.getBishopAttacks(lsb, board.allPieces.reprezentare, true));
+		}
+		
+		while(rookAlb != 0)
+		{
+			int lsb = Bitboard.popLSB(rookAlb);
+			rookAlb = Bitboard.clearBit(lsb, rookAlb);
+			score += Long.bitCount(mv.getRookAttacks(lsb, board.allPieces.reprezentare, true));
+		}
+		
+		while(reginaAlb != 0)
+		{
+			int lsb = Bitboard.popLSB(reginaAlb);
+			reginaAlb = Bitboard.clearBit(lsb, reginaAlb);
+			score += Long.bitCount(mv.getQueenAtacks(lsb, board.allPieces.reprezentare, true));
+		}
+		
+		while(bishopNegru != 0)
+		{
+			int lsb = Bitboard.popLSB(bishopNegru);
+			bishopNegru = Bitboard.clearBit(lsb, bishopNegru);
+			score -= Long.bitCount(mv.getBishopAttacks(lsb, board.allPieces.reprezentare, false));
+		}
+		
+		while(rookNegru != 0)
+		{
+			int lsb = Bitboard.popLSB(rookNegru);
+			rookNegru = Bitboard.clearBit(lsb, rookNegru);
+			score -= Long.bitCount(mv.getRookAttacks(lsb, board.allPieces.reprezentare, false));
+		}
+		
+		while(reginaNegru != 0)
+		{
+			int lsb = Bitboard.popLSB(reginaNegru);
+			reginaNegru = Bitboard.clearBit(lsb, reginaNegru);
+			score -= Long.bitCount(mv.getQueenAtacks(lsb, board.allPieces.reprezentare, false));
+		}
+		score *= 5;
+		
+		return score;
+	}
 
 	private static double rankPioni(BoardState board)
 	{
@@ -86,6 +108,43 @@ public class Eval
 			score -= (9 - MoveGenerator.getrank.get(lsb));
 		}
 		return (score*10);
+	}
+	
+	private static double castleBonus(BoardState board)
+	{
+		double score = 0;
+		
+		long bitboardAlb = board.whiteKing.reprezentare;
+		long bitboardAlbTura = board.whiteRooks.reprezentare;
+		long bitboardNegru = board.blackKing.reprezentare;
+		long bitboardNegruTura = board.blackRooks.reprezentare;
+		
+		int lsb = Bitboard.popLSB(bitboardNegruTura);
+		bitboardNegruTura = Bitboard.clearBit(lsb, bitboardNegruTura);
+		int lsbrege = Bitboard.popLSB(bitboardNegru);
+		if(Math.abs(lsbrege - lsb) == 1)
+		{
+			score -= 15;
+		}
+		lsb = Bitboard.popLSB(bitboardNegruTura);
+		if(Math.abs(lsbrege - lsb) == 1)
+		{
+			score -= 15;
+		}
+		
+		lsb = Bitboard.popLSB(bitboardAlbTura);
+		bitboardAlbTura = Bitboard.clearBit(lsb, bitboardAlbTura);
+		lsbrege = Bitboard.popLSB(bitboardAlb);
+		if(Math.abs(lsbrege - lsb) == 1)
+		{
+			score += 15;
+		}
+		lsb = Bitboard.popLSB(bitboardAlbTura);
+		if(Math.abs(lsbrege - lsb) == 1)
+		{
+			score += 15;
+		}
+		return score;
 	}
 
 	/*private static double mateScore(BoardState board) throws CloneNotSupportedException

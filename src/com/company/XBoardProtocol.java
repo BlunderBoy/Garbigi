@@ -27,17 +27,21 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - - 0 1");
+			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b kqKQ - 0 1");
 			//database.engineColor = database.WHITE;
+			Printer.print();
 			///database.opponentColor = database.BLACK;
 			//database.turn = database.BLACK;
 			//BoardCommands.initGame();
 			/////////
 
 			//BoardCommands.parseOpponentMove("usermove f2f1r");
+			MoveGenerator mv = new MoveGenerator(BoardState.getInstance(), false);
+			mv.generateKingMoves(false);
+			System.out.println(mv.mutariGenerate.size());
+			//mv.moveListPrint();
 
 			System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.BLACK));
-			Printer.print();
 			//System.out.println(Eval.eval(BoardState.getInstance(),1));
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
@@ -131,7 +135,7 @@ public class XBoardProtocol {
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
-			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 			System.out.println("move " + move.getMove());
 			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
@@ -161,7 +165,7 @@ public class XBoardProtocol {
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
 				System.out.println("#2 plm " + database.engineColor);
-				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 				System.out.println("move " + move.getMove());
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());

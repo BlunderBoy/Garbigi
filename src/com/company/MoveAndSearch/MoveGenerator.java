@@ -444,7 +444,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie - 2, false))
 					{
 						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						addMove(move);
+						mutariGenerate.add(move);
 						castle++;
 					}
 				}
@@ -459,7 +459,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie + 2, false))
 					{
 						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						addMove(move);
+						mutariGenerate.add(move);
 						castle++;
 					}
 				}
@@ -475,7 +475,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie - 2, true))
 					{
 						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						addMove(move);
+						mutariGenerate.add(move);
 						castle++;
 					}
 				}
@@ -490,7 +490,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie + 2, true))
 					{
 						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						addMove(move);
+						mutariGenerate.add(move);
 						castle++;
 					}
 				}
@@ -554,7 +554,7 @@ public class MoveGenerator
 		}
 	}
 	
-	private long getBishopAttacks(int pozitie, long blockers, boolean side)
+	public long getBishopAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.bishopMasks[pozitie];
 		long rezultat = SlidingPieceGenerator.magicBishopTable[pozitie][(int) ((blockers * SlidingPieceGenerator.bishopMagics[pozitie])
@@ -569,7 +569,7 @@ public class MoveGenerator
 		return rezultat;
 	}
 	
-	private long getRookAttacks(int pozitie, long blockers, boolean side)
+	public long getRookAttacks(int pozitie, long blockers, boolean side)
 	{
 		blockers &= SlidingPieceGenerator.rookMasks[pozitie];
 		int key = (int) ((blockers * SlidingPieceGenerator.rookMagics[pozitie])
@@ -585,7 +585,7 @@ public class MoveGenerator
 		return rezultat;
 	}
 	
-	private long getQueenAtacks(int pozitie, long blockers, boolean side)
+	public long getQueenAtacks(int pozitie, long blockers, boolean side)
 	{
 		long rezultat = getRookAttacks(pozitie, blockers, side) | getBishopAttacks(pozitie, blockers, side);
 		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
