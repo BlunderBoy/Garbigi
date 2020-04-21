@@ -1,6 +1,47 @@
   Inainte de toate am ales Java pentru familiaritate si pentru usurinta de 
 a folosi un limbaj orientat pe obiect intr-un proiect asa de mare.
 
+Despre etapa 2...
+======
+
+  Din pacate, doar in stadiul asta am putut ajunge dupa un maraton de codat de
+24+ ore (am si pierdut notiunea timpului). It's far from perfect, dar vom 
+continua ce am inceput pentru etapa urmatoare.
+
+  Am incercat cat de bine am putut sa implementam minmax cu alfa beta insa fara 
+o functie de evaluare foarte buna nu prea avem cum sa-l batem pe Fairy in 
+fiecare meci. 
+  A fost destul de complicat, desi aveam optimizari pentru performanta, care 
+ating un depth destul de mare intr-un timp destul de scurt. Cu toate temele din 
+perioada asta, sarbatorile, trecutul pe online si restul incarcarilor
+suplimentare de la alte materii, nu am reusit decat sa scoatem bugurile, 
+deoarece am implementat atatea chestii noi in atat de putin timp si nu am apucat
+sa le testam calumea, cum am fi vrut noi (incat sa duca la un outcome constant).
+
+  In general, sunt generate toate miscarile valide, dar sincer, orice functie de 
+evaluare are nevoie de fine-tuning in urma rularii multor meciuri, engine-ul
+nostru nu prea stie ce sa faca cu valorile, nu i-am dat inca "un scop". In
+momentul actual, stie doar sa pozitioneze piese cat de cat bine si, desigur, sa
+faca trade-uri in favoarea lui (desi deseori, maximul local nu e si cel 
+global :D)
+
+  Oricum in general, o functie de search e relativ usoara. Generarea de mutari e
+cancer si, in opinia noastra ar fi trebuit sa fie punctul de interes al etapei, 
+poate cu testare cu Perft sau divide pentru verificare de validitate. Abia dupa
+etapa care s-ar fi ocupat cu generarea de miscari (valide), ar fi urmat 
+evaluarea...
+Functia de search (mai ales ca este scrisa direct cu alfa beta) se face cel mai 
+rapid, cel putin din punctul nostru de vedere.
+ 
+  Punem si o poza cu unul din rezultatele cu Fairy. Nu garantam ca rularea de 
+mai multe ori poate duce la acelasi rezultat, pentru ca meciurile nu sunt
+intocmai "previzibile". Desi am gasit o oarecare (mare) inconsistenta intre
+rulari, as zice ca poza ar descrie media rezultatelor la care am ajuns (putin
+optimista desigur :D), cel putin inainte sa, sincer, incercam toate
+"fine tuning"-urile la ochi, din lipsa de timp.
+
+![We pwned that bot](https://gitlab.cs.pub.ro/razvan.macarie/l2-pa-project-ClassCastException/blob/master/readme_resources/garbigi_vs_lobotomized_fairymax.png)
+
 Reprezentarea interna a starilor:
 ======
 
