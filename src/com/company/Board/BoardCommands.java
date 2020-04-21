@@ -3,6 +3,7 @@ package com.company.Board;
 import com.company.Database;
 import com.company.MoveAndSearch.MoveGenerator;
 import com.company.MoveAndSearch.SlidingPieceGenerator;
+import com.company.Printer;
 
 /**
  * Clasa asta contine comenzi legate de starea board-ului, de exemplu initializarea unui board nou,
@@ -336,7 +337,9 @@ public class BoardCommands {
 		if (sourceIndex == 59 && destIndex == 61) { // black king side
 			updateBitboard(63, 60, board.blackRooks);
 		}
-
+		
+		BoardState.getInstance().updateBitboards();
+		//Printer.print();
 		// astea-s comentarii inutile pt mine btw, ignora-le
 		// TODO (maybe) verifica daca piesa de la source este a celui care trb sa mute
 
@@ -354,98 +357,56 @@ public class BoardCommands {
 		}
 
 		// isKingAttacked
-
 		switch (pieceType) {
 			case 'P':
 				if (data.DEBUG)
 					System.out.println("White pawn.");
-				//if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whitePawns);
-				//} else {
-					System.out.println("nu e legal");
-					//returnCode = -1;
-				//}
 				break;
 			case 'p':
 				if (data.DEBUG)
 					System.out.println("Black pawn.");
-				if (isPawnMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.blackPawns);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'R':
 				if (data.DEBUG)
 					System.out.println("White rook.");
-				if (isRookMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whiteRooks);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'r':
 				if (data.DEBUG)
 					System.out.println("Black rook.");
-				if (isRookMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.blackRooks);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'N':
 				if (data.DEBUG)
 					System.out.println("White knight.");
-				if (isKnightMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whiteKnights);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'n':
 				if (data.DEBUG)
 					System.out.println("Black knight.");
-				if (isKnightMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.blackKnights);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'B':
 				if (data.DEBUG)
 					System.out.println("White bishop.");
-				if (isBishopMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whiteBishops);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'b':
 				if (data.DEBUG)
 					System.out.println("Black bishop.");
-				if (isBishopMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.blackBishops);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'Q':
 				if (data.DEBUG)
 					System.out.println("White queen.");
-				if (isQueenMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whiteQueens);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'q':
 				if (data.DEBUG)
 					System.out.println("Black queen.");
-				if (isQueenMoveLegal(sourceIndex, destIndex, data.BLACK)) {
 					updateBitboard(sourceIndex, destIndex, board.blackQueens);
-				} else {
-					returnCode = -1;
-				}
 				break;
 			case 'K':
 				if (data.DEBUG)
@@ -462,9 +423,7 @@ public class BoardCommands {
 					System.out.println("you did smth wrong");
 		}
 
-		if (Database.getInstance().DEBUG) {
-				System.out.println("move: " + command + " source index: " + sourceIndex + ", dest index: " + destIndex);
-		}
+	
 
 		return returnCode; // illegal move
 	}
@@ -475,8 +434,6 @@ public class BoardCommands {
 		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
 
 		if (dest != null) {
-
-				//System.out.println("avem capturare");
 			dest.clearBit(destIndex);
 		}
 
@@ -485,25 +442,7 @@ public class BoardCommands {
 
 		BoardState.getInstance().updateBitboards();
 	}
-
-	public static void updateBitboard(int sourceIndex, int destIndex, Bitboard source, BoardState board) {
-		// verificam LA INCEPUT daca avem capturare
-		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
-
-		if (dest != null) {
-			if (Database.getInstance().DEBUG)
-				System.out.println("avem capturare");
-			dest.clearBit(destIndex);
-		} else {
-			if (Database.getInstance().DEBUG)
-				System.out.println("nu avem capturare");
-		}
-
-		source.clearBit(sourceIndex);
-		source.setBit(destIndex);
-
-		board.updateBitboards();
-	}
+	
 
 	private static Bitboard getBitboardFromType (char type) {
 		BoardState board = BoardState.getInstance();

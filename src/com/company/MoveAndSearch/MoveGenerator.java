@@ -66,8 +66,8 @@ public class MoveGenerator
 		generateKnightMoves(side);
 		generateBishopMoves(side);
 		generateQueenMoves(side);
-		generateKingMoves(side);
 		generateRookMoves(side);
+		generateKingMoves(side);
 	}
 	
 	public void generateAllMovesAndStats(boolean side) throws CloneNotSupportedException
@@ -199,6 +199,7 @@ public class MoveGenerator
 						}
 						promotions++;
 					}
+					
 					
 					if (Database.conversie120la64(albDreapta) != 65 && !board.allWhitePieces.isBitSet(Database.conversie120la64(albDreapta)))
 					{
@@ -432,63 +433,74 @@ public class MoveGenerator
 		Move move;
 		if (side)
 		{
-			if (board.castlePermission[0] == 1)
+			if(!BoardCommands.isSquareAttacked(pozitie,false))
 			{
-				if (!board.allPieces.isBitSet(pozitie - 1) &&
-						!board.allPieces.isBitSet(pozitie - 2) &&
-						(Bitboard.popLSB(board.whiteKing.reprezentare) == 3))
+				
+				if (board.castlePermission[0] == 1)
 				{
-					if (!BoardCommands.isSquareAttacked(pozitie - 2, false))
+					if (!board.allPieces.isBitSet(1) &&
+							!board.allPieces.isBitSet(2) &&
+							(Bitboard.popLSB(board.whiteKing.reprezentare) == 3) &&
+							board.whiteRooks.isBitSet(0))
 					{
-						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						addMove(move);
-						castle++;
+						if (!BoardCommands.isSquareAttacked(pozitie - 2, false))
+						{
+							move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
+							addMove(move);
+							castle++;
+						}
 					}
 				}
-			}
-			if (board.castlePermission[1] == 1)
-			{
-				if (!board.allPieces.isBitSet(pozitie + 1) &&
-						!board.allPieces.isBitSet(pozitie + 2) &&
-						!board.allPieces.isBitSet(pozitie + 3) &&
-						(Bitboard.popLSB(board.whiteKing.reprezentare) == 3))
+				if (board.castlePermission[1] == 1)
 				{
-					if (!BoardCommands.isSquareAttacked(pozitie + 2, false))
+					if (!board.allPieces.isBitSet(4) &&
+							!board.allPieces.isBitSet(5) &&
+							!board.allPieces.isBitSet(6) &&
+							(Bitboard.popLSB(board.whiteKing.reprezentare) == 3) &&
+							board.whiteRooks.isBitSet(7))
 					{
-						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						addMove(move);
-						castle++;
+						if (!BoardCommands.isSquareAttacked(pozitie + 2, false))
+						{
+							move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
+							addMove(move);
+							castle++;
+						}
 					}
 				}
 			}
 		} else
 		{
-			if (board.castlePermission[2] == 1)
+			if(!BoardCommands.isSquareAttacked(pozitie,false))
 			{
-				if (!board.allPieces.isBitSet(pozitie - 1) &&
-						!board.allPieces.isBitSet(pozitie - 2) &&
-						(Bitboard.popLSB(board.blackKing.reprezentare) == 59))
+				if (board.castlePermission[2] == 1)
 				{
-					if (!BoardCommands.isSquareAttacked(pozitie - 2, true))
+					if (!board.allPieces.isBitSet(pozitie - 1) &&
+							!board.allPieces.isBitSet(pozitie - 2) &&
+							(Bitboard.popLSB(board.blackKing.reprezentare) == 59) &&
+							board.blackRooks.isBitSet(56))
 					{
-						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						addMove(move);
-						castle++;
+						if (!BoardCommands.isSquareAttacked(pozitie - 2, true))
+						{
+							move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
+							addMove(move);
+							castle++;
+						}
 					}
 				}
-			}
-			if (board.castlePermission[3] == 1)
-			{
-				if (!board.allPieces.isBitSet(pozitie + 1) &&
-						!board.allPieces.isBitSet(pozitie + 2) &&
-						!board.allPieces.isBitSet(pozitie + 3) &&
-						(Bitboard.popLSB(board.blackKing.reprezentare) == 59))
+				if (board.castlePermission[3] == 1)
 				{
-					if (!BoardCommands.isSquareAttacked(pozitie + 2, true))
+					if (!board.allPieces.isBitSet(60) &&
+							!board.allPieces.isBitSet(61) &&
+							!board.allPieces.isBitSet(62) &&
+							(Bitboard.popLSB(board.blackKing.reprezentare) == 59) &&
+							board.blackRooks.isBitSet(63))
 					{
-						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						addMove(move);
-						castle++;
+						if (!BoardCommands.isSquareAttacked(pozitie + 2, true))
+						{
+							move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
+							addMove(move);
+							castle++;
+						}
 					}
 				}
 			}
@@ -514,14 +526,16 @@ public class MoveGenerator
 								if (!BoardCommands.isSquareAttacked(checker, false))
 								{
 									move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
-									addCaptureMove(move);
+									move.prioritate = -1;
+									mutariGenerate.add(move);
 								}
 							} else
 							{
 								if (!BoardCommands.isSquareAttacked(checker, false))
 								{
 									move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
-									addMove(move);
+									move.prioritate = -1;
+									mutariGenerate.add(move);
 								}
 							}
 						}
@@ -534,14 +548,16 @@ public class MoveGenerator
 								if (!BoardCommands.isSquareAttacked(checker, true))
 								{
 									move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
-									addCaptureMove(move);
+									move.prioritate = -1;
+									mutariGenerate.add(move);
 								}
 							} else
 							{
 								if (!BoardCommands.isSquareAttacked(checker, true))
 								{
 									move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
-									addMove(move);
+									move.prioritate = -1;
+									mutariGenerate.add(move);
 								}
 							}
 						}
