@@ -315,6 +315,7 @@ public class BoardCommands {
 
 			Bitboard source = getBitboardFromType(getPieceType(sourceIndex));
 			source.clearBit(sourceIndex);
+			return 1;
 		}
 
 		if (sourceIndex < 0 || sourceIndex > 63 || destIndex < 0 || destIndex > 63) {

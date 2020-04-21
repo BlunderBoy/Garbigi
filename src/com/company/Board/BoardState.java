@@ -65,7 +65,8 @@ public class BoardState implements Cloneable{
 	se vede ca un numar de 4 biti
 	daca bitul e setat inseamna ca se poate
 	*/
-	public int[] castlePermission = {0,0,0,0};
+	public int[] castlePermission = {1,1,1,1};
+	public int[] oldCastlePermission = {1,1,1,1};
 	
 	//istoric de miscari, tin sho minte 10 mutari plm
 	//public MoveHistory istoric[] = new MoveHistory[10];

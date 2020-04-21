@@ -63,8 +63,12 @@ public class Negamax {
             }
         }*/
 
+        for (int i = 0; i < 4; i++) {
+            board.castlePermission[i] = board.oldCastlePermission[i];
+        }
+
         if (move.flag == 3) {
-            if (move.sursa == 3) { // white king castling
+            /*if (move.sursa == 3) { // white king castling
                 if (move.destinatie == 1) { // white king side
                     board.castlePermission[0] = 1;
                     // sursa si dest la king se updateaza la final
@@ -89,7 +93,7 @@ public class Negamax {
                     board.whiteRooks.setBit(63);
                     board.whiteRooks.clearBit(60);
                 }
-            }
+            }*/
         }
 
         if (side == Database.getInstance().WHITE) {
@@ -113,6 +117,10 @@ public class Negamax {
         int source = move.getSursa();
         int dest = move.getDestinatie();
         int flag = move.getFlag();
+
+        for (int i = 0; i < 4; i++) {
+            board.oldCastlePermission[i] = board.castlePermission[i];
+        }
 
         // promotion
         if (flag == 1) { // desetam piesa veche si setam piesa noua
@@ -244,9 +252,9 @@ public class Negamax {
 
         MoveGenerator plm = new MoveGenerator(currentState, side);
         plm.generateAllMoves(side);
-        //while (!plm.mutariGenerate.isEmpty()) {
-        for (Move chosenMove : plm.mutariDebugIGuess) {
-            //Move chosenMove = plm.mutariGenerate.poll();
+        while (!plm.mutariGenerate.isEmpty()) {
+        //for (Move chosenMove : plm.mutariDebugIGuess) {
+            Move chosenMove = plm.mutariGenerate.poll();
             if (chosenMove.piesaDestinatie != -1) {
                 applyMove(currentState, chosenMove, side);
                 Move result = quiescence(-beta, -alfa, currentState, gameState, !side, depth - 1);
@@ -289,8 +297,8 @@ public class Negamax {
             dummy.scor = Eval.eval(currentState, MIDGAME, side);
             //System.out.println("reached depth 0, returning " + dummy.scor);
             //Printer.print();
-            return dummy;
-            //return quiescence(alfa, beta, currentState, MIDGAME, side, 5);
+            //return dummy;
+            return quiescence(alfa, beta, currentState, MIDGAME, side, 5);
         }
 
         double max = Integer.MIN_VALUE;
@@ -309,8 +317,8 @@ public class Negamax {
             //Printer.print();
             //if (counter <= conditie) {
                 result = negamax(depth - 1, -beta, -alfa, !side, currentState);
-                System.out.println("this has score " + (-result.scor));
-                Printer.print();
+                //System.out.println("this has score " + (-result.scor));
+                //Printer.print();
             //} else {
                 //result = negamax(depth/2, -beta, -alfa, !side, currentState);
             //}
@@ -333,10 +341,10 @@ public class Negamax {
             //if (Double.compare(result.scor, max) > 0) {
                 max = result.scor;
                 bestLocalMove = result;
-                System.out.println("returned score for best move " + max);
-                result.printMove();
-                Printer.print();
-                System.out.println();
+                //System.out.println("returned score for best move " + max);
+                //result.printMove();
+                //Printer.print();
+                //System.out.println();
             }
 
             undoMove(currentState, move, side);

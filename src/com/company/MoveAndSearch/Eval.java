@@ -16,8 +16,8 @@ public class Eval
 	{
 		double score = 0;
 		score += getTableScore(board, gamePhase);
-		//score += numarPioni(board);
-		//score += passedPawns(board);
+		score += numarPioni(board);
+		score += passedPawns(board);
 		score += rankPioni(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
@@ -28,6 +28,43 @@ public class Eval
         }
 
 	}
+
+	private static double castleBonus(BoardState board)
+    {
+        double score = 0;
+
+        long bitboardAlb = board.whiteKing.reprezentare;
+        long bitboardAlbTura = board.whiteRooks.reprezentare;
+        long bitboardNegru = board.blackKing.reprezentare;
+        long bitboardNegruTura = board.blackRooks.reprezentare;
+
+        int lsb = Bitboard.popLSB(bitboardNegruTura);
+        bitboardNegru = Bitboard.clearBit(lsb, bitboardNegruTura);
+        int lsbrege = Bitboard.popLSB(bitboardNegru);
+        if(Math.abs(lsbrege - lsb) == 1)
+        {
+            score -= 15;
+        }
+        lsb = Bitboard.popLSB(bitboardNegruTura);
+        if(Math.abs(lsbrege - lsb) == 1)
+        {
+            score -= 15;
+        }
+
+        lsb = Bitboard.popLSB(bitboardAlbTura);
+        bitboardAlb = Bitboard.clearBit(lsb, bitboardAlbTura);
+        lsbrege = Bitboard.popLSB(bitboardAlb);
+        if(Math.abs(lsbrege - lsb) == 1)
+        {
+            score += 15;
+        }
+        lsb = Bitboard.popLSB(bitboardAlbTura);
+        if(Math.abs(lsbrege - lsb) == 1)
+        {
+            score += 15;
+        }
+        return score;
+    }
 
 	private static double rankPioni(BoardState board)
 	{
