@@ -3,11 +3,19 @@ SOURCES=./src/com/company/Board/Bitboard.java \
 		./src/com/company/Board/BoardCommands.java \
 		./src/com/company/Board/BoardState.java \
 		./src/com/company/Board/MoveHistory.java \
+		./src/com/company/Board/PSqTable.java \
 		./src/com/company/Database.java \
 		./src/com/company/Main.java \
 		./src/com/company/Printer.java \
-		./src/com/company/XBoardProtocol.java
-NAME="Chessnut.jar"
+		./src/com/company/XBoardProtocol.java \
+		./src/com/company/MoveAndSearch/Eval.java \
+		./src/com/company/MoveAndSearch/Move.java \
+		./src/com/company/MoveAndSearch/MoveGenerator.java \
+		./src/com/company/MoveAndSearch/Negamax.java \
+		./src/com/company/MoveAndSearch/Perft.java \
+		./src/com/company/MoveAndSearch/SlidingPieceGenerator.java
+
+NAME="Garbigi.jar"
 
 build:
 	javac -d build $(SOURCES)
@@ -21,5 +29,5 @@ run:
 
 clean:
 	rm -rf META-INF
-	rm -f Chessnut.jar
+	rm -f Garbigi.jar
 	rm -rf build
