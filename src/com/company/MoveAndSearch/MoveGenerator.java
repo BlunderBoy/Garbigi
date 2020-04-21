@@ -96,13 +96,13 @@ public class MoveGenerator {
     //adaugare de mutari
     //quiet move fara capturare
     void addMove(Move mutare) {
-		mutare.prioritate = 0;
+		//mutare.prioritate = 0;
         mutariGenerate.add(mutare);
     }
 
     void addCaptureMove(Move mutare) {
     	captures++;
-    	mutare.prioritate = 1;
+    	mutare.prioritate += 1;
     	mutare.prioritate += 5 - mutare.piesa; //daca e pion o sa fie 5, daca e regina o sa fie 1, LEAST VALUABLE ATACKER
     	mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE PIECE
         mutariGenerate.add(mutare);
@@ -349,11 +349,13 @@ public class MoveGenerator {
                             if (board.allBlackPieces.isBitSet(checker)) {
                                 if (!BoardCommands.isSquareAttacked(checker, false)) {
                                     move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
+                                    move.prioritate = -1;
                                     addCaptureMove(move);
                                 }
                             } else {
                                 if (!BoardCommands.isSquareAttacked(checker, false)) {
                                     move = createMove(pozitie, checker, 0, 0, 5,BoardCommands.getPieceType(board, checker, !side));
+                                    move.prioritate = -1;
                                     addMove(move);
                                 }
                             }
@@ -363,11 +365,13 @@ public class MoveGenerator {
                             if (board.allWhitePieces.isBitSet(checker)) {
                                 if (!BoardCommands.isSquareAttacked(checker, true)) {
                                     move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
+                                    move.prioritate = -1;
                                     addCaptureMove(move);
                                 }
                             } else {
                                 if (!BoardCommands.isSquareAttacked(checker, true)) {
                                     move = createMove(pozitie, checker, 0, 0, 5, BoardCommands.getPieceType(board, checker, !side));
+                                    move.prioritate = -1;
                                     addMove(move);
                                 }
                             }
@@ -387,6 +391,7 @@ public class MoveGenerator {
 		            	if(!BoardCommands.isSquareAttacked(pozitie-2, false))
 			            {
 		            	    move = createMove(pozitie, pozitie - 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie-2, !side));
+		            	    move.prioritate = -1;
 		            	    addMove(move);
 		            	    castle++;
 			            }
@@ -402,6 +407,7 @@ public class MoveGenerator {
 		            	if(!BoardCommands.isSquareAttacked(pozitie+2, false))
 			            {
 		            	    move = createMove(pozitie, pozitie + 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie+2, !side));
+		            	    move.prioritate = -1;
 		            	    addMove(move);
 		            	    castle++;
 			            }
@@ -419,6 +425,7 @@ public class MoveGenerator {
 		            	if(!BoardCommands.isSquareAttacked(pozitie-2, true))
 			            {
 		            	    move = createMove(pozitie, pozitie - 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie-2, !side));
+		            	    move.prioritate = -1;
 		            	    addMove(move);
 		            	    castle++;
 			            }
@@ -434,6 +441,7 @@ public class MoveGenerator {
 		            	if(!BoardCommands.isSquareAttacked(pozitie+2, true))
 			            {
 		            	    move = createMove(pozitie, pozitie + 2, 0,3, 5, BoardCommands.getPieceType(board, pozitie+2, !side));
+		            	    move.prioritate = -1;
 		            	    addMove(move);
 		            	    castle++;
 			            }

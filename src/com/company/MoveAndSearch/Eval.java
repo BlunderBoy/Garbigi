@@ -18,8 +18,8 @@ public class Eval
 		score += getTableScore(board, gamePhase);
 		score += numarPioni(board);
 		score += passedPawns(board);
-		score += checkScore(board);
-		score += mateScore(board);
+		//score += checkScore(board);
+		//score += mateScore(board);
 		score += rankPioni(board);
 		return (score / 100);
 	}
@@ -53,7 +53,7 @@ public class Eval
 		int pozitieRegeAlb = popLSB(board.whiteKing.reprezentare);
 		if (BoardCommands.isSquareAttacked(pozitieRegeAlb, false))
 		{
-			MoveGenerator mv = new MoveGenerator();
+			MoveGenerator mv = new MoveGenerator(board);
 			mv.generateKingMoves(true);
 			if (mv.mutariGenerate.isEmpty())
 			{
