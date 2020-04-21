@@ -50,7 +50,7 @@ public class XBoardProtocol {
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
 			//Negamax.iterativeDebug(BoardState.getInstance(), 5);
-			new Negamax(10000000).negamax(3,Integer.MIN_VALUE,Integer.MAX_VALUE,false,BoardState.getInstance()).printMove();
+			new Negamax(20000).negamax(2,Integer.MIN_VALUE,Integer.MAX_VALUE,false,BoardState.getInstance()).printMove();
 			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
@@ -135,10 +135,14 @@ public class XBoardProtocol {
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
-			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			if (move.getDestinatie() == 0 && move.getSursa() == 0) {
+				System.out.println("resign");
+			} else {
+				System.out.println("move " + move.getMove());
+			}
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
-			System.out.println("move " + move.getMove());
-			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
+			//System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
 			//System.out.println("move " + move);
 		}
 
@@ -165,7 +169,12 @@ public class XBoardProtocol {
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
 				System.out.println("#2 plm " + database.engineColor);
-				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				if (move.getDestinatie() == 0 && move.getSursa() == 0) {
+					System.out.println("resign");
+				} else {
+					System.out.println("move " + move.getMove());
+				}
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 				System.out.println("move " + move.getMove());
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());

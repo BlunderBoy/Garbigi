@@ -12,12 +12,14 @@ public class Negamax {
 
     long startTime;
     long stopTime;
+    long quintesenceStartTime;
     // cand apelam negamax prima oara, o sa construim un obiect Negamax si ii dam
     // new Negamax(System.nanoTime(), *5 sec*)
     // alea *5 sec* trebuie fine tuned by us
     // TODO daca o miscare nu e "stabila", sa continue search-ul, eventual sa mai bagam un time limit field
     // ceva de genu soft limit si hard limit
     public Negamax (long stopTime) {
+        this.quintesenceStartTime = System.currentTimeMillis();
         this.startTime = System.currentTimeMillis();
         this.stopTime = stopTime;
     }
@@ -48,7 +50,7 @@ public class Negamax {
             board.enPassant = -1;
         }
 
-        if (move.piesa == 3) { // daca se muta tura
+        /*if (move.piesa == 3) { // daca se muta tura
             if (move.sursa == 7) {
                 board.castlePermission[1] = 0;
             }
@@ -61,34 +63,32 @@ public class Negamax {
             if (move.sursa == 56) {
                 board.castlePermission[2] = 0;
             }
-        }
-
-
+        }*/
         if (move.flag == 3) {
             if (move.sursa == 3) { // white king castling
                 if (move.destinatie == 1) { // white king side
-                    board.castlePermission[0] = 1;
+                    //board.castlePermission[0] = 1;
                     // sursa si dest la king se updateaza la final
                     // eu trb sa updatez turele
                     board.whiteRooks.setBit(0);
                     board.whiteRooks.clearBit(2);
                 }
                 if (move.destinatie == 5) { // queen side
-                    board.castlePermission[1] = 1;
+                    //board.castlePermission[1] = 1;
                     board.whiteRooks.setBit(7);
                     board.whiteRooks.clearBit(4);
                 }
             }
             if (move.sursa == 59) {
                 if (move.destinatie == 57) { // black king side
-                    board.castlePermission[2] = 1;
+                    //board.castlePermission[2] = 1;
                     board.blackRooks.setBit(56);
-                    board.whiteRooks.clearBit(58);
+                    board.blackRooks.clearBit(58);
                 }
                 if (move.destinatie == 61) { // queen side
-                    board.castlePermission[3] = 1;
-                    board.whiteRooks.setBit(63);
-                    board.whiteRooks.clearBit(60);
+                    //board.castlePermission[3] = 1;
+                    board.blackRooks.setBit(63);
+                    board.blackRooks.clearBit(60);
                 }
             }
         }
@@ -145,8 +145,6 @@ public class Negamax {
 	        //muti tura la locul ei
 	        //desetei castelul
             if (move.sursa == 3) { // white king castling
-                board.castlePermission[0] = 0;
-                board.castlePermission[1] = 0;
 
                 if (move.destinatie == 1) { // white king side
                     // sursa si dest la king se updateaza la final
@@ -160,32 +158,15 @@ public class Negamax {
                 }
             }
             if (move.sursa == 59) {
-                board.castlePermission[2] = 0;
-                board.castlePermission[3] = 0;
 
                 if (move.destinatie == 57) { // black king side
                     board.blackRooks.clearBit(56);
-                    board.whiteRooks.setBit(58);
+                    board.blackRooks.setBit(58);
                 }
                 if (move.destinatie == 61) { // queen side
-                    board.whiteRooks.clearBit(63);
-                    board.whiteRooks.setBit(60);
+                    board.blackRooks.clearBit(63);
+                    board.blackRooks.setBit(60);
                 }
-            }
-        }
-
-        if (move.piesa == 3) { // daca se muta tura
-            if (move.sursa == 7) {
-                board.castlePermission[1] = 0;
-            }
-            if (move.sursa == 63) {
-                board.castlePermission[3] = 0;
-            }
-            if (move.sursa == 0) {
-                board.castlePermission[0] = 0;
-            }
-            if (move.sursa == 56) {
-                board.castlePermission[2] = 0;
             }
         }
 
@@ -193,20 +174,11 @@ public class Negamax {
             if (move.piesaDestinatie != -1) {
                 board.blackBitboards[move.piesaDestinatie].clearBit(dest);
             }
-
-            if (move.piesa == 5) {
-                board.castlePermission[0] = 0;
-                board.castlePermission[1] = 0;
-            }
             board.whiteBitboards[move.piesa].clearBit(source);
             board.whiteBitboards[move.piesa].setBit(dest);
         } else {
             if (move.piesaDestinatie != -1) {
                 board.whiteBitboards[move.piesaDestinatie].clearBit(dest);
-            }
-            if (move.piesa == 5) {
-                board.castlePermission[2] = 0;
-                board.castlePermission[3] = 0;
             }
             board.blackBitboards[move.piesa].clearBit(source);
             board.blackBitboards[move.piesa].setBit(dest);
@@ -228,8 +200,8 @@ public class Negamax {
     public Move quiescence(double alfa, double beta, BoardState currentState, int gameState, boolean side, int depth) throws CloneNotSupportedException {
         double standPat = Eval.eval(currentState, gameState, side);
         Move dummy = new Move();
-
-        if (depth == 0) {
+        //long elapsedTime = System.currentTimeMillis() - startTime;
+        if (depth == 0/* || elapsedTime > stopTime*/) {
             dummy.scor = standPat;
             return dummy;
         }
@@ -249,10 +221,17 @@ public class Negamax {
         //for (Move chosenMove : plm.mutariDebugIGuess) {
             Move chosenMove = plm.mutariGenerate.poll();
             if (chosenMove.piesaDestinatie != -1) {
+                int oldCastlePerm[] = new int[4];
+	            for (int i = 0; i < 4; i++) {
+		            oldCastlePerm[i] = currentState.castlePermission[i];
+	            }
                 applyMove(currentState, chosenMove, side);
                 Move result = quiescence(-beta, -alfa, currentState, gameState, !side, depth - 1);
 
                 undoMove(currentState, chosenMove, side);
+                for (int i = 0; i < 4; i++) {
+		            currentState.castlePermission[i] = oldCastlePerm[i];
+	            }
                 result.scor = -result.scor;
                 result.sursa = chosenMove.sursa;
                 result.destinatie = chosenMove.destinatie;
@@ -276,7 +255,8 @@ public class Negamax {
     }
 
     public Move negamax(int depth, double alfa, double beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
-        /*long elapsedTime = System.currentTimeMillis() - startTime;
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        /*
         //System.out.println("# elapsed time: " + elapsedTime/1000 + " stop time: " + stopTime);
         if (elapsedTime > stopTime) {
             Move dummy = new Move();
@@ -284,14 +264,15 @@ public class Negamax {
             System.out.println("# -------------- TLE ----------------" + dummy.scor);
             return dummy;
         }*/
-        if (gameOver() || depth == 0/* || elapsedTime > stopTime*/) {
+        if (gameOver() || depth == 0 || elapsedTime > stopTime) {
             // TODO identifica midgame si endgame, ca degeaba avem psqtable pt fiecare daca nu le folosim
             Move dummy = new Move();
             dummy.scor = Eval.eval(currentState, MIDGAME, side);
             //System.out.println("reached depth 0, returning " + dummy.scor);
             //Printer.print();
-            return dummy;
-            //return quiescence(alfa, beta, currentState, MIDGAME, side, 4);
+            //return dummy;
+            //this.quintesenceStartTime = System.currentTimeMillis();
+            return quiescence(alfa, beta, currentState, MIDGAME, side, 5);
         }
 
         double max = Integer.MIN_VALUE;
@@ -300,11 +281,13 @@ public class Negamax {
         MoveGenerator plm = new MoveGenerator(currentState, side);
         plm.generateAllMoves(side);
         PriorityQueue<Move> moves = plm.mutariGenerate;
-        // TODO isKingAttacked !!!!!!!!!!!
-        int conditie = moves.size() / 2;
-        int counter = 0;
+
         while (!moves.isEmpty()) {
             Move move = moves.poll();
+            int oldCastlePerm[] = new int[4];
+	        for (int i = 0; i < 4; i++) {
+		        oldCastlePerm[i] = currentState.castlePermission[i];
+	        }
             applyMove(currentState, move, side);
             Move result;
             //Printer.print();
@@ -315,7 +298,10 @@ public class Negamax {
             //} else {
                 //result = negamax(depth/2, -beta, -alfa, !side, currentState);
             //}
-            counter++;
+            undoMove(currentState, move, side);
+	        for (int i = 0; i < 4; i++) {
+		        currentState.castlePermission[i] = oldCastlePerm[i];
+	        }
             //Move result = negamax(depth - 1, -beta, -alfa, !side, currentState);
             result.scor = -result.scor;
             result.sursa = move.sursa;
@@ -340,7 +326,6 @@ public class Negamax {
                 //System.out.println();
             }
 
-            undoMove(currentState, move, side);
             if (max > alfa) {
                 alfa = max;
             }
