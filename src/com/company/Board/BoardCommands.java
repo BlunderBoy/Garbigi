@@ -318,6 +318,7 @@ public class BoardCommands {
 			source.clearBit(sourceIndex);
 			// sper ca compileaza, mi s-a bulit proiectul si nu mai pot pusha din intellij si pe interfata web nu am linter..
 			board.updateBitboards();
+			// test
 			return 1;
 		}
 
