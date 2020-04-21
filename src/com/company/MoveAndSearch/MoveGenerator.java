@@ -87,7 +87,7 @@ public class MoveGenerator {
     }
 
     //printer
-    void moveListPrint() {
+    public void moveListPrint() {
         for (Move m : mutariGenerate) {
             m.printMove();
         }
@@ -145,8 +145,6 @@ public class MoveGenerator {
             int negruStanga = temp - 9;
             int albStanga = temp + 11;
             int albDreapta = temp + 9;
-
-            //TODO : daca facand pop regele ar fi in sah inseamna ca misacarea nu e valida, ca sa nu tot verific
 
             //daca suntem pe alb
             if (side) {
@@ -218,7 +216,7 @@ public class MoveGenerator {
                     }
                 }
             } else { //negru ghici
-                if (getRank(pozitie) == 4) { //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
+                if (getRank(pozitie) == 2) { //daca suntem pe penultimul rank inseamna ca pot sa si fac promotie
                     //setez flag de promotie
                     if (!board.allPieces.isBitSet(pozitie - 8)) {
                         //adaug miscare pion negru in fata daca regele nu e in sah
@@ -249,7 +247,7 @@ public class MoveGenerator {
                         }
                     }
                 } else {
-                    if (getRank(pozitie) == 3) {
+                    if (getRank(pozitie) == 4) {
                         if (Database.conversie120la64(negruDreapta) != 65 && (board.enPassant == Database.conversie120la64(negruDreapta))) {
                         	move = createMove(pozitie, pozitie - 9, 0, 2, 0, BoardCommands.getPieceType(board, pozitie - 9, true));
                             addEnPassantMove(move);
@@ -287,7 +285,7 @@ public class MoveGenerator {
         }
     }
 
-    private void generateKnightMoves(boolean side) throws CloneNotSupportedException {
+    public void generateKnightMoves(boolean side) throws CloneNotSupportedException {
         Bitboard bitBoard;
         if (side) {
             bitBoard = (Bitboard) board.whiteKnights.clone();
@@ -382,8 +380,9 @@ public class MoveGenerator {
             {
             	if(board.castlePermission[0] == 1)
 	            {
-	            	if(!board.allWhitePieces.isBitSet(pozitie-1) &&
-		            !board.allWhitePieces.isBitSet(pozitie-2))
+	            	if(!board.allPieces.isBitSet(pozitie-1) &&
+		            !board.allPieces.isBitSet(pozitie-2) &&
+				            (Bitboard.popLSB(board.whiteKing.reprezentare) == 3))
 		            {
 		            	if(!BoardCommands.isSquareAttacked(pozitie-2, false))
 			            {
@@ -395,9 +394,10 @@ public class MoveGenerator {
 	            }
             	if(board.castlePermission[1] == 1)
 	            {
-	                if(!board.allWhitePieces.isBitSet(pozitie+1) &&
-		            !board.allWhitePieces.isBitSet(pozitie+2) &&
-	                !board.allWhitePieces.isBitSet(pozitie+3))
+	                if(!board.allPieces.isBitSet(pozitie+1) &&
+		            !board.allPieces.isBitSet(pozitie+2) &&
+	                !board.allPieces.isBitSet(pozitie+3) &&
+	                (Bitboard.popLSB(board.whiteKing.reprezentare) == 3))
 		            {
 		            	if(!BoardCommands.isSquareAttacked(pozitie+2, false))
 			            {
@@ -412,8 +412,9 @@ public class MoveGenerator {
             {
             	if(board.castlePermission[2] == 1)
 	            {
-	                if(!board.allBlackPieces.isBitSet(pozitie-1) &&
-		            !board.allBlackPieces.isBitSet(pozitie-2))
+	                if(!board.allPieces.isBitSet(pozitie-1) &&
+		            !board.allPieces.isBitSet(pozitie-2) &&
+	                (Bitboard.popLSB(board.blackKing.reprezentare) == 59))
 		            {
 		            	if(!BoardCommands.isSquareAttacked(pozitie-2, true))
 			            {
@@ -425,9 +426,10 @@ public class MoveGenerator {
 	            }
             	if(board.castlePermission[3] == 1)
 	            {
-	                if(!board.allBlackPieces.isBitSet(pozitie+1) &&
-		            !board.allBlackPieces.isBitSet(pozitie+2) &&
-	                !board.allBlackPieces.isBitSet(pozitie+3))
+	                if(!board.allPieces.isBitSet(pozitie+1) &&
+		            !board.allPieces.isBitSet(pozitie+2) &&
+	                !board.allPieces.isBitSet(pozitie+3) &&
+	                (Bitboard.popLSB(board.blackKing.reprezentare) == 59))
 		            {
 		            	if(!BoardCommands.isSquareAttacked(pozitie+2, true))
 			            {
