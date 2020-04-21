@@ -42,7 +42,7 @@ optimista desigur :D), cel putin inainte sa, sincer, incercam toate
 
 ![We pwned that bot](readme_resources/garbigi_vs_lobotomized_fairymax.png)
 
-Reprezentarea interna a starilor:
+Reprezentarea interna a starilor
 ======
 
 Am pornit de la idea ca vom reprezenta harta de sah cu numere pe 64 de biti
@@ -67,7 +67,7 @@ pioni albi	    pioni negru    	toate piesele albe  toate negre
 # # # # # # # #     . . . . . . . .     # # # # # # # #     . . . . . . . .
 . . . . . . . .     . . . . . . . .     # # # # # # # #     . . . . . . . .
 ```
-Reprezentarea interna a mutarilor:
+Reprezentarea interna a mutarilor
 ======
 - In total 4 nibbles pentru a codifica o mutare. En passant se seteaza cand se poate captura un pion en passant.
 ```
@@ -77,7 +77,7 @@ mutare:
 	0011 0000 0000 0000 promotie (4 valori - cal 0 (00), nebun 01 (01), tura (10), regina (11))
 	1100 0000 0000 0000 flag (4 valori - promotie 1 (01), en passant 2 (10), castling 3 (11))
  ``` 
-Indexarile interne:
+Indexarile interne
 ======
  - Avem 2 tipuri de indexari, una normala, pe 64 de pozitii, care reprezinta 1:1
 tabla de joc, si una pe 120 de pozitii, care ne ajuta la bounds checking (sa nu
@@ -87,7 +87,7 @@ iasa piesele de pe un perete si sa intre pe altul)
 
 ![Indexare pe 120](readme_resources/120indexes.png)
 
-Operatiile cu bitboardurile:
+Operatiile cu bitboardurile
 ======
 
  - Biti sunt setati la 1 sau la 0 in O(1) folosing masti pentru clear si masti
@@ -125,7 +125,7 @@ https://www.chessprogramming.org/Magic_Bitboards
 Am urmat in mare parte wiki-ul si am gasit pseudocod pe site-uri vechi de zeci de ani pentru 
 metoda asta. Nu prea a fost la indemana dar ar trebui sa fie undeva la un 200% performance boost.
 
-Parsarea si interpretarea comenzilor :
+Parsarea si interpretarea comenzilor
 ======
 
  - Comenzile sunt citite de la stdin intr-un loop infinit, singurul break
@@ -138,7 +138,7 @@ informatii si metode care nu tin de starea pieselor ci de starea jocului(cine
 e la mutare, cate mutari s-au facut, cine urmeaza sa mute, ce culoare joaca
 engine-ul etc.)
 
-Feature :
+Feature
 ======
 
  - usermove = 0, pentru a fi mai usor de parsat usermove
@@ -147,8 +147,8 @@ Feature :
  probabil nu o sa folosim reuse in build-ul final)
  - time = 0, urmeaza sa fie implementat, momentan nu avem treaba cu timpul
  
- Build and run :
- ======
+Build and run
+======
  - xboard -fcp "java -jar hopefully.jar" -debug -nameOfDebugFile "plm.txt" (pentru noi cand suntem prosti si uitam)
  - make build (pentru a crea jar-ul si a compila codul sursa)
  - xboard -cp -fcp "make run" (pentru a rula xboard cu enginul nostru)
