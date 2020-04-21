@@ -296,7 +296,6 @@ public class Negamax {
         // TODO isKingAttacked !!!!!!!!!!!
         while (!moves.isEmpty()) {
             Move move = moves.poll();
-            // apply move?
             applyMove(currentState, move, side);
             Move result = negamax(depth - 1, -beta, -alfa, !side, currentState);
             undoMove(currentState, move, side);

@@ -27,7 +27,7 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1");
+			BoardCommands.initGame("r3kn1r/8/8/8/8/8/8/8 w KQkq - 0 1");
 			//BoardCommands.initGame();
 			/////////
 
@@ -35,14 +35,20 @@ public class XBoardProtocol {
 			//Printer.print();
 			//System.out.println(Eval.eval(BoardState.getInstance(),1));
 
-			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
+			MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
+			movegen.generateKingMoves(false);
+			for (Move m :
+					movegen.mutariGenerate)
+			{
+				m.printMove();
+			}
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
 
-			new Negamax(10000000).negamax(7,Integer.MIN_VALUE,10000000,true,BoardState.getInstance()).printMove();
-			System.exit(1);
+			//new Negamax(10000000).negamax(7,Integer.MIN_VALUE,10000000,true,BoardState.getInstance()).printMove();
+			//System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
