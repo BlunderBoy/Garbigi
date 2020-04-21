@@ -18,7 +18,7 @@ public class Eval
 		score += getTableScore(board, gamePhase);
 		//score += numarPioni(board);
 		//score += passedPawns(board);
-		//score += rankPioni(board);
+		score += rankPioni(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
 		if (!side) { // daca e negru
@@ -48,7 +48,7 @@ public class Eval
 			bitboardNegru = Bitboard.clearBit(lsb, bitboardNegru);
 			score -= (9 - MoveGenerator.getrank.get(lsb));
 		}
-		return (score*5);
+		return (score*10);
 	}
 
 	/*private static double mateScore(BoardState board) throws CloneNotSupportedException

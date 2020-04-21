@@ -62,10 +62,10 @@ public class MoveGenerator
 	
 	public void generateAllMoves(boolean side) throws CloneNotSupportedException
 	{
-		generateKnightMoves(side);
 		generateBishopMoves(side);
 		generateQueenMoves(side);
 		generatePawnMoves(side);
+		generateKnightMoves(side);
 		generateRookMoves(side);
 		generateKingMoves(side);
 	}

@@ -329,7 +329,7 @@ public class Negamax {
             //System.out.println("comparing " + result.scor);
             //result.printMove();
             //System.out.println(" with " + max + " for " + side);
-            if (result.scor >= max) {
+            if (result.scor > max) {
             //if (Double.compare(result.scor, max) > 0) {
                 max = result.scor;
                 bestLocalMove = result;
