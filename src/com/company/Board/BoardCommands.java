@@ -292,6 +292,7 @@ public class BoardCommands {
 		String[] tokens = command.split(" ");
 		String move = tokens[1];
 
+
 		// TODO castling & en passant
 		int sourceIndex = 0;
 		int destIndex = 0;
@@ -301,6 +302,20 @@ public class BoardCommands {
 		MoveToIndexes moveToIndexes = new MoveToIndexes(move, sourceIndex, destIndex).invoke();
 		sourceIndex = moveToIndexes.getSourceIndex();
 		destIndex = moveToIndexes.getDestIndex();
+
+		// promotion
+		if (move.length() == 5) {
+			char pieceType = moveToIndexes.promotedPiece;
+			if (data.opponentColor == data.WHITE) {
+				pieceType -= 32; // to uppercase
+			}
+			Bitboard promoted = getBitboardFromType(pieceType);
+			System.out.println("# pawn promoted to " + pieceType);
+			promoted.setBit(destIndex);
+
+			Bitboard source = getBitboardFromType(getPieceType(sourceIndex));
+			source.clearBit(sourceIndex);
+		}
 
 		if (sourceIndex < 0 || sourceIndex > 63 || destIndex < 0 || destIndex > 63) {
 			System.out.println("Illegal move, wrong index you dumbass");
@@ -801,6 +816,7 @@ public class BoardCommands {
 		private String move;
 		private int sourceIndex;
 		private int destIndex;
+		private char promotedPiece;
 
 		public MoveToIndexes(String move, int sourceIndex, int destIndex) {
 			this.move = move;
@@ -816,12 +832,18 @@ public class BoardCommands {
 			return destIndex;
 		}
 
+		public char getPromotedPiece () {
+			return promotedPiece;
+		}
+
 		public MoveToIndexes invoke() {
-			if (move.length() == 4) { // miscare normala
-				// magic, don't touch.
-				sourceIndex = (8 * (move.charAt(1) - '0') - 1) - (move.charAt(0) - 'a');
-				destIndex = (8 * (move.charAt(3) - '0') - 1) - (move.charAt(2) - 'a');
+			if (move.length() == 5) { // promotion
+				promotedPiece = move.charAt(4);
 			}
+			// magic, don't touch.
+			sourceIndex = (8 * (move.charAt(1) - '0') - 1) - (move.charAt(0) - 'a');
+			destIndex = (8 * (move.charAt(3) - '0') - 1) - (move.charAt(2) - 'a');
+
 			return this;
 		}
 	}

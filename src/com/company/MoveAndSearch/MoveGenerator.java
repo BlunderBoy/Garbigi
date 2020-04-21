@@ -14,7 +14,9 @@ import static com.company.Board.Bitboard.popLSB;
 public class MoveGenerator
 {
 	public PriorityQueue<Move> mutariGenerate;
+	public ArrayList<Move> mutariDebugIGuess = new ArrayList<>();
 	BoardState board;
+	boolean siiiide;
 	
 	//helpere
 	static HashMap<Integer, Integer> getrank;
@@ -36,13 +38,14 @@ public class MoveGenerator
 	{
 	}
 	
-	public MoveGenerator(BoardState board) throws CloneNotSupportedException
+	public MoveGenerator(BoardState board, boolean siiiide) throws CloneNotSupportedException
 	{
+		this.siiiide = siiiide;
 		//in hashpmap o sa am [0,1,2,3,4,5,6,7] cu cheia 1
 		//[8,9,10,11,12,13,14,15] cu cheia 2 etc
 		//ca sa pot lua usor rank-ul dupa pozitie
 		mutariGenerate = new PriorityQueue<>();
-		this.board = board.clone();
+		this.board = board;
 	}
 	
 	public static void initMoveGenerator()
@@ -106,7 +109,14 @@ public class MoveGenerator
 	void addMove(Move mutare)
 	{
 		//mutare.prioritate = 0;
-		mutariGenerate.add(mutare);
+		Negamax.applyMove(board, mutare, siiiide);
+		long bitboard = siiiide ? board.whiteKing.reprezentare : board.blackKing.reprezentare;
+		int lsb = Bitboard.popLSB(bitboard);
+		if (!BoardCommands.isSquareAttacked(lsb, !siiiide)) {
+			mutariGenerate.add(mutare);
+		}
+		Negamax.undoMove(board, mutare, siiiide);
+		mutariDebugIGuess.add(mutare);
 	}
 	
 	void addCaptureMove(Move mutare)
@@ -115,14 +125,28 @@ public class MoveGenerator
 		mutare.prioritate += 1;
 		mutare.prioritate += 5 - mutare.piesa; //daca e pion o sa fie 5, daca e regina o sa fie 1, LEAST VALUABLE ATACKER
 		mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE VICTIM
-		mutariGenerate.add(mutare);
+		Negamax.applyMove(board, mutare, siiiide);
+		long bitboard = siiiide ? board.whiteKing.reprezentare : board.blackKing.reprezentare;
+		int lsb = Bitboard.popLSB(bitboard);
+		if (!BoardCommands.isSquareAttacked(lsb, !siiiide)) {
+			mutariGenerate.add(mutare);
+		}
+		Negamax.undoMove(board, mutare, siiiide);
+		mutariDebugIGuess.add(mutare);
 	}
 	
 	void addEnPassantMove(Move mutare)
 	{
 		mutare.prioritate = 0;
 		ep++;
-		mutariGenerate.add(mutare);
+		Negamax.applyMove(board, mutare, siiiide);
+		long bitboard = siiiide ? board.whiteKing.reprezentare : board.blackKing.reprezentare;
+		int lsb = Bitboard.popLSB(bitboard);
+		if (!BoardCommands.isSquareAttacked(lsb, !siiiide)) {
+			mutariGenerate.add(mutare);
+		}
+		Negamax.undoMove(board, mutare, siiiide);
+		mutariDebugIGuess.add(mutare);
 	}
 	
 	//creator de mutari
@@ -472,10 +496,7 @@ public class MoveGenerator
 				}
 			}
 		}
-		if (!BoardCommands.isSquareAttacked(pozitie, !side))
-		{
-			return;
-		}
+
 		while (bitBoard.reprezentare != 0)
 		{
 			//pozitie = popLSB(bitBoard.reprezentare);

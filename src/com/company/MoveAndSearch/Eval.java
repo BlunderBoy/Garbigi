@@ -16,9 +16,9 @@ public class Eval
 	{
 		double score = 0;
 		score += getTableScore(board, gamePhase);
-		score += numarPioni(board);
-		score += passedPawns(board);
-		score += rankPioni(board);
+		//score += numarPioni(board);
+		//score += passedPawns(board);
+		//score += rankPioni(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
 		if (!side) { // daca e negru
@@ -26,6 +26,7 @@ public class Eval
         } else {
             return (score/100);
         }
+
 	}
 
 	private static double rankPioni(BoardState board)
@@ -50,7 +51,7 @@ public class Eval
 		return (score*5);
 	}
 
-	private static double mateScore(BoardState board) throws CloneNotSupportedException
+	/*private static double mateScore(BoardState board) throws CloneNotSupportedException
 	{
 		int score = 0;
 
@@ -76,7 +77,7 @@ public class Eval
 			}
 		}
 		return score;
-	}
+	}*/
 
 	private static int getWhiteTableScore(long bitboard, int valoare, int[] value) throws CloneNotSupportedException
 	{
@@ -87,6 +88,7 @@ public class Eval
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
 			score += valoare + value[index];
+			//System.out.println("[W] psqt la index " + index + " este " + value[index]);
 		}
 		return score;
 	}
@@ -99,6 +101,7 @@ public class Eval
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
 			score += valoare + value[PSqTable.index[index]];
+			//System.out.println("[B] psqt la index " + index + " este " + value[PSqTable.index[index]]);
 		}
 		return score;
 	}
@@ -113,6 +116,7 @@ public class Eval
 					board.whiteBitboards[i].valoare,
 					PSqTable.pieceSquareTables[i]);
 		}
+		//System.out.println("scor dupa primu for: " + score);
 
 		for (int i = 0; i < 6; i++)
 		{
@@ -120,6 +124,7 @@ public class Eval
 					board.blackBitboards[i].valoare,
 					PSqTable.pieceSquareTables[i]);
 		}
+		//System.out.println("scor dupa al doilea for: " + score);
 		return score;
 	}
 

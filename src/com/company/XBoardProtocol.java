@@ -11,7 +11,7 @@ import com.company.MoveAndSearch.*;
 public class XBoardProtocol {
 	private static final int NEXT_INSTRUCTION = 0;
 	private static final int ERROR = -1;
-	private static final String numeEngine = "Neintitulat";
+	private static final String numeEngine = "Garbigi";
 	StringBuilder move = new StringBuilder("c7c6"); // default pt negru
 
 	void printOptiuniInitiale() {
@@ -27,28 +27,27 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("r3kn1r/8/8/8/8/8/8/8 w KQkq - 0 1");
+			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b - - 0 1");
+			//database.engineColor = database.WHITE;
+			///database.opponentColor = database.BLACK;
+			//database.turn = database.BLACK;
 			//BoardCommands.initGame();
 			/////////
 
-			//System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.WHITE));
-			//Printer.print();
+			//BoardCommands.parseOpponentMove("usermove f2f1r");
+
+			System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.BLACK));
+			Printer.print();
 			//System.out.println(Eval.eval(BoardState.getInstance(),1));
 
-			MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
-			movegen.generateKingMoves(false);
-			for (Move m :
-					movegen.mutariGenerate)
-			{
-				m.printMove();
-			}
+			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
-
-			//new Negamax(10000000).negamax(7,Integer.MIN_VALUE,10000000,true,BoardState.getInstance()).printMove();
-			//System.exit(1);
+			//Negamax.iterativeDebug(BoardState.getInstance(), 5);
+			new Negamax(10000000).negamax(3,Integer.MIN_VALUE,Integer.MAX_VALUE,false,BoardState.getInstance()).printMove();
+			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
@@ -131,9 +130,11 @@ public class XBoardProtocol {
 			dest = verificare.getDestIndex();
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
-			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			System.out.println("#1 plm " + database.engineColor);
+			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, false, BoardState.getInstance());
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 			System.out.println("move " + move.getMove());
+			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
 			//System.out.println("move " + move);
 		}
 
@@ -159,9 +160,11 @@ public class XBoardProtocol {
 
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
-				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				System.out.println("#2 plm " + database.engineColor);
+				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, false, BoardState.getInstance());
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 				System.out.println("move " + move.getMove());
+				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
 			}
 
 			database.turn = database.opponentColor;

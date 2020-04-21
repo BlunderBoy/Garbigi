@@ -30,6 +30,14 @@ public class Move implements Comparable<Move>{
     // plz respect these
 
 
+    public double getScor () {
+        return scor;
+    }
+
+    public int getPrioritate () {
+        return prioritate;
+    }
+
     @Override
     public String toString () {
         return "{" + "sursa: " + sursa +

@@ -14,7 +14,7 @@ public class Perft
 		if(depth == 0)
 			return;
 			
-		MoveGenerator generator = new MoveGenerator(board);
+		MoveGenerator generator = new MoveGenerator(board, side);
 		generator.generateAllMoves(side);
 		while (!generator.mutariGenerate.isEmpty())
 		{
