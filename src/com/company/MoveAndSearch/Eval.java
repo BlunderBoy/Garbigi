@@ -19,8 +19,8 @@ public class Eval
 		score += numarPioni(board);
 		score += passedPawns(board);
 		score += rankPioni(board);
-		score += castleBonus(board);
-		score += mobilityBonus(board);
+		//?score += castleBonus(board);
+		//?score += mobilityBonus(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
 		if (!side) { // daca e negru
