@@ -48,7 +48,7 @@ public class Negamax {
             board.enPassant = -1;
         }
 
-        /*if (move.piesa == 3) { // daca se muta tura
+        if (move.piesa == 3) { // daca se muta tura
             if (move.sursa == 7) {
                 board.castlePermission[1] = 0;
             }
@@ -61,9 +61,11 @@ public class Negamax {
             if (move.sursa == 56) {
                 board.castlePermission[2] = 0;
             }
-        }*/
+        }
+
+
         if (move.flag == 3) {
-            /*if (move.sursa == 3) { // white king castling
+            if (move.sursa == 3) { // white king castling
                 if (move.destinatie == 1) { // white king side
                     board.castlePermission[0] = 1;
                     // sursa si dest la king se updateaza la final
@@ -88,7 +90,7 @@ public class Negamax {
                     board.whiteRooks.setBit(63);
                     board.whiteRooks.clearBit(60);
                 }
-            }*/
+            }
         }
 
         if (side == Database.getInstance().WHITE) {
@@ -143,6 +145,8 @@ public class Negamax {
 	        //muti tura la locul ei
 	        //desetei castelul
             if (move.sursa == 3) { // white king castling
+                board.castlePermission[0] = 0;
+                board.castlePermission[1] = 0;
 
                 if (move.destinatie == 1) { // white king side
                     // sursa si dest la king se updateaza la final
@@ -156,6 +160,8 @@ public class Negamax {
                 }
             }
             if (move.sursa == 59) {
+                board.castlePermission[2] = 0;
+                board.castlePermission[3] = 0;
 
                 if (move.destinatie == 57) { // black king side
                     board.blackRooks.clearBit(56);
@@ -168,15 +174,39 @@ public class Negamax {
             }
         }
 
+        if (move.piesa == 3) { // daca se muta tura
+            if (move.sursa == 7) {
+                board.castlePermission[1] = 0;
+            }
+            if (move.sursa == 63) {
+                board.castlePermission[3] = 0;
+            }
+            if (move.sursa == 0) {
+                board.castlePermission[0] = 0;
+            }
+            if (move.sursa == 56) {
+                board.castlePermission[2] = 0;
+            }
+        }
+
         if (side == Database.getInstance().WHITE) {
             if (move.piesaDestinatie != -1) {
                 board.blackBitboards[move.piesaDestinatie].clearBit(dest);
+            }
+
+            if (move.piesa == 5) {
+                board.castlePermission[0] = 0;
+                board.castlePermission[1] = 0;
             }
             board.whiteBitboards[move.piesa].clearBit(source);
             board.whiteBitboards[move.piesa].setBit(dest);
         } else {
             if (move.piesaDestinatie != -1) {
                 board.whiteBitboards[move.piesaDestinatie].clearBit(dest);
+            }
+            if (move.piesa == 5) {
+                board.castlePermission[2] = 0;
+                board.castlePermission[3] = 0;
             }
             board.blackBitboards[move.piesa].clearBit(source);
             board.blackBitboards[move.piesa].setBit(dest);
@@ -260,8 +290,8 @@ public class Negamax {
             dummy.scor = Eval.eval(currentState, MIDGAME, side);
             //System.out.println("reached depth 0, returning " + dummy.scor);
             //Printer.print();
-            //return dummy;
-            return quiescence(alfa, beta, currentState, MIDGAME, side, 5);
+            return dummy;
+            //return quiescence(alfa, beta, currentState, MIDGAME, side, 4);
         }
 
         double max = Integer.MIN_VALUE;
@@ -275,11 +305,6 @@ public class Negamax {
         int counter = 0;
         while (!moves.isEmpty()) {
             Move move = moves.poll();
-            int oldCastlePerm[] = new int[4];
-	        for (int i = 0; i < 4; i++)
-	        {
-		        oldCastlePerm[i] = currentState.castlePermission[i];
-	        }
             applyMove(currentState, move, side);
             Move result;
             //Printer.print();
@@ -316,10 +341,6 @@ public class Negamax {
             }
 
             undoMove(currentState, move, side);
-	        for (int i = 0; i < 4; i++)
-	        {
-		        currentState.castlePermission[i] = oldCastlePerm[i];
-	        }
             if (max > alfa) {
                 alfa = max;
             }

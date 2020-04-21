@@ -135,7 +135,7 @@ public class XBoardProtocol {
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
-			Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 			System.out.println("move " + move.getMove());
 			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
@@ -165,7 +165,7 @@ public class XBoardProtocol {
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
 				System.out.println("#2 plm " + database.engineColor);
-				Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
 				System.out.println("move " + move.getMove());
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());

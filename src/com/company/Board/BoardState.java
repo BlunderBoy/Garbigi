@@ -120,14 +120,14 @@ public class BoardState implements Cloneable{
 		instance.whiteBishops.valoare = 330;
 		instance.whiteRooks.valoare = 500;
 		instance.whiteQueens.valoare = 900;
-		instance.whiteKing.valoare = 5000;
+		instance.whiteKing.valoare = 0;
 
 		instance.blackPawns.valoare = 100;
 		instance.blackKnights.valoare = 320;
 		instance.blackBishops.valoare = 330;
 		instance.blackRooks.valoare = 500;
 		instance.blackQueens.valoare = 900;
-		instance.blackKing.valoare = 5000;
+		instance.blackKing.valoare = 0;
 	}
 
 	public void updateBitboards() {

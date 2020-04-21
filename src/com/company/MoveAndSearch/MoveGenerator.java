@@ -62,12 +62,12 @@ public class MoveGenerator
 	
 	public void generateAllMoves(boolean side) throws CloneNotSupportedException
 	{
-		generateBishopMoves(side);
-		generateQueenMoves(side);
 		generatePawnMoves(side);
 		generateKnightMoves(side);
-		generateRookMoves(side);
+		generateBishopMoves(side);
+		generateQueenMoves(side);
 		generateKingMoves(side);
+		generateRookMoves(side);
 	}
 	
 	public void generateAllMovesAndStats(boolean side) throws CloneNotSupportedException
@@ -108,7 +108,7 @@ public class MoveGenerator
 	//quiet move fara capturare
 	void addMove(Move mutare)
 	{
-		//mutare.prioritate = 0;
+		mutare.prioritate = 0;
 		Negamax.applyMove(board, mutare, siiiide);
 		long bitboard = siiiide ? board.whiteKing.reprezentare : board.blackKing.reprezentare;
 		int lsb = Bitboard.popLSB(bitboard);
@@ -116,7 +116,6 @@ public class MoveGenerator
 			mutariGenerate.add(mutare);
 		}
 		Negamax.undoMove(board, mutare, siiiide);
-		mutariDebugIGuess.add(mutare);
 	}
 	
 	void addCaptureMove(Move mutare)
@@ -132,7 +131,6 @@ public class MoveGenerator
 			mutariGenerate.add(mutare);
 		}
 		Negamax.undoMove(board, mutare, siiiide);
-		mutariDebugIGuess.add(mutare);
 	}
 	
 	void addEnPassantMove(Move mutare)
@@ -146,7 +144,6 @@ public class MoveGenerator
 			mutariGenerate.add(mutare);
 		}
 		Negamax.undoMove(board, mutare, siiiide);
-		mutariDebugIGuess.add(mutare);
 	}
 	
 	//creator de mutari
@@ -444,7 +441,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie - 2, false))
 					{
 						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						mutariGenerate.add(move);
+						addMove(move);
 						castle++;
 					}
 				}
@@ -459,7 +456,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie + 2, false))
 					{
 						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						mutariGenerate.add(move);
+						addMove(move);
 						castle++;
 					}
 				}
@@ -475,7 +472,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie - 2, true))
 					{
 						move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
-						mutariGenerate.add(move);
+						addMove(move);
 						castle++;
 					}
 				}
@@ -490,7 +487,7 @@ public class MoveGenerator
 					if (!BoardCommands.isSquareAttacked(pozitie + 2, true))
 					{
 						move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
-						mutariGenerate.add(move);
+						addMove(move);
 						castle++;
 					}
 				}
