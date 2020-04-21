@@ -27,21 +27,23 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR b kqKQ - 0 1");
-			//database.engineColor = database.WHITE;
-			Printer.print();
-			///database.opponentColor = database.BLACK;
+			BoardCommands.initGame("r2qk2r/p2b1ppp/8/1pPp4/1Qp1p2P/2P5/PP2PPP1/R3KB1R b kqKQ - 0 1");
+			database.engineColor = database.BLACK;
+			database.opponentColor = database.WHITE;
+			//
 			//database.turn = database.BLACK;
 			//BoardCommands.initGame();
 			/////////
-
+			
 			//BoardCommands.parseOpponentMove("usermove f2f1r");
-			MoveGenerator mv = new MoveGenerator(BoardState.getInstance(), false);
-			mv.generateKingMoves(false);
-			System.out.println(mv.mutariGenerate.size());
+			//MoveGenerator mv = new MoveGenerator(BoardState.getInstance(), false);
+			//mv.generateAllMoves(false);
+			//Printer.print();
+			//mv.generateKingMoves(false);
+			//System.out.println(mv.mutariGenerate.size());
 			//mv.moveListPrint();
 
-			System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.BLACK));
+			//System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.BLACK));
 			//System.out.println(Eval.eval(BoardState.getInstance(),1));
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
@@ -50,8 +52,8 @@ public class XBoardProtocol {
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
 			//Negamax.iterativeDebug(BoardState.getInstance(), 5);
-			new Negamax(20000).negamax(2,Integer.MIN_VALUE,Integer.MAX_VALUE,false,BoardState.getInstance()).printMove();
-			System.exit(1);
+			//new Negamax(20000).negamax(2,Integer.MIN_VALUE,Integer.MAX_VALUE,false,BoardState.getInstance()).printMove();
+			//System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
 			//pune aici functia pe care vrei sa o testezi
@@ -135,7 +137,7 @@ public class XBoardProtocol {
 			//makeHardcodedMove(sursa, dest);
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
-			Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Move move = search.negamax(7, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 			if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 				System.out.println("resign");
 			} else {
@@ -169,24 +171,23 @@ public class XBoardProtocol {
 				//makeHardcodedMove(sursa, dest);
 				Negamax search = new Negamax(20000);
 				System.out.println("#2 plm " + database.engineColor);
-				Move move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Move move = search.negamax(7, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
 				if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 					System.out.println("resign");
 				} else {
 					System.out.println("move " + move.getMove());
 				}
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
-				System.out.println("move " + move.getMove());
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate());
 			}
 
 			database.turn = database.opponentColor;
 
 			//if (database.DEBUG) {
-				Printer.print();
 			//}
 
 			//Printer.print();
+			Printer.print();
 			return NEXT_INSTRUCTION;
 		}
 

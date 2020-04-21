@@ -19,8 +19,8 @@ public class Eval
 		score += numarPioni(board);
 		score += passedPawns(board);
 		score += rankPioni(board);
-		//?score += castleBonus(board);
-		//?score += mobilityBonus(board);
+		//score += castleBonus(board);
+		//score += mobilityBonus(board);
 		//score += checkScore(board);
 		//score += mateScore(board);
 		if (!side) { // daca e negru
@@ -107,7 +107,7 @@ public class Eval
 			bitboardNegru = Bitboard.clearBit(lsb, bitboardNegru);
 			score -= (9 - MoveGenerator.getrank.get(lsb));
 		}
-		return (score*10);
+		return (score);
 	}
 	
 	private static double castleBonus(BoardState board)
@@ -124,12 +124,12 @@ public class Eval
 		int lsbrege = Bitboard.popLSB(bitboardNegru);
 		if(Math.abs(lsbrege - lsb) == 1)
 		{
-			score -= 15;
+			score -= 20;
 		}
 		lsb = Bitboard.popLSB(bitboardNegruTura);
 		if(Math.abs(lsbrege - lsb) == 1)
 		{
-			score -= 15;
+			score -= 20;
 		}
 		
 		lsb = Bitboard.popLSB(bitboardAlbTura);
@@ -137,12 +137,12 @@ public class Eval
 		lsbrege = Bitboard.popLSB(bitboardAlb);
 		if(Math.abs(lsbrege - lsb) == 1)
 		{
-			score += 15;
+			score += 20;
 		}
 		lsb = Bitboard.popLSB(bitboardAlbTura);
 		if(Math.abs(lsbrege - lsb) == 1)
 		{
-			score += 15;
+			score += 20;
 		}
 		return score;
 	}
@@ -231,12 +231,12 @@ public class Eval
 		if (Long.bitCount(board.whitePawns.reprezentare) >
 				Long.bitCount((board.blackPawns.reprezentare)))
 		{
-			score += 25;
+			score += 5;
 		}
 		if (Long.bitCount(board.whitePawns.reprezentare) <
 				Long.bitCount((board.blackPawns.reprezentare)))
 		{
-			score -= 25;
+			score -= 5;
 		}
 		return score;
 	}
@@ -257,7 +257,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i + 1] & (bitboardAlb)) == 0)
 						{
-							score -= 20;
+							score -= 15;
 						}
 					}
 				}
@@ -267,7 +267,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i - 1] & (bitboardAlb)) == 0)
 						{
-							score -= 20;
+							score -= 15;
 						}
 					}
 				}
@@ -279,7 +279,7 @@ public class Eval
 						{
 							if ((SlidingPieceGenerator.files[i - 1] & (bitboardAlb)) == 0)
 							{
-								score -= 20;
+								score -= 15;
 							}
 						}
 					}
@@ -294,7 +294,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i + 1] & (bitboardNegru)) == 0)
 						{
-							score += 20;
+							score += 15;
 						}
 					}
 				}
@@ -304,7 +304,7 @@ public class Eval
 					{
 						if ((SlidingPieceGenerator.files[i - 1] & (bitboardNegru)) == 0)
 						{
-							score += 20;
+							score += 15;
 						}
 					}
 				}
@@ -316,7 +316,7 @@ public class Eval
 						{
 							if ((SlidingPieceGenerator.files[i - 1] & (bitboardNegru)) == 0)
 							{
-								score += 20;
+								score += 15;
 							}
 						}
 					}
