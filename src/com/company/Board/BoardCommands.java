@@ -307,6 +307,20 @@ public class BoardCommands {
 			return -69;
 		}
 
+		// CASTLING
+		if (sourceIndex == 3 && destIndex == 1) { // white king side
+			updateBitboard(0, 2, board.whiteRooks);
+		}
+		if (sourceIndex == 3 && destIndex == 5) { // white queen side
+			updateBitboard(7, 4, board.whiteRooks);
+		}
+		if (sourceIndex == 59 && destIndex == 57) { // black king side
+			updateBitboard(56, 58, board.blackRooks);
+		}
+		if (sourceIndex == 59 && destIndex == 61) { // black king side
+			updateBitboard(63, 60, board.blackRooks);
+		}
+
 		// astea-s comentarii inutile pt mine btw, ignora-le
 		// TODO (maybe) verifica daca piesa de la source este a celui care trb sa mute
 
@@ -329,12 +343,12 @@ public class BoardCommands {
 			case 'P':
 				if (data.DEBUG)
 					System.out.println("White pawn.");
-				if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
+				//if (isPawnMoveLegal(sourceIndex, destIndex, data.WHITE)) {
 					updateBitboard(sourceIndex, destIndex, board.whitePawns);
-				} else {
+				//} else {
 					System.out.println("nu e legal");
-					returnCode = -1;
-				}
+					//returnCode = -1;
+				//}
 				break;
 			case 'p':
 				if (data.DEBUG)
@@ -420,10 +434,12 @@ public class BoardCommands {
 			case 'K':
 				if (data.DEBUG)
 					System.out.println("White king.");
+				updateBitboard(sourceIndex, destIndex, board.whiteKing);
 				break;
 			case 'k':
 				if (data.DEBUG)
 					System.out.println("Black king.");
+				updateBitboard(sourceIndex, destIndex, board.blackKing);
 				break;
 			default:
 				if (data.DEBUG)
@@ -442,14 +458,11 @@ public class BoardCommands {
 		// verificam LA INCEPUT daca avem capturare
 		Bitboard dest = getBitboardFromType(getPieceType(destIndex));
 
-//		if (dest != null) {
-//			if (Database.getInstance().DEBUG)
-//				//System.out.println("avem capturare");
-//			dest.clearBit(destIndex);
-//		} else {
-//			if (Database.getInstance().DEBUG)
-//				//System.out.println("nu avem capturare");
-//		}
+		if (dest != null) {
+
+				//System.out.println("avem capturare");
+			dest.clearBit(destIndex);
+		}
 
 		source.clearBit(sourceIndex);
 		source.setBit(destIndex);
@@ -651,7 +664,6 @@ public class BoardCommands {
 		}
 		// daca avem capturare
 		// miscare legala de capturare
-		System.out.println("src: " + source + " capture L "  + captureMoveL + " capture R " + captureMoveR);
 		if (dest == (source + captureMoveL) || dest == (source + captureMoveR)) {
 			if (enemyPieces.isBitSet(dest)) {
 				return true;

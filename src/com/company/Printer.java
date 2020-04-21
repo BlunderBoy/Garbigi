@@ -135,6 +135,84 @@ public class Printer {
 		}*/
     }
 
+    public static void print(BoardState board) {
+        boolean print;
+        System.out.println("# boardstate usor de citit: ");
+        for (int i = 63; i >= 0; i--) {
+            print = false;
+            if ((i + 1) % 8 == 0)
+                System.out.print("#");
+
+            if (board.whiteBishops.isBitSet(i)) {
+                System.out.print("B ");
+                print = true;
+            }
+
+            if (board.whiteKnights.isBitSet(i)) {
+                System.out.print("N ");
+                print = true;
+            }
+
+            if (board.whitePawns.isBitSet(i)) {
+                System.out.print("P ");
+                print = true;
+            }
+
+            if (board.whiteKing.isBitSet(i)) {
+                System.out.print("K ");
+                print = true;
+            }
+
+            if (board.whiteQueens.isBitSet(i)) {
+                System.out.print("Q ");
+                print = true;
+            }
+
+            if (board.whiteRooks.isBitSet(i)) {
+                System.out.print("R ");
+                print = true;
+            }
+
+            if (board.blackBishops.isBitSet(i)) {
+                System.out.print("b ");
+                print = true;
+            }
+
+            if (board.blackKnights.isBitSet(i)) {
+                System.out.print("n ");
+                print = true;
+            }
+
+            if (board.blackPawns.isBitSet(i)) {
+                System.out.print("p ");
+                print = true;
+            }
+
+            if (board.blackKing.isBitSet(i)) {
+                System.out.print("k ");
+                print = true;
+            }
+
+            if (board.blackQueens.isBitSet(i)) {
+                System.out.print("q ");
+                print = true;
+            }
+
+            if (board.blackRooks.isBitSet(i)) {
+                System.out.print("r ");
+                print = true;
+            }
+
+            if (!print) {
+                System.out.print(". ");
+            }
+
+            if (i % 8 == 0) {
+                System.out.println();
+            }
+        }
+    }
+
     public static void print(Bitboard b) {
     	long shifter = 1;
     	shifter <<= 63;

@@ -27,13 +27,13 @@ public class XBoardProtocol {
 			/////////
 			Bitboard.initMasti();
 			database.numarDeMiscariFacute = 0;
-			BoardCommands.initGame("8/ppp5/8/8/8/6P1/5P1P/8 w - - 0 1");
+			BoardCommands.initGame("3r1k2/4npp1/1ppr3p/p6P/P2PPPP1/1NR5/5K2/2R5 w - - 0 1");
 			//BoardCommands.initGame();
 			/////////
 
-			//System.out.println("Eval for the fen: " + Negamax.eval(BoardState.getInstance(), 0));
-			Printer.print();
-			System.out.println(Eval.eval(BoardState.getInstance(),1));
+			//System.out.println("Eval for the fen: " + Eval.eval(BoardState.getInstance(), 0, database.WHITE));
+			//Printer.print();
+			//System.out.println(Eval.eval(BoardState.getInstance(),1));
 
 			//MoveGenerator movegen = new MoveGenerator(BoardState.getInstance());
 
@@ -41,7 +41,7 @@ public class XBoardProtocol {
 			//movegen.generateAllMovesAndStats(true);
 			//new Perft().timeTest(7,BoardState.getInstance());
 
-			//new Negamax(10000000).negamax(4,Integer.MIN_VALUE,Integer.MAX_VALUE,true,BoardState.getInstance()).printMove();
+			new Negamax(10000000).negamax(7,Integer.MIN_VALUE,10000000,true,BoardState.getInstance()).printMove();
 			System.exit(1);
 			//DEBUG pentru consola
 			//System.out.println(buffer);
@@ -123,7 +123,12 @@ public class XBoardProtocol {
 			BoardCommands.MoveToIndexes verificare = new BoardCommands.MoveToIndexes(move.toString(), sursa, dest).invoke();
 			sursa = verificare.getSourceIndex();
 			dest = verificare.getDestIndex();
-			makeHardcodedMove(sursa, dest);
+			//makeHardcodedMove(sursa, dest);
+			Negamax search = new Negamax(20000);
+			Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
+			System.out.println("move " + move.getMove());
+			//System.out.println("move " + move);
 		}
 
 		if (buffer.contains("usermove")) {
@@ -146,7 +151,11 @@ public class XBoardProtocol {
 				sursa = verificare.getSourceIndex();
 				dest = verificare.getDestIndex();
 
-				makeHardcodedMove(sursa, dest);
+				//makeHardcodedMove(sursa, dest);
+				Negamax search = new Negamax(20000);
+				Move move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE, database.engineColor, BoardState.getInstance());
+				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
+				System.out.println("move " + move.getMove());
 			}
 
 			database.turn = database.opponentColor;

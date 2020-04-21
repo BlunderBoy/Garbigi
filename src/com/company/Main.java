@@ -14,7 +14,7 @@ public class Main {
 
         XBoardProtocol xBoardProtocol = new XBoardProtocol();
 
-        xBoardProtocol.parseInput("debug");
+        //xBoardProtocol.parseInput("debug");
         while (true) {
             String buffer = in.nextLine();
             if(xBoardProtocol.parseInput(buffer) != 0) {

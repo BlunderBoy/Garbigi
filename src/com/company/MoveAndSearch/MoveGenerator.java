@@ -54,23 +54,23 @@ public class MoveGenerator {
     
     public void generateAllMoves(boolean side) throws CloneNotSupportedException
     {
-        generatePawnMoves(side);
         generateKnightMoves(side);
-        generateKingMoves(side);
-        generateRookMoves(side);
         generateBishopMoves(side);
         generateQueenMoves(side);
+        generatePawnMoves(side);
+        generateRookMoves(side);
+        generateKingMoves(side);
     }
 	
 	public void generateAllMovesAndStats(boolean side) throws CloneNotSupportedException
 	{
 		long time = System.nanoTime();
-		generatePawnMoves(side);
 		generateKnightMoves(side);
-		generateKingMoves(side);
-		generateRookMoves(side);
 		generateBishopMoves(side);
 		generateQueenMoves(side);
+		generatePawnMoves(side);
+		generateRookMoves(side);
+		generateKingMoves(side);
 		time = System.nanoTime() - time;
 		System.out.print("mi-a luat " + time + " nano (" + (double) time / 1_000_000_000 + " sec) " + " sa generez ");
 		System.out.println(mutariGenerate.size() + " mutari");
@@ -104,7 +104,7 @@ public class MoveGenerator {
     	captures++;
     	mutare.prioritate += 1;
     	mutare.prioritate += 5 - mutare.piesa; //daca e pion o sa fie 5, daca e regina o sa fie 1, LEAST VALUABLE ATACKER
-    	mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE PIECE
+    	mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE VICTIM
         mutariGenerate.add(mutare);
     }
 
