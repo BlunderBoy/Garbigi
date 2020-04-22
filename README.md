@@ -77,6 +77,7 @@ mutare:
 	0011 0000 0000 0000 promotie (4 valori - cal 0 (00), nebun 01 (01), tura (10), regina (11))
 	1100 0000 0000 0000 flag (4 valori - promotie 1 (01), en passant 2 (10), castling 3 (11))
  ``` 
+ 
 Indexarile interne
 ======
  - Avem 2 tipuri de indexari, una normala, pe 64 de pozitii, care reprezinta 1:1
