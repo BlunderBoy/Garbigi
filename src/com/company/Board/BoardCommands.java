@@ -582,8 +582,11 @@ public class BoardCommands {
 	// TODO TREBUIE PUSA LA FIECARE FUNCTIE
 	// TODO isKingMoveLegal
 
-	// TODO bounds checking pt tabla, am gasit un corner case pt pion black side
+	// bounds checking pt tabla, am gasit un corner case pt pion black side
 	// "8/8/8/n6P/8/8/8/8 w - - 0 1", usermove h5a5
+
+	// nu mai trb facut pentru ca doar miscarile primite de la xboard, adica legale,
+	// trec prin functia asta. ar trebui sa rezolvam bug-ul just for corectness...
 	public static boolean isPawnMoveLegal (int source, int dest, boolean side) {
 		Database data = Database.getInstance();
 		BoardState board = BoardState.getInstance();

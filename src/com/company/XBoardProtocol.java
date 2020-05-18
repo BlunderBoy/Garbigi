@@ -198,41 +198,4 @@ public class XBoardProtocol {
 		System.out.println("#!!!!!!!!!!!!!!!!!!!!! COMANDA INVALIDA SAU NETRATATA");
 		return NEXT_INSTRUCTION; //aia e
 	}
-
-	private void makeHardcodedMove(int sursa, int dest) {
-		Database database = Database.getInstance();
-
-		if (database.engineColor == database.WHITE) {
-			if (BoardCommands.isPawnMoveLegal(sursa, dest, database.engineColor)) {
-				System.out.println("move " + move);
-				System.out.println("# I did the move: " + move);
-				move.setCharAt(1, (char) (move.charAt(1) + 1));
-				move.setCharAt(3, (char) (move.charAt(3) + 1));
-				database.numarDeMiscariFacute++;
-				System.out.println("# new move: " + move);
-
-				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().whitePawns);
-			} else {
-				System.out.println("# not legal????? resigning");
-				System.out.println("resign");
-			}
-		} else if (database.engineColor == database.BLACK) {
-			if (BoardCommands.isPawnMoveLegal(sursa, dest, database.engineColor)) {
-				System.out.println("move " + move);
-				System.out.println("# I did the move: " + move);
-				move.setCharAt(1, (char) (move.charAt(1) - 1));
-				move.setCharAt(3, (char) (move.charAt(3) - 1));
-				System.out.println("# new move: " + move);
-				database.numarDeMiscariFacute++;
-
-				BoardCommands.updateBitboard(sursa, dest, BoardState.getInstance().blackPawns);
-
-			} else {
-				System.out.println("# not legal????? resigning");
-				System.out.println("resign");
-			}
-		} else {
-			System.out.println("# force mode??");
-		}
-	}
 }
