@@ -25,7 +25,7 @@ public class Perft
 			Negamax.undoMove(board, move, side);
 		}
 	}
-	public void timeTest(int depth, BoardState board) throws CloneNotSupportedException
+	public long timeTest(int depth, BoardState board) throws CloneNotSupportedException
 	{
 		long time = System.nanoTime();
 		NumberFormat format = NumberFormat.getInstance();
@@ -35,5 +35,6 @@ public class Perft
 		System.out.println("am vizitat " + format.format(numarNoduri) + " noduri.");
 		System.out.println("mi-a luat " + format.format(time) + " nano (" + trecut + " sec)");
 		System.out.println("noduri pe sec: " + format.format((int)((numarNoduri)/trecut)));
+		return numarNoduri;
 	}
 }

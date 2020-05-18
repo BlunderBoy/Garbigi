@@ -16,9 +16,8 @@ public class Eval
 	{
 		double score = 0;
 		score += getTableScore(board, gamePhase);
-		score += numarPioni(board);
-		score += passedPawns(board);
-		score += rankPioni(board);
+		//score += passedPawns(board);
+		//score += rankPioni(board);
 		//score += castleBonus(board);
 		//score += mobilityBonus(board);
 		//score += checkScore(board);
@@ -223,24 +222,7 @@ public class Eval
 		//System.out.println("scor dupa al doilea for: " + score);
 		return score;
 	}
-
-	//un bonus mic pentru cine are mai multi pioni
-	private static double numarPioni(BoardState board)
-	{
-		double score = 0;
-		if (Long.bitCount(board.whitePawns.reprezentare) >
-				Long.bitCount((board.blackPawns.reprezentare)))
-		{
-			score += 5;
-		}
-		if (Long.bitCount(board.whitePawns.reprezentare) <
-				Long.bitCount((board.blackPawns.reprezentare)))
-		{
-			score -= 5;
-		}
-		return score;
-	}
-
+	
 	private static double passedPawns(BoardState board) throws CloneNotSupportedException
 	{
 		double score = 0;

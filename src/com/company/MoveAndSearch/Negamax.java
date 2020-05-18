@@ -43,6 +43,7 @@ public class Negamax {
                 board.blackBitboards[move.promotie].clearBit(move.sursa);
                 board.blackBitboards[move.piesa].setBit(move.sursa);
             }
+            board.updateBitboards();
             return;
         }
 
@@ -111,6 +112,7 @@ public class Negamax {
     }
 
     public static void applyMove(BoardState board, Move move, boolean side) {
+        board = BoardState.getInstance();
         int source = move.getSursa();
         int dest = move.getDestinatie();
         int flag = move.getFlag();
@@ -120,11 +122,16 @@ public class Negamax {
                          // nu avem nev de dest
             if (side == Database.getInstance().WHITE) {
                 board.whiteBitboards[move.piesa].clearBit(source);
+                board.whitePawns.clearBit(source);
+                board.allWhitePieces.clearBit(source);
                 board.whiteBitboards[move.getPromotie()].setBit(source);
             } else {
                 board.blackBitboards[move.piesa].clearBit(source);
+                board.blackPawns.clearBit(source);
+                board.allBlackPieces.clearBit(source);
                 board.blackBitboards[move.getPromotie()].setBit(source);
             }
+            board.updateBitboards();
             return;
         }
 
@@ -256,23 +263,15 @@ public class Negamax {
 
     public Move negamax(int depth, double alfa, double beta, boolean side, BoardState currentState) throws CloneNotSupportedException {
         long elapsedTime = System.currentTimeMillis() - startTime;
-        /*
-        //System.out.println("# elapsed time: " + elapsedTime/1000 + " stop time: " + stopTime);
-        if (elapsedTime > stopTime) {
-            Move dummy = new Move();
-            dummy.scor = Eval.eval(currentState, MIDGAME, side);
-            System.out.println("# -------------- TLE ----------------" + dummy.scor);
-            return dummy;
-        }*/
-        if (gameOver() || depth == 0 || elapsedTime > stopTime) {
+        if (depth == 0 || elapsedTime > stopTime) {
             // TODO identifica midgame si endgame, ca degeaba avem psqtable pt fiecare daca nu le folosim
             Move dummy = new Move();
             dummy.scor = Eval.eval(currentState, MIDGAME, side);
             //System.out.println("reached depth 0, returning " + dummy.scor);
             //Printer.print();
-            //return dummy;
+            return dummy;
             //this.quintesenceStartTime = System.currentTimeMillis();
-            return quiescence(alfa, beta, currentState, MIDGAME, side, 2);
+            //return quiescence(alfa, beta, currentState, MIDGAME, side, 4);
         }
 
         double max = Integer.MIN_VALUE;
@@ -292,7 +291,7 @@ public class Negamax {
             Move result;
             //Printer.print();
             //if (counter <= conditie) {
-                result = negamax(depth - 1, -beta, -alfa, !side, currentState);
+                result = negamax(depth - 1, -beta, -alfa, !side, BoardState.getInstance());
                 //System.out.println("this has score " + (-result.scor));
                 //Printer.print();
             //} else {
