@@ -51,6 +51,7 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             }
+            board.updateBitboards();
             return;
         }
 
@@ -143,6 +144,7 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
             }
+            board.updateBitboards();
             return;
         }
 
