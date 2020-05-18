@@ -4,6 +4,7 @@ import com.company.Board.Bitboard;
 import com.company.Board.BoardCommands;
 import com.company.Board.BoardState;
 import com.company.Database;
+import com.company.Printer;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -601,7 +602,6 @@ public class MoveGenerator
 	public long getQueenAtacks(int pozitie, long blockers, boolean side)
 	{
 		long rezultat = getRookAttacks(pozitie, blockers, side) | getBishopAttacks(pozitie, blockers, side);
-		rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
 		if (side)
 		{
 			rezultat &= ~BoardState.getInstance().allWhitePieces.reprezentare;
@@ -664,10 +664,10 @@ public class MoveGenerator
 		Bitboard bitBoard;
 		if (side)
 		{
-			bitBoard = (Bitboard) board.whiteBishops.clone();
+			bitBoard = board.whiteBishops.clone();
 		} else
 		{
-			bitBoard = (Bitboard) board.blackBishops.clone();
+			bitBoard = board.blackBishops.clone();
 		}
 		while (bitBoard.reprezentare != 0)
 		{

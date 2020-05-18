@@ -40,7 +40,7 @@ public class Move implements Comparable<Move>{
 
     @Override
     public String toString () {
-        return "{" + "sursa: " + sursa +
+        return "#{" + "sursa: " + sursa +
                 ", destinatie: " + destinatie +
                 ", promotie: " + promotie +
                 ", flag: " + flag +
