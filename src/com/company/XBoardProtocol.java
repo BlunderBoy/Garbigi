@@ -175,7 +175,7 @@ public class XBoardProtocol {
 				System.out.println("move " + move.getMove());
 			}
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
-			System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
+			//System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
 			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate() + " " + database.engineColor);
 			database.lastLastMove = database.lastMove;
 			database.lastMove = move;
@@ -226,7 +226,7 @@ public class XBoardProtocol {
 					System.out.println("move " + move.getMove());
 				}
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
-				System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
+				//System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate() + " " + database.engineColor);
 				database.lastLastMove = database.lastMove;
 				database.lastMove = move;
