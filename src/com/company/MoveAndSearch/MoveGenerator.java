@@ -6,6 +6,7 @@ import com.company.Board.BoardState;
 import com.company.Database;
 import com.company.Printer;
 
+import javax.xml.crypto.Data;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.PriorityQueue;
@@ -447,6 +448,9 @@ public class MoveGenerator
 						{
 							move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
 							addMove(move);
+							if (Database.getInstance().DEBUG) {
+								System.out.println(move);
+							}
 							castle++;
 						}
 					}
@@ -463,6 +467,9 @@ public class MoveGenerator
 						{
 							move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
 							addMove(move);
+							if (Database.getInstance().DEBUG) {
+								System.out.println(move);
+							}
 							castle++;
 						}
 					}
@@ -483,6 +490,9 @@ public class MoveGenerator
 						{
 							move = createMove(pozitie, pozitie - 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie - 2, !side));
 							addMove(move);
+							if (Database.getInstance().DEBUG) {
+								System.out.println(move);
+							}
 							castle++;
 						}
 					}
@@ -499,6 +509,9 @@ public class MoveGenerator
 						{
 							move = createMove(pozitie, pozitie + 2, 0, 3, 5, BoardCommands.getPieceType(board, pozitie + 2, !side));
 							addMove(move);
+							if (Database.getInstance().DEBUG) {
+								System.out.println(move);
+							}
 							castle++;
 						}
 					}

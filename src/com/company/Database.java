@@ -14,7 +14,7 @@ public class Database {
 	static class SingletonHolder {
 		public static final Database INSTANTA_SINGLETON = new Database();
 	}
-	
+
 	public Move lastMove;
 	public Move lastLastMove;
 

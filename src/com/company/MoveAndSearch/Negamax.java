@@ -36,8 +36,8 @@ public class Negamax {
     boolean gameOver() {
         return false;
     }
-
-   public static void undoMove(BoardState board, Move move, boolean side) {
+    // NU TE ATINGE DE CASTLING PERMS!!!!!!!!!!!!!
+    public static void undoMove(BoardState board, Move move, boolean side) {
         if (move.flag == 1) { // promotie
             if (side == Database.getInstance().WHITE) {
                 board.whiteBitboards[move.promotie].clearBit(move.destinatie);
@@ -54,6 +54,8 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             }
+            board.updateBitboards();
+            return;
         }
 
         if (move.flag == 2) {
@@ -77,32 +79,28 @@ public class Negamax {
         if (move.flag == 3) {
             if (move.sursa == 3) { // white king castling
                 if (move.destinatie == 1) { // white king side
-                    //board.castlePermission[0] = 1;
                     // sursa si dest la king se updateaza la final
                     // eu trb sa updatez turele
                     board.whiteRooks.setBit(0);
                     board.whiteRooks.clearBit(2);
                 }
                 if (move.destinatie == 5) { // queen side
-                    //board.castlePermission[1] = 1;
                     board.whiteRooks.setBit(7);
                     board.whiteRooks.clearBit(4);
                 }
             }
             if (move.sursa == 59) {
                 if (move.destinatie == 57) { // black king side
-                    //board.castlePermission[2] = 1;
                     board.blackRooks.setBit(56);
                     board.blackRooks.clearBit(58);
                 }
                 if (move.destinatie == 61) { // queen side
-                    //board.castlePermission[3] = 1;
                     board.blackRooks.setBit(63);
                     board.blackRooks.clearBit(60);
                 }
             }
-            board.updateBitboards();
-            return;
+            //board.updateBitboards();
+            //return;
         }
 
         if (side == Database.getInstance().WHITE) {
@@ -123,7 +121,7 @@ public class Negamax {
 
         board.updateBitboards();
     }
-
+    // NU TE ATINGE DE CASTLING PERMS!!!!!!!!!!!!!
     public static void applyMove(BoardState board, Move move, boolean side) {
         board = BoardState.getInstance();
         int source = move.getSursa();
@@ -150,6 +148,7 @@ public class Negamax {
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
+
             }
             board.updateBitboards();
             return;
@@ -167,15 +166,11 @@ public class Negamax {
         }
 
         if (flag == 3) {
-            // castling todo?
-	        //muti regele la locul lui
-	        //muti tura la locul ei
-	        //desetei castelul
             if (move.sursa == 3) { // white king castling
-
                 if (move.destinatie == 1) { // white king side
                     // sursa si dest la king se updateaza la final
                     // eu trb sa updatez turele
+                    //board.castlePermission[0] = 1;
                     board.whiteRooks.clearBit(0);
                     board.whiteRooks.setBit(2);
                 }
@@ -185,7 +180,6 @@ public class Negamax {
                 }
             }
             if (move.sursa == 59) {
-
                 if (move.destinatie == 57) { // black king side
                     board.blackRooks.clearBit(56);
                     board.blackRooks.setBit(58);
@@ -195,8 +189,8 @@ public class Negamax {
                     board.blackRooks.setBit(60);
                 }
             }
-            board.updateBitboards();
-            return;
+            //board.updateBitboards();
+            //return;
         }
 
         if (side == Database.getInstance().WHITE) {
@@ -247,20 +241,20 @@ public class Negamax {
         MoveGenerator plm = new MoveGenerator(currentState, side);
         plm.generateAllMoves(side);
         while (!plm.mutariGenerate.isEmpty()) {
-        //for (Move chosenMove : plm.mutariDebugIGuess) {
+            //for (Move chosenMove : plm.mutariDebugIGuess) {
             Move chosenMove = plm.mutariGenerate.poll();
             if (chosenMove.piesaDestinatie != -1) {
                 int oldCastlePerm[] = new int[4];
-	            for (int i = 0; i < 4; i++) {
-		            oldCastlePerm[i] = currentState.castlePermission[i];
-	            }
+                for (int i = 0; i < 4; i++) {
+                    oldCastlePerm[i] = currentState.castlePermission[i];
+                }
                 applyMove(currentState, chosenMove, side);
                 Move result = quiescence(-beta, -alfa, currentState, gameState, !side, depth - 1);
 
                 undoMove(currentState, chosenMove, side);
                 for (int i = 0; i < 4; i++) {
-		            currentState.castlePermission[i] = oldCastlePerm[i];
-	            }
+                    currentState.castlePermission[i] = oldCastlePerm[i];
+                }
                 result.scor = -result.scor;
                 result.sursa = chosenMove.sursa;
                 result.destinatie = chosenMove.destinatie;
@@ -315,23 +309,23 @@ public class Negamax {
             }
             
             int oldCastlePerm[] = new int[4];
-	        for (int i = 0; i < 4; i++) {
-		        oldCastlePerm[i] = currentState.castlePermission[i];
-	        }
+            for (int i = 0; i < 4; i++) {
+                oldCastlePerm[i] = currentState.castlePermission[i];
+            }
             applyMove(currentState, move, side);
             Move result;
             //Printer.print();
             //if (counter <= conditie) {
-                result = negamax(depth - 1, -beta, -alfa, !side, BoardState.getInstance());
-                //System.out.println("this has score " + (-result.scor));
-                //Printer.print();
+            result = negamax(depth - 1, -beta, -alfa, !side, BoardState.getInstance());
+            //System.out.println("this has score " + (-result.scor));
+            //Printer.print();
             //} else {
-                //result = negamax(depth/2, -beta, -alfa, !side, currentState);
+            //result = negamax(depth/2, -beta, -alfa, !side, currentState);
             //}
             undoMove(currentState, move, side);
-	        for (int i = 0; i < 4; i++) {
-		        currentState.castlePermission[i] = oldCastlePerm[i];
-	        }
+            for (int i = 0; i < 4; i++) {
+                currentState.castlePermission[i] = oldCastlePerm[i];
+            }
             //Move result = negamax(depth - 1, -beta, -alfa, !side, currentState);
             result.scor = -result.scor;
             result.sursa = move.sursa;
@@ -347,7 +341,7 @@ public class Negamax {
             //result.printMove();
             //System.out.println(" with " + max + " for " + side);
             if (result.scor > max) {
-            //if (Double.compare(result.scor, max) > 0) {
+                //if (Double.compare(result.scor, max) > 0) {
                 max = result.scor;
                 bestLocalMove = result;
                 //System.out.println("returned score for best move " + max);
