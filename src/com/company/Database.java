@@ -1,5 +1,6 @@
 package com.company;
 import com.company.Board.*;
+import com.company.MoveAndSearch.Move;
 
 /**
  * Clasa asta practically tine aproape toate constantele si variabilele de stare ale noastre.
@@ -13,6 +14,9 @@ public class Database {
 	static class SingletonHolder {
 		public static final Database INSTANTA_SINGLETON = new Database();
 	}
+	
+	public Move lastMove;
+	public Move lastLastMove;
 
 	// #defines practically
 	public final boolean DEBUG = false;

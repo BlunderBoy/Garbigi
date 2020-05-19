@@ -4,6 +4,7 @@ import com.company.Board.BoardState;
 import com.company.Database;
 import com.company.Printer;
 
+import javax.xml.crypto.Data;
 import java.util.PriorityQueue;
 
 public class Negamax {
@@ -34,7 +35,7 @@ public class Negamax {
         return false;
     }
 
-    public static void undoMove(BoardState board, Move move, boolean side) {
+   public static void undoMove(BoardState board, Move move, boolean side) {
         if (move.flag == 1) { // promotie
             if (side == Database.getInstance().WHITE) {
                 board.whiteBitboards[move.promotie].clearBit(move.destinatie);
@@ -148,6 +149,8 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
             }
+            board.updateBitboards();
+            return;
         }
 
         // en passant set
@@ -288,7 +291,7 @@ public class Negamax {
             //Printer.print();
             return dummy;
             //this.quintesenceStartTime = System.currentTimeMillis();
-            //return quiescence(alfa, beta, currentState, MIDGAME, side, 4);
+            //return quiescence(alfa, beta, currentState, MIDGAME, side, 2);
         }
 
         double max = Integer.MIN_VALUE;
@@ -300,6 +303,13 @@ public class Negamax {
 
         while (!moves.isEmpty()) {
             Move move = moves.poll();
+            if(move.sursa == Database.getInstance().lastLastMove.sursa)
+            {
+                if(move.destinatie == Database.getInstance().lastLastMove.destinatie)
+                {
+                    continue;
+                }
+            }
             int oldCastlePerm[] = new int[4];
 	        for (int i = 0; i < 4; i++) {
 		        oldCastlePerm[i] = currentState.castlePermission[i];

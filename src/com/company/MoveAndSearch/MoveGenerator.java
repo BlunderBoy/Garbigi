@@ -76,10 +76,10 @@ public class MoveGenerator
 		long time = System.nanoTime();
 		generateKnightMoves(side);
 		generateBishopMoves(side);
-		generateQueenMoves(side);
 		generatePawnMoves(side);
 		generateRookMoves(side);
 		generateKingMoves(side);
+		generateQueenMoves(side);
 		time = System.nanoTime() - time;
 		System.out.print("mi-a luat " + time + " nano (" + (double) time / 1_000_000_000 + " sec) " + " sa generez ");
 		System.out.println(mutariGenerate.size() + " mutari");
@@ -109,7 +109,7 @@ public class MoveGenerator
 	//quiet move fara capturare
 	void addMove(Move mutare)
 	{
-		mutare.prioritate = 0;
+		mutare.prioritate += 0;
 		Negamax.applyMove(board, mutare, siiiide);
 		long bitboard = siiiide ? board.whiteKing.reprezentare : board.blackKing.reprezentare;
 		int lsb = Bitboard.popLSB(bitboard);
@@ -122,7 +122,6 @@ public class MoveGenerator
 	void addCaptureMove(Move mutare)
 	{
 		captures++;
-		mutare.prioritate += 1;
 		mutare.prioritate += 5 - mutare.piesa; //daca e pion o sa fie 5, daca e regina o sa fie 1, LEAST VALUABLE ATACKER
 		mutare.prioritate += mutare.piesaDestinatie; //daca e pion o sa fie 0, daca e regina o sa fie 4, MOST VALUABLE VICTIM
 		Negamax.applyMove(board, mutare, siiiide);
@@ -735,6 +734,7 @@ public class MoveGenerator
 					} else
 					{
 						move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, !side));
+						move.prioritate = +2;
 						addMove(move);
 					}
 				} else
@@ -746,6 +746,7 @@ public class MoveGenerator
 					} else
 					{
 						move = createMove(pozitie, checker, 0, 0, 4, BoardCommands.getPieceType(board, checker, !side));
+						move.prioritate = +2;
 						addMove(move);
 					}
 				}

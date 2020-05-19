@@ -16,12 +16,8 @@ public class Eval
 	{
 		double score = 0;
 		score += getTableScore(board, gamePhase);
-		//score += passedPawns(board);
-		//score += rankPioni(board);
-		//score += castleBonus(board);
-		//score += mobilityBonus(board);
-		//score += checkScore(board);
-		//score += mateScore(board);
+		score += passedPawns(board);
+		score += rankPioni(board);
 		if (!side) { // daca e negru
 	        return -(score/100);
         } else {
@@ -29,6 +25,7 @@ public class Eval
         }
 
 	}
+	
 	
 	private static double mobilityBonus(BoardState board) throws CloneNotSupportedException
 	{
@@ -106,7 +103,7 @@ public class Eval
 			bitboardNegru = Bitboard.clearBit(lsb, bitboardNegru);
 			score -= (9 - MoveGenerator.getrank.get(lsb));
 		}
-		return (score);
+		return score;
 	}
 	
 	private static double castleBonus(BoardState board)
