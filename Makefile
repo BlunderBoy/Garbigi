@@ -16,6 +16,7 @@ SOURCES=./src/com/company/Board/Bitboard.java \
 		./src/com/company/MoveAndSearch/SlidingPieceGenerator.java
 
 NAME="Garbigi.jar"
+JAVAFLAGS=-Xmx1024m -Xss1024m
 
 build:
 	javac -d build $(SOURCES)
@@ -25,7 +26,7 @@ build:
 	jar cmvf META-INF/MANIFEST.MF $(NAME) -C build .
 
 run:
-	java -jar $(NAME)
+	java ${JAVAFLAGS} -jar $(NAME)
 
 clean:
 	rm -rf META-INF

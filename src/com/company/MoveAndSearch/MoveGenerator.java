@@ -63,10 +63,10 @@ public class MoveGenerator
 	
 	public void generateAllMoves(boolean side) throws CloneNotSupportedException
 	{
+		generateQueenMoves(side);
 		generatePawnMoves(side);
 		generateKnightMoves(side);
 		generateBishopMoves(side);
-		generateQueenMoves(side);
 		generateRookMoves(side);
 		generateKingMoves(side);
 	}
@@ -74,12 +74,12 @@ public class MoveGenerator
 	public void generateAllMovesAndStats(boolean side) throws CloneNotSupportedException
 	{
 		long time = System.nanoTime();
+		generateKingMoves(side);
 		generateKnightMoves(side);
 		generateBishopMoves(side);
+		generateQueenMoves(side);
 		generatePawnMoves(side);
 		generateRookMoves(side);
-		generateKingMoves(side);
-		generateQueenMoves(side);
 		time = System.nanoTime() - time;
 		System.out.print("mi-a luat " + time + " nano (" + (double) time / 1_000_000_000 + " sec) " + " sa generez ");
 		System.out.println(mutariGenerate.size() + " mutari");

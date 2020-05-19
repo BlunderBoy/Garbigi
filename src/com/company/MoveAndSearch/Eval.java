@@ -16,7 +16,7 @@ public class Eval
 	{
 		double score = 0;
 		score += getTableScore(board, gamePhase);
-		score += passedPawns(board);
+		//score += passedPawns(board);
 		score += rankPioni(board);
 		score += mobilityBonus(board);
 	//	score += pioniDubli(board);
@@ -28,34 +28,19 @@ public class Eval
 
 	}
 	
-	private static double pioniDubli(BoardState board)
-	{
-		long pioniAlbi = board.whitePawns.reprezentare;
-		long pioniNegri = board.blackPawns.reprezentare;
-		double scor = 0;
-		
-		while(pioniAlbi != 0)
-		{
-			int pozitie = Bitboard.popLSB(pioniAlbi);
-			pioniAlbi = Bitboard.clearBit(pozitie, pioniAlbi);
-			if(board.whitePawns.isBitSet(pozitie + 8))
-			{
-				scor -= 10;
-			}
-		}
-		
-		while(pioniNegri != 0)
-		{
-			int pozitie = Bitboard.popLSB(pioniNegri);
-			pioniNegri = Bitboard.clearBit(pozitie, pioniNegri);
-			if(board.whitePawns.isBitSet(pozitie - 8))
-			{
-				scor -= 10;
-			}
-		}
-		return scor;
-	}
 	
+	private static double kingMobility(BoardState board) throws CloneNotSupportedException {
+		MoveGenerator mv = new MoveGenerator(board, true);
+		double score = 0;
+		mv.generateKingMoves(true);
+		score += (double) mv.mutariGenerate.size();
+		
+		mv = new MoveGenerator(board, false);
+		mv.generateKingMoves(false);
+		score -= (double) mv.mutariGenerate.size();
+		
+		return (5*score);
+	}
 	private static double mobilityBonus(BoardState board) throws CloneNotSupportedException
 	{
 		double score = 0;
@@ -108,7 +93,7 @@ public class Eval
 			reginaNegru = Bitboard.clearBit(lsb, reginaNegru);
 			score -= Long.bitCount(mv.getQueenAtacks(lsb, board.allPieces.reprezentare, false));
 		}
-		score *= 4;
+		score *= 5;
 		
 		return score;
 	}

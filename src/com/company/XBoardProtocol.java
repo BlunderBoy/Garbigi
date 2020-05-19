@@ -158,7 +158,7 @@ public class XBoardProtocol {
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
 			Move move;
-			if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 10)
+			if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 5)
 			{
 				move = search.negamax(8, Integer.MIN_VALUE, Integer.MAX_VALUE,
 				                      database.engineColor, BoardState.getInstance());
@@ -208,7 +208,7 @@ public class XBoardProtocol {
 				
 				Move move;
 				
-				if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 10)
+				if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 5)
 				{
 					move = search.negamax(8, Integer.MIN_VALUE, Integer.MAX_VALUE,
 					                      database.engineColor, BoardState.getInstance());

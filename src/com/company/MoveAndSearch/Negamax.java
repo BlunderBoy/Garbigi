@@ -313,6 +313,7 @@ public class Negamax {
                     continue;
                 }
             }
+            
             int oldCastlePerm[] = new int[4];
 	        for (int i = 0; i < 4; i++) {
 		        oldCastlePerm[i] = currentState.castlePermission[i];
