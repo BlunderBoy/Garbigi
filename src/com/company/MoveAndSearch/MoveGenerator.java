@@ -193,7 +193,7 @@ public class MoveGenerator
 					if (!board.allPieces.isBitSet(pozitie + 8))
 					{
 						//adaug miscare pion alb in fata daca regele nu e in sah
-						for (int i = 3; i >= 0; i--)
+						for (int i = 4; i >= 0; i--) // fa 4-u ala un 4
 						{
 							move = createMove(pozitie, pozitie + 8, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 8, false));
 							addMove(move);
@@ -207,7 +207,7 @@ public class MoveGenerator
 						//adaug miscare pion alb in dreapta daca regele nu e in sah
 						if (board.allBlackPieces.isBitSet(Database.conversie120la64(albDreapta)))
 						{
-							for (int i = 3; i >= 0; i--)
+							for (int i = 4; i >= 0; i--)
 							{
 								move = createMove(pozitie, pozitie + 7, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 7, false));
 								addCaptureMove(move);
@@ -220,7 +220,7 @@ public class MoveGenerator
 						//adaug miscare pion alb in dreapta daca regele nu e in sah
 						if (board.allBlackPieces.isBitSet(Database.conversie120la64(albStanga)))
 						{
-							for (int i = 3; i >= 0; i--)
+							for (int i = 4; i >= 0; i--)
 							{
 								move = createMove(pozitie, pozitie + 9, i, 1, 0, BoardCommands.getPieceType(board, pozitie + 9, false));
 								addCaptureMove(move);
@@ -281,7 +281,7 @@ public class MoveGenerator
 					if (!board.allPieces.isBitSet(pozitie - 8))
 					{
 						//adaug miscare pion negru in fata daca regele nu e in sah
-						for (int i = 3; i >= 0; i--)
+						for (int i = 4; i >= 0; i--)
 						{
 							move = createMove(pozitie, pozitie - 8, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 8, true));
 							addMove(move);
@@ -293,7 +293,7 @@ public class MoveGenerator
 						//adaug miscare pion negru in dreapta daca regele nu e in sah
 						if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruDreapta)))
 						{
-							for (int i = 3; i >= 0; i--)
+							for (int i = 4; i >= 0; i--)
 							{
 								move = createMove(pozitie, pozitie - 9, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 9, true));
 								addCaptureMove(move);
@@ -306,7 +306,7 @@ public class MoveGenerator
 						//adaug miscare pion negru in dreapta daca regele nu e in sah
 						if (board.allWhitePieces.isBitSet(Database.conversie120la64(negruStanga)))
 						{
-							for (int i = 3; i >= 0; i--)
+							for (int i = 4; i >= 0; i--)
 							{
 								move = createMove(pozitie, pozitie - 7, i, 1, 0, BoardCommands.getPieceType(board, pozitie - 7, true));
 								addCaptureMove(move);

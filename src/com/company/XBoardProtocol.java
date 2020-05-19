@@ -158,12 +158,12 @@ public class XBoardProtocol {
 			Move move;
 				if(database.engineColor)
 				{
-					move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE,
+					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
 				                           database.engineColor, BoardState.getInstance());
 				}
 				else
 				{
-					move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE,
+					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
 				                           database.engineColor, BoardState.getInstance());
 				}
 			if (move.getDestinatie() == 0 && move.getSursa() == 0) {
@@ -202,12 +202,12 @@ public class XBoardProtocol {
 				Move move;
 				if(database.engineColor)
 				{
-					move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE,
+					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
 				                           database.engineColor, BoardState.getInstance());
 				}
 				else
 				{
-					move = search.negamax(5, Integer.MIN_VALUE, Integer.MAX_VALUE,
+					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
 				                           database.engineColor, BoardState.getInstance());
 				}
 				

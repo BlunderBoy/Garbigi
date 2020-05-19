@@ -37,22 +37,20 @@ public class Negamax {
     public static void undoMove(BoardState board, Move move, boolean side) {
         if (move.flag == 1) { // promotie
             if (side == Database.getInstance().WHITE) {
-                board.whiteBitboards[move.promotie].clearBit(move.sursa);
+                board.whiteBitboards[move.promotie].clearBit(move.destinatie);
                 board.whiteBitboards[move.piesa].setBit(move.sursa);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.blackBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             } else {
-                board.blackBitboards[move.promotie].clearBit(move.sursa);
+                board.blackBitboards[move.promotie].clearBit(move.destinatie);
                 board.blackBitboards[move.piesa].setBit(move.sursa);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.whiteBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             }
-            board.updateBitboards();
-            return;
         }
 
         if (move.flag == 2) {
@@ -149,8 +147,6 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
             }
-            board.updateBitboards();
-            return;
         }
 
         // en passant set

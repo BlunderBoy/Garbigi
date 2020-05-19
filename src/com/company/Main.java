@@ -23,6 +23,7 @@ public class Main {
             if(xBoardProtocol.parseInput(buffer) != 0) {
             	break;
             }
+            Printer.print();
         }
     }
 }
