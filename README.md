@@ -1,6 +1,22 @@
   Inainte de toate am ales Java pentru familiaritate si pentru usurinta de 
 a folosi un limbaj orientat pe obiect intr-un proiect asa de mare.
 
+Despre etapa 3...
+======
+  Pentru etapa asta nu am facut maaare lucru, dar am rezolvat multe bug-uri care
+ne trageau in spate etapa trecuta. Din fericire, am adaugat multe optimizari inca
+din etapa 2, iar acum, printre picaturi, teme si teste, le-am facut sa mearga cat
+de cat ok.
+  Am adaugat (sau rezolvat mai bine zis) diverse euristici pt eval.
+  Din pacate, aparent joaca cu mult mai bine pe alb, si sincer nu stiu de ce. Ne-am
+uitat peste tot codul si nu am gasit vreun "motiv", asa ca putem doar sa spunem
+"aia e, atat s-a putut" si sa speram ca totusi se descurca indeajuns de bine.
+  Ca o nota de incheiere, ideea proiectului a fost frumoasa, si, desi speram sa
+se organizeze etapele mai bine, am reusit sa scoatem ceva functional.
+  Cu siguranta cand o sa avem timp la vara, o sa continuam sa lucram la el. E pacat
+de munca noastra sa o lasam intr-o stare de care nu suntem 100% multumiti.
+  PS: scuze de coding style, nu am avut timp sa il facem calumea =))
+
 Despre etapa 2...
 ======
 
