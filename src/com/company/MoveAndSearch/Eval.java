@@ -18,6 +18,8 @@ public class Eval
 		score += getTableScore(board, gamePhase);
 		score += passedPawns(board);
 		score += rankPioni(board);
+		score += mobilityBonus(board);
+	//	score += pioniDubli(board);
 		if (!side) { // daca e negru
 	        return -(score/100);
         } else {
@@ -26,6 +28,33 @@ public class Eval
 
 	}
 	
+	private static double pioniDubli(BoardState board)
+	{
+		long pioniAlbi = board.whitePawns.reprezentare;
+		long pioniNegri = board.blackPawns.reprezentare;
+		double scor = 0;
+		
+		while(pioniAlbi != 0)
+		{
+			int pozitie = Bitboard.popLSB(pioniAlbi);
+			pioniAlbi = Bitboard.clearBit(pozitie, pioniAlbi);
+			if(board.whitePawns.isBitSet(pozitie + 8))
+			{
+				scor -= 10;
+			}
+		}
+		
+		while(pioniNegri != 0)
+		{
+			int pozitie = Bitboard.popLSB(pioniNegri);
+			pioniNegri = Bitboard.clearBit(pozitie, pioniNegri);
+			if(board.whitePawns.isBitSet(pozitie - 8))
+			{
+				scor -= 10;
+			}
+		}
+		return scor;
+	}
 	
 	private static double mobilityBonus(BoardState board) throws CloneNotSupportedException
 	{
@@ -79,7 +108,7 @@ public class Eval
 			reginaNegru = Bitboard.clearBit(lsb, reginaNegru);
 			score -= Long.bitCount(mv.getQueenAtacks(lsb, board.allPieces.reprezentare, false));
 		}
-		score *= 5;
+		score *= 4;
 		
 		return score;
 	}
@@ -103,7 +132,10 @@ public class Eval
 			bitboardNegru = Bitboard.clearBit(lsb, bitboardNegru);
 			score -= (9 - MoveGenerator.getrank.get(lsb));
 		}
-		return score;
+		if(Long.bitCount(board.allPieces.reprezentare) < 10)
+			return 5*(score);
+		else
+			return score;
 	}
 	
 	private static double castleBonus(BoardState board)

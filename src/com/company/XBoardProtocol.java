@@ -158,22 +158,24 @@ public class XBoardProtocol {
 			Negamax search = new Negamax(20000);
 			System.out.println("#1 plm " + database.engineColor);
 			Move move;
-				if(database.engineColor)
-				{
-					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
-				                           database.engineColor, BoardState.getInstance());
-				}
-				else
-				{
-					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
-				                           database.engineColor, BoardState.getInstance());
-				}
+			if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 10)
+			{
+				move = search.negamax(8, Integer.MIN_VALUE, Integer.MAX_VALUE,
+				                      database.engineColor, BoardState.getInstance());
+			}
+			else
+			{
+				move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
+				                      database.engineColor, BoardState.getInstance());
+			}
+			
 			if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 				System.out.println("resign");
 			} else {
 				System.out.println("move " + move.getMove());
 			}
 			Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
+			System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
 			System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate() + " " + database.engineColor);
 			database.lastLastMove = database.lastMove;
 			database.lastMove = move;
@@ -205,16 +207,18 @@ public class XBoardProtocol {
 				Negamax search = new Negamax(20000);
 				
 				Move move;
-				if(database.engineColor)
+				
+				if(Long.bitCount(BoardState.getInstance().allPieces.reprezentare) < 10)
 				{
-					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
-				                           database.engineColor, BoardState.getInstance());
+					move = search.negamax(8, Integer.MIN_VALUE, Integer.MAX_VALUE,
+					                      database.engineColor, BoardState.getInstance());
 				}
 				else
 				{
 					move = search.negamax(6, Integer.MIN_VALUE, Integer.MAX_VALUE,
-				                           database.engineColor, BoardState.getInstance());
+					                      database.engineColor, BoardState.getInstance());
 				}
+				
 				
 				if (move.getDestinatie() == 0 && move.getSursa() == 0) {
 					System.out.println("resign");
@@ -222,6 +226,7 @@ public class XBoardProtocol {
 					System.out.println("move " + move.getMove());
 				}
 				Negamax.applyMove(BoardState.getInstance(), move, database.engineColor);
+				System.out.println("6 " + move.getScor() + " 0 " + move.getMove() + " ");
 				System.out.println("# scorul mutarii: " + move.getScor() + " si priot: " + move.getPrioritate() + " " + database.engineColor);
 				database.lastLastMove = database.lastMove;
 				database.lastMove = move;

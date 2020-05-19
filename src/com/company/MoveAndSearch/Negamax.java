@@ -1,5 +1,7 @@
 package com.company.MoveAndSearch;
 
+import com.company.Board.Bitboard;
+import com.company.Board.BoardCommands;
 import com.company.Board.BoardState;
 import com.company.Database;
 import com.company.Printer;
@@ -300,6 +302,7 @@ public class Negamax {
         MoveGenerator plm = new MoveGenerator(currentState, side);
         plm.generateAllMoves(side);
         PriorityQueue<Move> moves = plm.mutariGenerate;
+
 
         while (!moves.isEmpty()) {
             Move move = moves.poll();
