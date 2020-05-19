@@ -37,14 +37,14 @@ public class Negamax {
     public static void undoMove(BoardState board, Move move, boolean side) {
         if (move.flag == 1) { // promotie
             if (side == Database.getInstance().WHITE) {
-                board.whiteBitboards[move.promotie].clearBit(move.sursa);
+                board.whiteBitboards[move.promotie].clearBit(move.destinatie);
                 board.whiteBitboards[move.piesa].setBit(move.sursa);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.blackBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             } else {
-                board.blackBitboards[move.promotie].clearBit(move.sursa);
+                board.blackBitboards[move.promotie].clearBit(move.destinatie);
                 board.blackBitboards[move.piesa].setBit(move.sursa);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
@@ -100,6 +100,8 @@ public class Negamax {
                     board.blackRooks.clearBit(60);
                 }
             }
+            board.updateBitboards();
+            return;
         }
 
         if (side == Database.getInstance().WHITE) {
@@ -129,21 +131,20 @@ public class Negamax {
 
         // promotion
         if (flag == 1) { // desetam piesa veche si setam piesa noua
-                         // nu avem nev de dest
             if (side == Database.getInstance().WHITE) {
-                board.whiteBitboards[move.piesa].clearBit(source);
+                //board.whiteBitboards[move.piesa].clearBit(source);
                 board.whitePawns.clearBit(source);
                 board.allWhitePieces.clearBit(source);
-                board.whiteBitboards[move.getPromotie()].setBit(source);
+                board.whiteBitboards[move.getPromotie()].setBit(dest);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.blackBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
             } else {
-                board.blackBitboards[move.piesa].clearBit(source);
+                //board.blackBitboards[move.piesa].clearBit(source);
                 board.blackPawns.clearBit(source);
                 board.allBlackPieces.clearBit(source);
-                board.blackBitboards[move.getPromotie()].setBit(source);
+                board.blackBitboards[move.getPromotie()].setBit(dest);
 
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
@@ -193,6 +194,8 @@ public class Negamax {
                     board.blackRooks.setBit(60);
                 }
             }
+            board.updateBitboards();
+            return;
         }
 
         if (side == Database.getInstance().WHITE) {
