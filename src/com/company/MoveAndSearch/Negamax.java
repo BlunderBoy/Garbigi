@@ -51,8 +51,6 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].setBit(move.destinatie);
                 }
             }
-            board.updateBitboards();
-            return;
         }
 
         if (move.flag == 2) {
@@ -150,8 +148,6 @@ public class Negamax {
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
             }
-            board.updateBitboards();
-            return;
         }
 
         // en passant set

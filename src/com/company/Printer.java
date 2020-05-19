@@ -109,31 +109,31 @@ public class Printer {
                 System.out.println();
             }
         }
-        System.out.println("# White pawns: ");
-        print(board.whitePawns.reprezentare);
-        System.out.println("# White knights: ");
-        print(board.whiteKnights.reprezentare);
-        System.out.println("# White bishops: ");
-        print(board.whiteBishops.reprezentare);
-        System.out.println("# White rooks: ");
-        print(board.whiteRooks.reprezentare);
-        System.out.println("# White queen: ");
-        print(board.whiteQueens.reprezentare);
-        System.out.println("# White king: ");
-        print(board.whiteKing.reprezentare);
-
-        System.out.println("# Black pawns: ");
-        print(board.blackPawns.reprezentare);
-        System.out.println("# Black knights: ");
-        print(board.blackKnights.reprezentare);
-        System.out.println("# Black bishops: ");
-        print(board.blackBishops.reprezentare);
-        System.out.println("# Black rooks: ");
-        print(board.blackRooks.reprezentare);
-        System.out.println("# Black queen: ");
-        print(board.blackQueens.reprezentare);
-        System.out.println("# Black king: ");
-        print(board.blackKing.reprezentare);
+//        System.out.println("# White pawns: ");
+//        print(board.whitePawns.reprezentare);
+//        System.out.println("# White knights: ");
+//        print(board.whiteKnights.reprezentare);
+//        System.out.println("# White bishops: ");
+//        print(board.whiteBishops.reprezentare);
+//        System.out.println("# White rooks: ");
+//        print(board.whiteRooks.reprezentare);
+//        System.out.println("# White queen: ");
+//        print(board.whiteQueens.reprezentare);
+//        System.out.println("# White king: ");
+//        print(board.whiteKing.reprezentare);
+//
+//        System.out.println("# Black pawns: ");
+//        print(board.blackPawns.reprezentare);
+//        System.out.println("# Black knights: ");
+//        print(board.blackKnights.reprezentare);
+//        System.out.println("# Black bishops: ");
+//        print(board.blackBishops.reprezentare);
+//        System.out.println("# Black rooks: ");
+//        print(board.blackRooks.reprezentare);
+//        System.out.println("# Black queen: ");
+//        print(board.blackQueens.reprezentare);
+//        System.out.println("# Black king: ");
+//        print(board.blackKing.reprezentare);
 		/*System.out.println("Negru: ");
         print(BoardState.getInstance().AllBlackPieces);
 		System.out.println("Alb: ");
