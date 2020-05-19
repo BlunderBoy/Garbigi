@@ -13,7 +13,10 @@ import com.company.Printer;
 public class BoardCommands {
 	public static void initGame() {
 		Database.initializareArray();
+		// initial config
 		BoardCommands.createBoardstateFromFEN("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+		// debugging config
+		//BoardCommands.createBoardstateFromFEN("rnbqk2r/ppp2ppp/3pp3/8/8/8/PPPPPPPP/R3K2R w KQkq - 0 1");
 		SlidingPieceGenerator.initSlidingPieceGenerator();
 		MoveGenerator.initMoveGenerator();
 		Database.getInstance().engineColor = Database.getInstance().BLACK;

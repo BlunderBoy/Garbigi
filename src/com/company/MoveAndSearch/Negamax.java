@@ -150,6 +150,7 @@ public class Negamax {
                 if (move.piesaDestinatie != -1) { // a fost capturare si dupa promotie
                     board.whiteBitboards[move.piesaDestinatie].clearBit(move.destinatie);
                 }
+                
             }
             board.updateBitboards();
             return;
@@ -172,10 +173,12 @@ public class Negamax {
 	        //muti tura la locul ei
 	        //desetei castelul
             if (move.sursa == 3) { // white king castling
-
+                board.castlePermission[0] = 0;
+                board.castlePermission[1] = 0;
                 if (move.destinatie == 1) { // white king side
                     // sursa si dest la king se updateaza la final
                     // eu trb sa updatez turele
+                    //board.castlePermission[0] = 1;
                     board.whiteRooks.clearBit(0);
                     board.whiteRooks.setBit(2);
                 }
@@ -185,7 +188,8 @@ public class Negamax {
                 }
             }
             if (move.sursa == 59) {
-
+                board.castlePermission[2] = 0;
+                board.castlePermission[3] = 0;
                 if (move.destinatie == 57) { // black king side
                     board.blackRooks.clearBit(56);
                     board.blackRooks.setBit(58);
