@@ -182,7 +182,7 @@ public class Eval
 		{
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
-			score += valoare + value[index];
+			score += valoare/* + value[index]*/;
 			//System.out.println("[W] psqt la index " + index + " este " + value[index]);
 		}
 		return score;
@@ -195,7 +195,7 @@ public class Eval
 		{
 			int index = Bitboard.popLSB(bitboard);
 			bitboard = clearBit(index, bitboard);
-			score += valoare + value[PSqTable.index[index]];
+			score += valoare/* + value[PSqTable.index[index]]*/;
 			//System.out.println("[B] psqt la index " + index + " este " + value[PSqTable.index[index]]);
 		}
 		return score;

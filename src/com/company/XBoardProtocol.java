@@ -225,7 +225,7 @@ public class XBoardProtocol {
 			//if (database.DEBUG) {
 			//}
 
-			//Printer.print();
+			Printer.print();
 			return NEXT_INSTRUCTION;
 		}
 
